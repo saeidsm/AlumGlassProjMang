@@ -41,23 +41,33 @@
 
 ### TD-SEC-003: Missing CSRF on API Endpoints
 - **شدت**: 🔴 بحرانی
-- **وضعیت**: 🟢 رفع شده
-- **فاز**: 1
+- **وضعیت**: 🟢 رفع شده (Phase 1.5 تکمیل شد)
+- **فاز**: 1 + 1.5
 - **شرح**: ۴۱ endpoint در `ghom/api/` و `pardis/api/` فاقد CSRF
 - **راهکار**: `requireCsrf()` middleware در `includes/security.php`
+- **Phase 1.5 تکمیل**:
+  - `csrfField()` در ۵۵ فرم HTML POST در ۱۸ فایل اضافه شد
+  - `assets/js/csrf-injector.js` ساخته شد — X-CSRF-Token را به‌صورت خودکار روی jQuery.ajax / fetch / XHR ست می‌کند
+  - `<meta name="csrf-token">` در تمام ۱۰ header variant اضافه شد
+  - `sercon/bootstrap.php` حالا `includes/security.php` را auto-load می‌کند
 - **تاریخ شناسایی**: 1405/01/27
-- **تاریخ رفع**: 1405/01/28
-- **commit**: phase-1 branch — 41 POST API files
+- **تاریخ رفع**: 2026-04-17 (Phase 1.5)
+- **commit**: phase-1 branch — 41 POST API files + Phase 1.5 forms/injector
 
 ### TD-SEC-004: Missing Authorization on APIs
 - **شدت**: 🔴 بحرانی
-- **وضعیت**: 🟢 رفع شده
-- **فاز**: 1
+- **وضعیت**: 🟢 رفع شده (Phase 1.5 تکمیل شد)
+- **فاز**: 1 + 1.5
 - **شرح**: ۵۰ API فاقد بررسی auth مناسب
 - **راهکار**: `requireLogin()` + `requireRole()` در `sercon/bootstrap.php`
+- **Phase 1.5 تکمیل**: نقش‌محور شدن ۲۳ endpoint مدیریتی/ویرایشی:
+  - Level 1 (`admin` only) — ۱۱ endpoint تنظیمات/ایمپورت/وزن
+  - Level 2 (`admin`,`superuser`) — ۷ endpoint batch update / template / stage
+  - Level 3 (`admin`,`superuser`,`cat`) — ۳ endpoint بازرسی و چک‌لیست
+  - Level 3+ (`admin`,`superuser`,`cat`,`crs`) — create_permit
 - **تاریخ شناسایی**: 1405/01/27
-- **تاریخ رفع**: 1405/01/28
-- **commit**: phase-1 branch — 50 API files
+- **تاریخ رفع**: 2026-04-17 (Phase 1.5)
+- **commit**: phase-1 branch — 50 API files + Phase 1.5 role tightening
 
 ### TD-SEC-005: File Upload Without Validation
 - **شدت**: 🔴 بحرانی
@@ -241,6 +251,11 @@
 | 2026-04-17 | TD-SEC-008 | Created includes/validation.php — centralized input validation | phase-1 branch |
 | 2026-04-17 | Phase-1 | Created sercon/bootstrap.php — central bootstrap | phase-1 branch |
 | 2026-04-17 | Phase-1 | Centralized display_errors — removed from 9 per-file overrides | phase-1 branch |
+| 2026-04-17 | Phase-1.5 | Added csrfField() to 55 HTML POST forms across 18 files | phase-1 branch |
+| 2026-04-17 | Phase-1.5 | Added assets/js/csrf-injector.js — global CSRF on all AJAX (jQuery/fetch/XHR) | phase-1 branch |
+| 2026-04-17 | Phase-1.5 | Added CSRF meta tag + injector script to all 10 header variants | phase-1 branch |
+| 2026-04-17 | Phase-1.5 | Replaced ad-hoc auth with requireRole() on 23 admin/management endpoints | phase-1 branch |
+| 2026-04-17 | Phase-1.5 | Auto-load includes/security.php from sercon/bootstrap.php | phase-1 branch |
 
 ---
 

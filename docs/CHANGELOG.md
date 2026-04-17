@@ -64,6 +64,27 @@
 
 ---
 
+### Phase 1.5 — CSRF Completion & Role-Based Authorization (2026-04-17)
+#### Security
+- [x] Added `csrfField()` to 55 HTML POST forms across 18 files (admin, settings, reporting, management pages)
+- [x] Created `assets/js/csrf-injector.js` — automatically attaches `X-CSRF-Token` header and `csrf_token` body param to every non-GET request (jQuery.ajax, fetch, XMLHttpRequest)
+- [x] Added `<meta name="csrf-token">` to all 10 header variants (common, ghom, pardis, and mobile siblings)
+- [x] Auto-loaded `includes/security.php` from `sercon/bootstrap.php` so `csrfField()` and `requireCsrf()` are globally available
+- [x] Replaced ad-hoc `isLoggedIn()` + `in_array` role checks with centralized `requireRole()` on 23 admin/management endpoints:
+  - **Admin only** (11): save_settings, save_print_settings, save_logo_settings, delete_logo, save_workflow_order, admin_reports, admin_metrics, settings_all, settings_ps, pardis_importer, manage_weights
+  - **Admin + Superuser** (7): batch_update, batch_update_plan_files, batch_update_status, delete_stage, update_element_final_status, save_template, save_stage
+  - **Admin + Superuser + Cat** (3): save_inspection, confirm_panels_opened, save_permit_checklist
+  - **Admin + Superuser + Cat + Crs** (1): create_permit
+
+#### Added
+- [x] `assets/js/csrf-injector.js` — global AJAX CSRF token injector
+
+#### Changed
+- [x] `sercon/bootstrap.php` now requires `includes/security.php`
+- [x] Admin-only pages like `admin_reports.php` and `settings_ps.php` now use `requireRole(['admin'])` instead of inline role checks
+
+---
+
 ### Phase 2 — Performance & UX (Planned)
 *To be documented upon completion*
 
@@ -76,5 +97,6 @@
 
 | نسخه | تاریخ | شرح |
 |------|--------|------|
+| 0.2.1 | 2026-04-17 | Phase 1.5 — CSRF forms + global AJAX injector + role-based auth |
 | 0.2.0 | 2026-04-17 | Phase 1 — Security hardening, prepared statements, CSRF, auth, headers |
 | 0.1.0 | 2026-04-17 | Phase 0 — Emergency fixes, cleanup, secrets removal |
