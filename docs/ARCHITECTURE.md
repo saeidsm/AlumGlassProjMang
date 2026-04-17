@@ -57,17 +57,27 @@ AlumGlassProjMang/
 │   │   ├── security.php         # CSRF, XSS helpers, auth middleware
 │   │   ├── validation.php       # Input validation functions
 │   │   ├── error_handler.php    # Centralized error handling
-│   │   └── env_loader.php       # .env file parser
+│   │   ├── env_loader.php       # .env file parser
+│   │   └── pagination.php       # paginate() + renderPagination() (Phase 2E)
 │   │
 │   ├── assets/                  # Shared static assets
 │   │   ├── css/
+│   │   │   ├── design-system.css   # CSS custom properties (--ag-*) (Phase 2A)
+│   │   │   ├── global.css          # .ag-card/.ag-btn/.ag-toast etc. (Phase 2A)
+│   │   │   ├── messages.css        # Extracted from messages.php (Phase 2C)
+│   │   │   └── admin.css           # Extracted from admin.php (Phase 2C)
 │   │   ├── js/
+│   │   │   ├── csrf-injector.js    # Global AJAX CSRF (Phase 1.5)
+│   │   │   ├── global.js           # window.AG utilities (Phase 2A)
+│   │   │   └── messages.js         # Extracted from messages.php (Phase 2C)
 │   │   ├── fonts/
 │   │   └── images/
 │   │
 │   ├── ghom/                    # === Ghom Project Module ===
 │   │   ├── index.php            # Ghom dashboard
-│   │   ├── header_ghom.php      # Ghom header/navigation
+│   │   ├── header.php           # Responsive header dispatcher (Phase 2B)
+│   │   ├── header_ghom.php      # Desktop implementation (loaded by dispatcher)
+│   │   ├── header_ghom_mobile.php  # Mobile implementation (loaded by dispatcher)
 │   │   ├── footer.php
 │   │   ├── api/                 # Ghom-specific APIs
 │   │   │   ├── save_inspection.php
@@ -90,7 +100,9 @@ AlumGlassProjMang/
 │   │
 │   └── pardis/                  # === Pardis Project Module ===
 │       ├── index.php            # Pardis dashboard
-│       ├── header_pardis.php
+│       ├── header.php                  # Responsive header dispatcher (Phase 2B)
+│       ├── header_pardis.php           # Desktop implementation
+│       ├── header_pardis_mobile.php    # Mobile implementation
 │       ├── footer.php
 │       ├── api/                 # Pardis-specific APIs
 │       ├── assets/

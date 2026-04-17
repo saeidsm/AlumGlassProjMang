@@ -11,9 +11,9 @@
 | وضعیت | تعداد | شرح |
 |--------|-------|------|
 | 🔴 باز — بحرانی | 0 | — |
-| 🟠 باز — بالا | 6 | Phase 2 برنامه‌ریزی شده |
-| 🟡 باز — متوسط | 11 | برنامه‌ریزی شده |
-| 🟢 رفع شده | 13 | تکمیل شده (Phase 0 + Phase 1) |
+| 🟠 باز — بالا | 1 | Phase 3 برنامه‌ریزی شده |
+| 🟡 باز — متوسط | 8 | برنامه‌ریزی شده (بیشتر Phase 3) |
+| 🟢 رفع شده | 20 | تکمیل شده (Phase 0 + 1 + 1.5 + 2) |
 
 ---
 
@@ -115,41 +115,42 @@
 
 ### TD-PERF-001: Monolithic Files
 - **شدت**: 🟠 بالا
-- **وضعیت**: ⏳ باز
+- **وضعیت**: 🟡 کاهش یافته
 - **فاز**: 2
 - **شرح**: ۳۹ فایل بالای 50KB — HTML+CSS+JS+PHP مخلوط
-- **تأثیر**: load time بالا، عدم cache مرورگر
-- **تخمین**: ۱۰-۱۵ روز
+- **Phase 2 نتیجه**: ۱۰ فایل بزرگ کاهش یافتند؛ بزرگ‌ترین‌ها ۱۰–۷۲٪ کوچک‌تر شدند (بعد از استخراج CSS/JS)
+- **باقیمانده**: فایل‌های <50KB در سطح متوسط هنوز نیاز به تجزیه دارند — Phase 3 (MVC)
 
 ### TD-PERF-002: 297 Inline CSS/JS Blocks
 - **شدت**: 🟠 بالا
-- **وضعیت**: ⏳ باز
+- **وضعیت**: 🟢 رفع شده (در ۱۰ فایل اصلی)
 - **فاز**: 2
-- **شرح**: ۱۴۷ بلوک `<style>` و ۱۵۰ بلوک `<script>` inline
-- **تأثیر**: cache مرورگر غیرممکن
-- **تخمین**: ۵-۷ روز
+- **شرح**: بلاک‌های inline به CSS/JS خارجی منتقل شدند
+- **تاریخ رفع**: 2026-04-17 (Phase 2C)
+- **commit**: phase-2c-extract-inline-assets — 17 CSS + 6 JS external files
 
 ### TD-PERF-003: No Pagination
 - **شدت**: 🟠 بالا
-- **وضعیت**: ⏳ باز
-- **فاز**: 1
-- **شرح**: داشبوردها تمام رکوردها را یکجا بارگذاری
-- **تأثیر**: کندی شدید با رشد داده
-- **تخمین**: ۳ روز
+- **وضعیت**: 🟢 رفع شده
+- **فاز**: 2
+- **شرح**: helper مرکزی `includes/pagination.php` اضافه شد و در ۲ داشبورد کلیدی اعمال شد
+- **تاریخ رفع**: 2026-04-17 (Phase 2E)
+- **commit**: phase-2e-query-optimization — includes/pagination.php
 
 ### TD-PERF-004: N+1 Queries
 - **شدت**: 🟠 بالا
-- **وضعیت**: ⏳ باز
+- **وضعیت**: 🟢 رفع شده (۴ مورد اصلی)
 - **فاز**: 2
 - **شرح**: کوئری در حلقه — هر ردیف یک کوئری جدا
-- **تخمین**: ۲ روز
+- **تاریخ رفع**: 2026-04-17 (Phase 2E)
+- **commit**: phase-2e-query-optimization — 4 files fixed with batched IN queries
 
 ### TD-PERF-005: No Compression
 - **شدت**: 🟡 متوسط
-- **وضعیت**: ⏳ باز
-- **فاز**: 2
+- **وضعیت**: 🟢 رفع شده
+- **فاز**: 1
 - **شرح**: Gzip/Brotli فعال نیست
-- **تخمین**: ۰.۵ روز
+- **راهکار**: `.htaccess` با mod_deflate (Phase 1)
 
 ---
 
@@ -164,10 +165,15 @@
 
 ### TD-ARCH-002: 15 Duplicate Headers
 - **شدت**: 🟠 بالا
-- **وضعیت**: ⏳ باز
+- **وضعیت**: 🟢 رفع شده
 - **فاز**: 2
-- **شرح**: هر ماژول چندین نسخه header دارد
-- **تخمین**: ۳-۵ روز
+- **شرح**: هر ماژول چندین نسخه header داشت
+- **Phase 2 نتیجه**: ۱۱ فایل header → ۶ فایل (کاهش ۴۵٪)
+  - `ghom/header.php` + `pardis/header.php` — dispatcher responsive جدید
+  - ۵ فایل تکراری حذف شد (`header_m_ghom.php`, `header_mobile.php`, `header_ins.php`, `header_p_mobile.php`, root-level `header_m_ghom.php`)
+  - ۹۱ require_once در ۷۰+ فایل به header یکپارچه هدایت شدند
+- **تاریخ رفع**: 2026-04-17 (Phase 2B)
+- **commit**: phase-2b-header-unification
 
 ### TD-ARCH-003: No Shared Library
 - **شدت**: 🟠 بالا
@@ -203,26 +209,37 @@
 
 ### TD-UX-001: Separate Mobile Pages
 - **شدت**: 🟠 بالا
-- **وضعیت**: ⏳ باز
+- **وضعیت**: 🟢 رفع شده
 - **فاز**: 2
 - **شرح**: نسخه‌های جداگانه Desktop/Mobile به جای Responsive
-- **تخمین**: ۷-۱۰ روز
+- **Phase 2 نتیجه**: ۱۰ فایل mobile به redirect ۳۰۱ تبدیل شدند؛ نمای موبایل حالا از طریق dispatcher و مدیا کوئری انجام می‌شود
+- **تاریخ رفع**: 2026-04-17 (Phase 2D)
+- **commit**: phase-2d-responsive-merge
 
-### TD-UX-002: No Loading States
+### TD-UX-002: Contractor Batch Update Feature Parity
 - **شدت**: 🟡 متوسط
 - **وضعیت**: ⏳ باز
+- **فاز**: 3
+- **شرح**: `ghom/contractor_batch_update_mobile.php` در اصل ۱۶۸۲ خط بود و نسبت به نسخه دسکتاپ (۲۹۳ خط) قابلیت‌های بیشتری داشت؛ redirect حالا هر دو را به دسکتاپ می‌فرستد
+- **اقدام**: قابلیت‌های منحصربه‌فرد موبایل به `contractor_batch_update.php` responsive منتقل شوند
+
+### TD-UX-003: No Loading States
+- **شدت**: 🟡 متوسط
+- **وضعیت**: 🟢 رفع شده (ابزار اضافه شد)
 - **فاز**: 2
 - **شرح**: عملیات AJAX بدون نشانگر بارگذاری
-- **تخمین**: ۲ روز
+- **Phase 2 نتیجه**: `AG.showLoading()` / `AG.hideLoading()` / `.ag-spinner` / `.ag-toast` در `assets/js/global.js` و `assets/css/global.css` در دسترس — کدهای AJAX می‌توانند به صورت افزایشی از آنها استفاده کنند
+- **تاریخ رفع**: 2026-04-17 (Phase 2A)
 
-### TD-UX-003: No Form Auto-save
+### TD-UX-004: No Form Auto-save
 - **شدت**: 🟡 متوسط
-- **وضعیت**: ⏳ باز
+- **وضعیت**: 🟢 رفع شده (ابزار اضافه شد)
 - **فاز**: 2
 - **شرح**: فرم‌های بلند بدون ذخیره خودکار
-- **تخمین**: ۲ روز
+- **Phase 2 نتیجه**: `AG.autoSaveForm(formId)` و `AG.restoreForm(formId)` در `assets/js/global.js` با localStorage
+- **تاریخ رفع**: 2026-04-17 (Phase 2A)
 
-### TD-UX-004: No Accessibility
+### TD-UX-005: No Accessibility
 - **شدت**: 🟡 متوسط
 - **وضعیت**: ⏳ باز
 - **فاز**: 3
@@ -256,6 +273,15 @@
 | 2026-04-17 | Phase-1.5 | Added CSRF meta tag + injector script to all 10 header variants | phase-1 branch |
 | 2026-04-17 | Phase-1.5 | Replaced ad-hoc auth with requireRole() on 23 admin/management endpoints | phase-1 branch |
 | 2026-04-17 | Phase-1.5 | Auto-load includes/security.php from sercon/bootstrap.php | phase-1 branch |
+| 2026-04-17 | Phase-2A | Created assets/css/design-system.css (CSS custom properties) | phase-2a branch |
+| 2026-04-17 | Phase-2A | Created assets/css/global.css (shared .ag-* components) | phase-2a branch |
+| 2026-04-17 | Phase-2A | Created assets/js/global.js (toast, loading, CSRF, form helpers) | phase-2a branch |
+| 2026-04-17 | TD-ARCH-002 | 11 header files → 6 via ghom/header.php + pardis/header.php dispatchers | phase-2b branch |
+| 2026-04-17 | Phase-2B | Rewrote 91 header require_once statements across 70+ files | phase-2b branch |
+| 2026-04-17 | TD-PERF-002 | Extracted inline CSS/JS from 10 largest PHP files → 17 CSS + 6 JS externals | phase-2c branch |
+| 2026-04-17 | TD-UX-001 | Converted 10 mobile-only pages to 301 redirects | phase-2d branch |
+| 2026-04-17 | TD-PERF-003 | Created includes/pagination.php (paginate + renderPagination) | phase-2e branch |
+| 2026-04-17 | TD-PERF-004 | Fixed N+1 queries in 4 files with batched IN (...) queries | phase-2e branch |
 
 ---
 

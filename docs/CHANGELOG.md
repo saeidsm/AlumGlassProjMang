@@ -85,8 +85,64 @@
 
 ---
 
-### Phase 2 — Performance & UX (Planned)
-*To be documented upon completion*
+### Phase 2 — Performance & UX (2026-04-17)
+
+#### Phase 2A — Design System & Global Assets
+##### Added
+- [x] `assets/css/design-system.css` — CSS custom properties (`--ag-*`) for brand colors, semantic colors, neutrals, typography, spacing, radii, shadows, z-index; Vazir font-face declarations
+- [x] `assets/css/global.css` — shared components (`.ag-card`, `.ag-btn`, `.ag-badge`, `.ag-table`, `.ag-form-control`, `.ag-alert`, `.ag-spinner`, `.ag-toast`, `.ag-pagination`)
+- [x] `assets/js/global.js` — `window.AG` utilities: `toast()`, `showLoading/hideLoading()`, `getCsrfToken()`, `fetch()` with CSRF injection, `confirm()`, `formatNumber()`, `formatPersianDate()`, `debounce()`, `autoSaveForm()/restoreForm()`
+
+#### Phase 2B — Header Unification
+##### Added
+- [x] `ghom/header.php` — responsive dispatcher (mobile/desktop UA detection)
+- [x] `pardis/header.php` — responsive dispatcher
+- [x] design-system.css + global.css + global.js wired into all remaining header implementations plus `header_common.php`
+
+##### Changed
+- [x] Rewrote 91 `require_once` statements across 70+ files to reference `header.php`
+
+##### Removed
+- [x] `ghom/header_m_ghom.php`, `ghom/header_mobile.php`, `ghom/header_ins.php` (subsumed by dispatcher)
+- [x] `pardis/header_p_mobile.php` (duplicate of `header_pardis_mobile.php`)
+- [x] Root-level `header_m_ghom.php` (stray copy)
+- Result: **11 header files → 6** (–45%)
+
+#### Phase 2C — Inline CSS/JS Extraction
+##### Added
+- [x] 17 external CSS files, 6 external JS files extracted from the 10 largest PHP pages
+
+##### Changed
+- Notable size reductions (bytes before → after):
+  - `ghom/reports.php`: 74KB → 21KB (–72%)
+  - `pardis/index.php`: 71KB → 33KB (–53%)
+  - `ghom/index.php`: 65KB → 32KB (–51%)
+  - `messages.php`: 98KB → 76KB (–22%)
+  - `ghom/viewer.php`: 70KB → 55KB (–22%)
+  - `pardis/letters.php`: 72KB → 58KB (–20%)
+  - `admin.php`: 65KB → 53KB (–17%)
+  - `pardis/packing_list_viewer.php`: 121KB → 101KB (–16%)
+  - `pardis/daily_reports.php`: 139KB → 124KB (–11%)
+  - `pardis/meeting_minutes_form.php`: 89KB → 80KB (–10%)
+
+#### Phase 2D — Responsive Mobile Consolidation
+##### Changed
+- [x] Converted 10 mobile-only pages to 301 redirects to their responsive desktop counterparts: `ghom/mobile.php`, `ghom/contractmibile.php`, `ghom/contractor_batch_update_mobile.php`, `ghom/inspection_dashboard_mobile.php`, `ghom/reports_mobile.php`, `pardis/mobile.php`, `pardis/mobile_plan.php`, `pardis/daily_report_mobile.php`, `pardis/viewer_3d_mobile.php`, `messages_mobile.php`
+
+#### Phase 2E — N+1 Fixes & Pagination
+##### Added
+- [x] `includes/pagination.php` — `paginate($pdo, $sql, $params, $perPage)` + `renderPagination($result, $baseUrl)`
+
+##### Fixed
+- [x] **N+1 in `pardis/daily_reports_dashboard_ps.php`** — 3 queries per row (personnel, equipment, activity count) collapsed into 3 batched GROUP BY queries
+- [x] **N+1 in `ghom/daily_reports_dashboard.php`** — same pattern, same fix
+- [x] **N+1 in `pardis/weekly_report_ps.php`** — per-report personnel count query batched
+- [x] **N+1 in `pardis/daily_report_form_ps.php`** — per-activity name lookup batched with `IN (...)` query
+
+##### Changed
+- [x] Applied `paginate()` (25/page) with `<nav class="ag-pagination">` to `pardis/daily_reports_dashboard_ps.php` and `ghom/daily_reports_dashboard.php`
+
+---
 
 ### Phase 3 — Architecture (Planned)
 *To be documented upon completion*
@@ -97,6 +153,7 @@
 
 | نسخه | تاریخ | شرح |
 |------|--------|------|
+| 0.3.0 | 2026-04-17 | Phase 2 — Design system, header unification, inline-asset extraction, responsive mobile consolidation, N+1 fixes, pagination |
 | 0.2.1 | 2026-04-17 | Phase 1.5 — CSRF forms + global AJAX injector + role-based auth |
 | 0.2.0 | 2026-04-17 | Phase 1 — Security hardening, prepared statements, CSRF, auth, headers |
 | 0.1.0 | 2026-04-17 | Phase 0 — Emergency fixes, cleanup, secrets removal |
