@@ -1,0 +1,59 @@
+# Environment & Secrets
+.env
+*.env.local
+*.env.production
+
+# Database dumps — NEVER commit
+*.sql
+*.sql.txt
+*.sql.gz
+*.sql.bak
+
+# Logs
+logs/
+*.log
+
+# Debug & Test files
+*debug*
+*test_*
+
+# OS files
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+
+# IDE
+.idea/
+.vscode/
+*.sublime-*
+
+# Dependencies (if using composer later)
+/vendor/
+/node_modules/
+
+# Uploaded files (user data)
+uploads/
+ghom/uploads/
+pardis/uploads/
+pardis/includes/mpdf/
+pardis/includes/libraries/
+
+# Backup copies
+* copy*
+*Copy*
+*.bak
+*.backup
+*.orig
+
+# PHP info
+info.php
+
+# Build artifacts
+/dist/
+/build/
+
+# Cache
+/cache/
+*.cache

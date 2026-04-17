@@ -1,0 +1,854 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>گزارش ممیزی فنی - Alumglass Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0c0f14;
+  --surface: #161a22;
+  --surface2: #1e232d;
+  --border: #2a3040;
+  --text: #e2e8f0;
+  --text2: #8b95a8;
+  --accent: #3b82f6;
+  --accent2: #60a5fa;
+  --red: #ef4444;
+  --red-bg: rgba(239,68,68,0.08);
+  --orange: #f59e0b;
+  --orange-bg: rgba(245,158,11,0.08);
+  --yellow: #eab308;
+  --yellow-bg: rgba(234,179,8,0.08);
+  --green: #22c55e;
+  --green-bg: rgba(34,197,94,0.08);
+  --cyan: #06b6d4;
+  --purple: #a855f7;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family: 'Vazirmatn', system-ui, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.8;
+  font-size: 14px;
+}
+.page { max-width: 1200px; margin: 0 auto; padding: 2rem 1.5rem; }
+
+/* Header */
+.hero {
+  text-align: center;
+  padding: 4rem 2rem 3rem;
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 50% 0%, rgba(59,130,246,0.12) 0%, transparent 60%);
+  pointer-events: none;
+}
+.hero h1 {
+  font-size: 2.2rem;
+  font-weight: 900;
+  background: linear-gradient(135deg, var(--accent2), var(--cyan));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 0.5rem;
+}
+.hero .subtitle { color: var(--text2); font-size: 1rem; font-weight: 300; }
+.hero .date { color: var(--text2); font-size: 0.85rem; margin-top: 0.75rem; opacity: 0.7; }
+
+/* Stats bar */
+.stats-bar {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 1rem;
+  margin: 2rem 0 3rem;
+}
+.stat-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1.25rem;
+  text-align: center;
+}
+.stat-card .num {
+  font-size: 1.8rem;
+  font-weight: 800;
+  display: block;
+}
+.stat-card .label { color: var(--text2); font-size: 0.8rem; margin-top: 0.25rem; }
+.stat-card.critical .num { color: var(--red); }
+.stat-card.high .num { color: var(--orange); }
+.stat-card.medium .num { color: var(--yellow); }
+.stat-card.info .num { color: var(--cyan); }
+
+/* Sections */
+.section {
+  margin-bottom: 3rem;
+}
+.section-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 2px solid var(--border);
+}
+.section-header .icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  flex-shrink: 0;
+}
+.section-header h2 { font-size: 1.3rem; font-weight: 700; }
+.section-header .count {
+  margin-right: auto;
+  margin-left: 0;
+  background: var(--surface2);
+  padding: 0.15rem 0.75rem;
+  border-radius: 99px;
+  font-size: 0.75rem;
+  color: var(--text2);
+}
+
+/* Tables */
+.table-wrap {
+  overflow-x: auto;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+}
+thead th {
+  background: var(--surface2);
+  padding: 0.85rem 1rem;
+  text-align: right;
+  font-weight: 600;
+  color: var(--text2);
+  white-space: nowrap;
+  border-bottom: 1px solid var(--border);
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+tbody td {
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid var(--border);
+  vertical-align: top;
+}
+tbody tr:last-child td { border-bottom: none; }
+tbody tr:hover { background: rgba(59,130,246,0.03); }
+
+/* Severity badges */
+.badge {
+  display: inline-block;
+  padding: 0.15rem 0.6rem;
+  border-radius: 6px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+.badge.critical { background: var(--red-bg); color: var(--red); border: 1px solid rgba(239,68,68,0.2); }
+.badge.high { background: var(--orange-bg); color: var(--orange); border: 1px solid rgba(245,158,11,0.2); }
+.badge.medium { background: var(--yellow-bg); color: var(--yellow); border: 1px solid rgba(234,179,8,0.2); }
+.badge.low { background: var(--green-bg); color: var(--green); border: 1px solid rgba(34,197,94,0.2); }
+
+.phase-badge {
+  display: inline-block;
+  padding: 0.15rem 0.6rem;
+  border-radius: 6px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  white-space: nowrap;
+  background: rgba(59,130,246,0.1);
+  color: var(--accent2);
+  border: 1px solid rgba(59,130,246,0.2);
+}
+
+.code { 
+  font-family: 'Fira Code', monospace; 
+  direction: ltr; 
+  text-align: left; 
+  background: var(--surface2); 
+  padding: 0.1rem 0.4rem; 
+  border-radius: 4px; 
+  font-size: 0.78rem; 
+  color: var(--cyan);
+  display: inline-block;
+}
+
+/* Phase timeline */
+.phase-timeline {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.25rem;
+  margin-top: 1.5rem;
+}
+.phase-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1.5rem;
+  position: relative;
+  overflow: hidden;
+}
+.phase-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  height: 3px;
+}
+.phase-card.p0::before { background: var(--red); }
+.phase-card.p1::before { background: var(--orange); }
+.phase-card.p2::before { background: var(--yellow); }
+.phase-card.p3::before { background: var(--green); }
+.phase-card .phase-num {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.5rem;
+}
+.phase-card.p0 .phase-num { color: var(--red); }
+.phase-card.p1 .phase-num { color: var(--orange); }
+.phase-card.p2 .phase-num { color: var(--yellow); }
+.phase-card.p3 .phase-num { color: var(--green); }
+.phase-card h3 { font-size: 1.05rem; font-weight: 700; margin-bottom: 0.5rem; }
+.phase-card .dur { color: var(--text2); font-size: 0.8rem; margin-bottom: 0.75rem; }
+.phase-card ul {
+  list-style: none;
+  padding: 0;
+}
+.phase-card ul li {
+  padding: 0.3rem 0;
+  padding-right: 1rem;
+  position: relative;
+  font-size: 0.82rem;
+  color: var(--text2);
+}
+.phase-card ul li::before {
+  content: '▸';
+  position: absolute;
+  right: 0;
+  color: var(--accent);
+}
+
+/* Executive summary */
+.exec-summary {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 2rem;
+  margin-bottom: 3rem;
+  line-height: 2;
+}
+.exec-summary h3 { margin-bottom: 1rem; font-size: 1.1rem; color: var(--accent2); }
+.exec-summary p { color: var(--text2); margin-bottom: 0.75rem; }
+
+@media (max-width: 768px) {
+  .hero h1 { font-size: 1.5rem; }
+  .stats-bar { grid-template-columns: repeat(2, 1fr); }
+  table { font-size: 0.75rem; }
+  thead th, tbody td { padding: 0.5rem; }
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+<div class="hero">
+  <h1>🔍 گزارش ممیزی فنی جامع</h1>
+  <div class="subtitle">داشبرد مدیریت پروژه‌های نمای ساختمان — Alumglass-IR</div>
+  <div class="date">تاریخ ممیزی: ۲۶ فروردین ۱۴۰۵ &nbsp;|&nbsp; ۱۵ آوریل ۲۰۲۶</div>
+</div>
+
+<!-- Stats -->
+<div class="stats-bar">
+  <div class="stat-card critical"><span class="num">۱۲</span><span class="label">بحرانی / Critical</span></div>
+  <div class="stat-card high"><span class="num">۱۴</span><span class="label">بالا / High</span></div>
+  <div class="stat-card medium"><span class="num">۱۱</span><span class="label">متوسط / Medium</span></div>
+  <div class="stat-card info"><span class="num">۸</span><span class="label">پایین / Low</span></div>
+</div>
+
+<!-- Executive Summary -->
+<div class="exec-summary">
+  <h3>خلاصه اجرایی</h3>
+  <p>
+    پروژه Alumglass-IR یک سیستم مدیریت پروژه‌های مهندسی نما با <strong>۳۵۶ فایل PHP</strong> و <strong>حدود ۱۳۷٬۰۰۰ خط کد</strong> (بدون وابستگی‌ها) است. سیستم شامل دو زیرپروژه اصلی (<span class="code">ghom</span> و <span class="code">pardis</span>) با قابلیت‌هایی مانند بازرسی، گزارش روزانه، مدیریت انبار، تقویم، مکاتبات و تلگرام است.
+  </p>
+  <p>
+    بررسی انجام‌شده نشان می‌دهد پروژه آسیب‌پذیری‌های امنیتی بحرانی متعدد، مشکلات جدی معماری و نگهداری، و نقاط بهبود مهم UX/UI دارد. از جمله: <strong>۲۱۱ کوئری SQL بدون Prepared Statement</strong>، توکن تلگرام هاردکد شده، فایل <span class="code">info.php</span> با phpinfo() در production، فایل دیتابیس SQL در مسیر عمومی، و ۳۴ فایل کپی/قدیمی بلااستفاده.
+  </p>
+</div>
+
+<!-- ========== SECURITY ========== -->
+<div class="section">
+  <div class="section-header">
+    <div class="icon" style="background:var(--red-bg); color:var(--red);">🛡️</div>
+    <h2>یافته‌های امنیتی</h2>
+    <span class="count">۱۸ مورد</span>
+  </div>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>شرح آسیب‌پذیری</th>
+          <th>شدت</th>
+          <th>فایل / محل</th>
+          <th>فاز</th>
+          <th>راهکار پیشنهادی</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>S01</td>
+          <td><strong>SQL Injection — کوئری‌های بدون Prepared Statement</strong><br>۲۱۱ مورد <span class="code">->query()</span> با متغیر مستقیم در رشته SQL یافت شد. مهاجم می‌تواند دیتابیس را تخریب/استخراج کند.</td>
+          <td><span class="badge critical">بحرانی</span></td>
+          <td><span class="code">pardis/daily_report_form_ps.php</span>, <span class="code">pardis/daily_report_print_ps.php</span>, <span class="code">pardis/weekly_report_ps.php</span>, <span class="code">ghom/workshop_report.php</span> و ۲۰+ فایل دیگر</td>
+          <td><span class="phase-badge">فاز ۰</span></td>
+          <td>تمام کوئری‌ها را با <span class="code">prepare()</span> و <span class="code">execute()</span> بازنویسی کنید. هرگز متغیر در رشته SQL قرار ندهید.</td>
+        </tr>
+        <tr>
+          <td>S02</td>
+          <td><strong>توکن ربات تلگرام هاردکد شده</strong><br>توکن API تلگرام به‌صورت plaintext در کد منبع قرار دارد.</td>
+          <td><span class="badge critical">بحرانی</span></td>
+          <td><span class="code">telegram_webhook.php:4</span>, <span class="code">test_webhook.php:6</span></td>
+          <td><span class="phase-badge">فاز ۰</span></td>
+          <td>توکن را فوراً revoke کنید، از Environment Variable یا فایل <span class="code">.env</span> خارج از document root استفاده کنید.</td>
+        </tr>
+        <tr>
+          <td>S03</td>
+          <td><strong>فایل <span class="code">info.php</span> حاوی phpinfo()</strong><br>اطلاعات کامل سرور (مسیرها، نسخه‌ها، تنظیمات) در دسترس عموم.</td>
+          <td><span class="badge critical">بحرانی</span></td>
+          <td><span class="code">info.php</span></td>
+          <td><span class="phase-badge">فاز ۰</span></td>
+          <td>فایل را فوراً حذف کنید. اطلاعات phpinfo فقط در CLI و development مجاز است.</td>
+        </tr>
+        <tr>
+          <td>S04</td>
+          <td><strong>فایل دامپ دیتابیس در document root</strong><br>ساختار کامل جداول، داده‌ها و اطلاعات حساس در دسترس عمومی.</td>
+          <td><span class="badge critical">بحرانی</span></td>
+          <td><span class="code">localhost.sql.txt</span> (200KB)</td>
+          <td><span class="phase-badge">فاز ۰</span></td>
+          <td>فایل را فوراً حذف کنید. بکاپ‌ها هرگز نباید در مسیر وب قرار گیرند.</td>
+        </tr>
+        <tr>
+          <td>S05</td>
+          <td><strong>کلید رمز Cron تلگرام هاردکد</strong><br>Secret key به‌صورت plaintext در کد قرار دارد.</td>
+          <td><span class="badge critical">بحرانی</span></td>
+          <td><span class="code">pardis/telegram_cron.php:11</span></td>
+          <td><span class="phase-badge">فاز ۰</span></td>
+          <td>کلید را از فایل <span class="code">.env</span> بخوانید و کلید فعلی را عوض کنید.</td>
+        </tr>
+        <tr>
+          <td>S06</td>
+          <td><strong>فایل‌های لاگ در مسیر عمومی</strong><br>لاگ‌های debug شامل اطلاعات حساس در document root.</td>
+          <td><span class="badge critical">بحرانی</span></td>
+          <td><span class="code">ghom/api/save_inspection_debug.log</span>, <span class="code">pardis/api/logs/*.log</span></td>
+          <td><span class="phase-badge">فاز ۰</span></td>
+          <td>لاگ‌ها را خارج از document root منتقل کنید یا با <span class="code">.htaccess</span> مسدود کنید.</td>
+        </tr>
+        <tr>
+          <td>S07</td>
+          <td><strong>XSS (Cross-Site Scripting)</strong><br>متغیرهای <span class="code">$_GET</span> بدون escape مستقیم در HTML درج شده‌اند.</td>
+          <td><span class="badge critical">بحرانی</span></td>
+          <td><span class="code">pardis/daily_reports_dashboard_ps.php:378,383,387</span> و فایل‌های مشابه</td>
+          <td><span class="phase-badge">فاز ۰</span></td>
+          <td>تمام خروجی‌ها را با <span class="code">htmlspecialchars(..., ENT_QUOTES, 'UTF-8')</span> فیلتر کنید.</td>
+        </tr>
+        <tr>
+          <td>S08</td>
+          <td><strong>عدم بررسی CSRF در اکثر APIها</strong><br>بیش از ۲۰ API فاقد توکن CSRF هستند و در برابر حملات CSRF آسیب‌پذیرند.</td>
+          <td><span class="badge critical">بحرانی</span></td>
+          <td><span class="code">ghom/api/*.php</span>, <span class="code">pardis/api/*.php</span></td>
+          <td><span class="phase-badge">فاز ۱</span></td>
+          <td>یک middleware مرکزی CSRF ایجاد کنید و تمام POST endpointها را ملزم به بررسی کنید.</td>
+        </tr>
+        <tr>
+          <td>S09</td>
+          <td><strong>عدم بررسی سطح دسترسی (Authorization) در APIها</strong><br>بسیاری از APIها فقط session check دارند اما Role/Permission بررسی نمی‌کنند.</td>
+          <td><span class="badge critical">بحرانی</span></td>
+          <td><span class="code">ghom/api/create_permit.php</span>, <span class="code">ghom/api/confirm_panels_opened.php</span> و ۱۵+ فایل دیگر</td>
+          <td><span class="phase-badge">فاز ۱</span></td>
+          <td>یک Authorization middleware مرکزی اضافه کنید. هر endpoint باید role مجاز را بررسی کند.</td>
+        </tr>
+        <tr>
+          <td>S10</td>
+          <td><strong>آپلود فایل بدون اعتبارسنجی پسوند و نوع</strong><br>در بسیاری از uploaderها نوع فایل بررسی نمی‌شود.</td>
+          <td><span class="badge critical">بحرانی</span></td>
+          <td><span class="code">ghom/api/upload_signed_permit.php</span>, <span class="code">ghom/api/save_logo_settings.php</span></td>
+          <td><span class="phase-badge">فاز ۱</span></td>
+          <td>Whitelist پسوندها، بررسی MIME type سمت سرور، و ذخیره فایل‌ها خارج از document root.</td>
+        </tr>
+        <tr>
+          <td>S11</td>
+          <td><strong>فایل‌های Debug/Test در production</strong><br>فایل‌های تست و دیباگ فعال با display_errors.</td>
+          <td><span class="badge high">بالا</span></td>
+          <td><span class="code">ghom/debug_test.php</span>, <span class="code">pardis/final_test.php</span>, <span class="code">pardis/test_*.php</span></td>
+          <td><span class="phase-badge">فاز ۰</span></td>
+          <td>تمام فایل‌های تست/دیباگ را از production حذف کنید.</td>
+        </tr>
+        <tr>
+          <td>S12</td>
+          <td><strong>عدم هدر Content-Security-Policy</strong><br>هیچ CSP header تنظیم نشده و XSS injection آسان‌تر است.</td>
+          <td><span class="badge high">بالا</span></td>
+          <td>سراسری</td>
+          <td><span class="phase-badge">فاز ۱</span></td>
+          <td>CSP header مناسب در فایل header مشترک اضافه شود.</td>
+        </tr>
+        <tr>
+          <td>S13</td>
+          <td><strong>عدم اجبار HTTPS</strong><br>هیچ redirect از HTTP به HTTPS وجود ندارد.</td>
+          <td><span class="badge high">بالا</span></td>
+          <td>سراسری</td>
+          <td><span class="phase-badge">فاز ۱</span></td>
+          <td>HSTS header و redirect اجباری HTTP→HTTPS در <span class="code">.htaccess</span> یا bootstrap.</td>
+        </tr>
+        <tr>
+          <td>S14</td>
+          <td><strong>Path Traversal — readfile() با ورودی ناکافی</strong><br>برخی endpointها فایل را مستقیماً serve می‌کنند.</td>
+          <td><span class="badge high">بالا</span></td>
+          <td><span class="code">ghom/api/view_permit_details.php</span>, <span class="code">pardis/download_packing_template.php</span></td>
+          <td><span class="phase-badge">فاز ۱</span></td>
+          <td>استفاده از <span class="code">realpath()</span> و بررسی اینکه مسیر در دایرکتوری مجاز قرار دارد.</td>
+        </tr>
+        <tr>
+          <td>S15</td>
+          <td><strong>نبود Rate Limiting روی APIها</strong><br>APIهای عملیاتی فاقد محدودیت نرخ درخواست هستند.</td>
+          <td><span class="badge medium">متوسط</span></td>
+          <td>تمام فایل‌های <span class="code">api/</span></td>
+          <td><span class="phase-badge">فاز ۲</span></td>
+          <td>Rate limiter مرکزی (Redis/Memcached-based) یا middleware PHP اضافه شود.</td>
+        </tr>
+        <tr>
+          <td>S16</td>
+          <td><strong>Session Fixation احتمالی</strong><br>برخی APIها session_start مستقل فراخوانی نمی‌کنند.</td>
+          <td><span class="badge medium">متوسط</span></td>
+          <td>API endpoints متعدد</td>
+          <td><span class="phase-badge">فاز ۱</span></td>
+          <td>همه APIها از طریق <span class="code">bootstrap.php</span> و <span class="code">secureSession()</span> مشترک وارد شوند.</td>
+        </tr>
+        <tr>
+          <td>S17</td>
+          <td><strong>عدم Sanitize ورودی‌ها</strong><br>اکثر فایل‌ها از <span class="code">filter_var</span> / <span class="code">filter_input</span> استفاده نمی‌کنند.</td>
+          <td><span class="badge high">بالا</span></td>
+          <td>سراسری (فقط ۱۰ فایل از filter استفاده می‌کنند)</td>
+          <td><span class="phase-badge">فاز ۱</span></td>
+          <td>Input validation layer مرکزی ایجاد شود.</td>
+        </tr>
+        <tr>
+          <td>S18</td>
+          <td><strong>Error Disclosure</strong><br>برخی فایل‌ها <span class="code">display_errors = 1</span> دارند.</td>
+          <td><span class="badge high">بالا</span></td>
+          <td><span class="code">ghom/debug_test.php:3</span> و فایل‌های commented-out</td>
+          <td><span class="phase-badge">فاز ۰</span></td>
+          <td><span class="code">display_errors = Off</span> در php.ini production. لاگ به فایل.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ========== PERFORMANCE ========== -->
+<div class="section">
+  <div class="section-header">
+    <div class="icon" style="background:rgba(245,158,11,0.1); color:var(--orange);">⚡</div>
+    <h2>کارایی و سرعت</h2>
+    <span class="count">۱۰ مورد</span>
+  </div>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>شرح مشکل</th>
+          <th>شدت</th>
+          <th>فایل / محل</th>
+          <th>فاز</th>
+          <th>راهکار پیشنهادی</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>P01</td>
+          <td><strong>فایل‌های Monolithic بسیار بزرگ</strong><br>۳۹ فایل بالای 50KB و ۳ فایل بالای 100KB. فایل <span class="code">packing_list_viewer.php</span> با ۳٬۱۸۵ خط! HTML+CSS+JS+PHP همه در یک فایل.</td>
+          <td><span class="badge high">بالا</span></td>
+          <td>۳۹ فایل — به‌خصوص <span class="code">pardis/daily_reports.php</span> (143KB), <span class="code">pardis/packing_list_viewer.php</span> (125KB)</td>
+          <td><span class="phase-badge">فاز ۲</span></td>
+          <td>جداسازی CSS/JS به فایل‌های مستقل. شکستن فایل‌ها به کامپوننت‌های کوچکتر. استفاده از Template Engine.</td>
+        </tr>
+        <tr>
+          <td>P02</td>
+          <td><strong>Inline CSS/JS حجیم</strong><br>۱۴۷ بلوک <span class="code">&lt;style&gt;</span> و ۱۵۰ بلوک <span class="code">&lt;script&gt;</span> inline. هیچ caching مرورگر امکان‌پذیر نیست.</td>
+          <td><span class="badge high">بالا</span></td>
+          <td>تقریباً تمام فایل‌های PHP</td>
+          <td><span class="phase-badge">فاز ۲</span></td>
+          <td>CSS و JS را به فایل‌های خارجی منتقل کنید تا مرورگر بتواند cache کند.</td>
+        </tr>
+        <tr>
+          <td>P03</td>
+          <td><strong>عدم Pagination در لیست‌ها</strong><br>بسیاری از داشبوردها تمام رکوردها را یکجا بارگذاری می‌کنند.</td>
+          <td><span class="badge high">بالا</span></td>
+          <td><span class="code">pardis/daily_reports.php</span>, <span class="code">ghom/reports.php</span> و مشابه</td>
+          <td><span class="phase-badge">فاز ۱</span></td>
+          <td>Pagination سمت سرور (LIMIT/OFFSET) و lazy loading اضافه شود.</td>
+        </tr>
+        <tr>
+          <td>P04</td>
+          <td><strong>N+1 Query Pattern</strong><br>در حلقه‌ها برای هر ردیف یک کوئری جداگانه زده می‌شود.</td>
+          <td><span class="badge high">بالا</span></td>
+          <td><span class="code">pardis/daily_reports_dashboard_ps.php:431</span>, <span class="code">pardis/daily_report_form_ps.php</span></td>
+          <td><span class="phase-badge">فاز ۲</span></td>
+          <td>از JOIN استفاده کنید یا داده‌ها را با یک کوئری batch بارگذاری کنید.</td>
+        </tr>
+        <tr>
+          <td>P05</td>
+          <td><strong>عدم HTTP Caching</strong><br>هیچ Cache-Control / ETag برای صفحات استاتیک تنظیم نشده.</td>
+          <td><span class="badge medium">متوسط</span></td>
+          <td>سراسری</td>
+          <td><span class="phase-badge">فاز ۲</span></td>
+          <td>Cache-Control header برای asset‌های استاتیک. Versioning در URL فایل‌ها.</td>
+        </tr>
+        <tr>
+          <td>P06</td>
+          <td><strong>بارگذاری CDN بدون async/defer</strong><br>اسکریپت‌های CDN مانع رندر صفحه می‌شوند.</td>
+          <td><span class="badge medium">متوسط</span></td>
+          <td>فایل‌های header متعدد</td>
+          <td><span class="phase-badge">فاز ۲</span></td>
+          <td>اسکریپت‌ها با <span class="code">defer</span> یا <span class="code">async</span> بارگذاری شوند. CSS Critical Inline.</td>
+        </tr>
+        <tr>
+          <td>P07</td>
+          <td><strong>۱۵ فایل Header/Footer تکراری</strong><br>هر زیرپروژه ۴-۵ نسخه header مختلف دارد با کد بسیار مشابه.</td>
+          <td><span class="badge high">بالا</span></td>
+          <td>۱۵ فایل header/footer</td>
+          <td><span class="phase-badge">فاز ۲</span></td>
+          <td>یک header مشترک responsive با شرط‌بندی ایجاد شود.</td>
+        </tr>
+        <tr>
+          <td>P08</td>
+          <td><strong>عدم Asset Bundling/Minification</strong><br>هیچ build pipeline برای فشرده‌سازی CSS/JS وجود ندارد.</td>
+          <td><span class="badge medium">متوسط</span></td>
+          <td>سراسری</td>
+          <td><span class="phase-badge">فاز ۳</span></td>
+          <td>استفاده از Webpack/Vite برای bundle و minify کردن assetها.</td>
+        </tr>
+        <tr>
+          <td>P09</td>
+          <td><strong>عدم Database Connection Pooling</strong><br>هر درخواست اتصال جدیدی ایجاد می‌کند.</td>
+          <td><span class="badge medium">متوسط</span></td>
+          <td>سراسری</td>
+          <td><span class="phase-badge">فاز ۳</span></td>
+          <td>استفاده از persistent connection در PDO یا ProxySQL.</td>
+        </tr>
+        <tr>
+          <td>P10</td>
+          <td><strong>عدم Gzip/Brotli Compression</strong><br>خروجی HTML/JSON فشرده نمی‌شود.</td>
+          <td><span class="badge medium">متوسط</span></td>
+          <td>سراسری</td>
+          <td><span class="phase-badge">فاز ۲</span></td>
+          <td><span class="code">mod_deflate</span> یا <span class="code">mod_brotli</span> در Apache فعال شود.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ========== UX/UI ========== -->
+<div class="section">
+  <div class="section-header">
+    <div class="icon" style="background:rgba(168,85,247,0.1); color:var(--purple);">🎨</div>
+    <h2>UX / UI</h2>
+    <span class="count">۹ مورد</span>
+  </div>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>شرح مشکل</th>
+          <th>شدت</th>
+          <th>محل</th>
+          <th>فاز</th>
+          <th>راهکار پیشنهادی</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>U01</td>
+          <td><strong>صفحات جداگانه Desktop و Mobile</strong><br>به‌جای Responsive Design، نسخه‌های مجزای Mobile ساخته شده‌اند. نگهداری ۲ برابر کد لازم است.</td>
+          <td><span class="badge high">بالا</span></td>
+          <td><span class="code">*_mobile.php</span> (۸+ فایل)</td>
+          <td><span class="phase-badge">فاز ۲</span></td>
+          <td>ادغام به یک نسخه responsive با CSS Media Queries و Mobile-First design.</td>
+        </tr>
+        <tr>
+          <td>U02</td>
+          <td><strong>عدم یکپارچگی UI بین زیرپروژه‌ها</strong><br>ghom و pardis ظاهر و headerهای کاملاً متفاوت دارند.</td>
+          <td><span class="badge medium">متوسط</span></td>
+          <td>headerهای مختلف هر زیرپروژه</td>
+          <td><span class="phase-badge">فاز ۲</span></td>
+          <td>Design System مشترک با CSS Variables و کامپوننت‌های مشترک.</td>
+        </tr>
+        <tr>
+          <td>U03</td>
+          <td><strong>پیام‌های خطای فنی به کاربر</strong><br>برخی خطاها اطلاعات فنی مانند SQL error به کاربر نشان می‌دهند.</td>
+          <td><span class="badge high">بالا</span></td>
+          <td>صفحات متعدد</td>
+          <td><span class="phase-badge">فاز ۱</span></td>
+          <td>Error handler مرکزی: پیام دوستانه به کاربر، جزئیات فنی فقط در لاگ.</td>
+        </tr>
+        <tr>
+          <td>U04</td>
+          <td><strong>عدم Loading State و Feedback</strong><br>بسیاری از عملیات AJAX بدون نشانگر بارگذاری هستند.</td>
+          <td><span class="badge medium">متوسط</span></td>
+          <td>سراسری</td>
+          <td><span class="phase-badge">فاز ۲</span></td>
+          <td>Spinner/Skeleton Loading مشترک و Toast notifications برای نتیجه عملیات.</td>
+        </tr>
+        <tr>
+          <td>U05</td>
+          <td><strong>فرم‌های بلند بدون ذخیره موقت</strong><br>فرم گزارش روزانه بسیار بلند است و در صورت خطا، داده‌ها از دست می‌روند.</td>
+          <td><span class="badge medium">متوسط</span></td>
+          <td><span class="code">pardis/daily_report_form_ps.php</span> و مشابه</td>
+          <td><span class="phase-badge">فاز ۲</span></td>
+          <td>Auto-save (Draft) با localStorage یا AJAX در بازه زمانی، و تقسیم فرم به مراحل (wizard).</td>
+        </tr>
+        <tr>
+          <td>U06</td>
+          <td><strong>عدم Accessibility (a11y)</strong><br>فاقد ARIA labels، contrast ratio ناکافی در برخی بخش‌ها، و عدم پشتیبانی از صفحه‌خوان.</td>
+          <td><span class="badge medium">متوسط</span></td>
+          <td>سراسری</td>
+          <td><span class="phase-badge">فاز ۳</span></td>
+          <td>ARIA attributes، semantic HTML، و بررسی contrast ratio.</td>
+        </tr>
+        <tr>
+          <td>U07</td>
+          <td><strong>ناوبری پیچیده</strong><br>منوهای سایدبار بسیار شلوغ و بدون دسته‌بندی واضح هستند.</td>
+          <td><span class="badge medium">متوسط</span></td>
+          <td>فایل‌های header</td>
+          <td><span class="phase-badge">فاز ۲</span></td>
+          <td>دسته‌بندی منو بر اساس نقش کاربر، جستجوی سریع (Command Palette).</td>
+        </tr>
+        <tr>
+          <td>U08</td>
+          <td><strong>عدم پشتیبانی PWA</strong><br>نسخه موبایل وب‌اپ است ولی قابلیت نصب و آفلاین ندارد.</td>
+          <td><span class="badge low">پایین</span></td>
+          <td>سراسری</td>
+          <td><span class="phase-badge">فاز ۳</span></td>
+          <td>Service Worker و manifest.json برای تبدیل به PWA.</td>
+        </tr>
+        <tr>
+          <td>U09</td>
+          <td><strong>جداول بدون Sort/Filter سمت کلاینت</strong><br>بسیاری از جداول امکان مرتب‌سازی و فیلتر ندارند.</td>
+          <td><span class="badge low">پایین</span></td>
+          <td>داشبوردهای متعدد</td>
+          <td><span class="phase-badge">فاز ۲</span></td>
+          <td>DataTables.js یا مشابه با پشتیبانی فارسی.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ========== CODE QUALITY ========== -->
+<div class="section">
+  <div class="section-header">
+    <div class="icon" style="background:rgba(6,182,212,0.1); color:var(--cyan);">🧹</div>
+    <h2>کیفیت کد و معماری</h2>
+    <span class="count">۸ مورد</span>
+  </div>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>شرح مشکل</th>
+          <th>شدت</th>
+          <th>محل</th>
+          <th>فاز</th>
+          <th>راهکار پیشنهادی</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Q01</td>
+          <td><strong>۳۴ فایل کپی/قدیمی (Dead Code)</strong><br>فایل‌هایی مانند <span class="code">* copy.php</span>، <span class="code">*old.php</span>، <span class="code">Copy of *.php</span> در production وجود دارند. ریسک امنیتی و سردرگمی.</td>
+          <td><span class="badge high">بالا</span></td>
+          <td>۳۴ فایل در ghom/ و pardis/</td>
+          <td><span class="phase-badge">فاز ۰</span></td>
+          <td>تمام فایل‌های کپی/قدیمی را حذف کنید. از Git برای نسخه‌بندی استفاده کنید.</td>
+        </tr>
+        <tr>
+          <td>Q02</td>
+          <td><strong>عدم استفاده از Version Control (ظاهراً)</strong><br>وجود فایل‌های «copy» و «old» نشان‌دهنده عدم استفاده صحیح از Git است.</td>
+          <td><span class="badge high">بالا</span></td>
+          <td>سراسری</td>
+          <td><span class="phase-badge">فاز ۰</span></td>
+          <td>مهاجرت به Git، تعریف .gitignore مناسب، و workflow مشخص (feature branches).</td>
+        </tr>
+        <tr>
+          <td>Q03</td>
+          <td><strong>تکرار شدید کد (DRY Violation)</strong><br>منطق مشابه در ghom و pardis تکرار شده. headerها ۱۵ نسخه دارند.</td>
+          <td><span class="badge high">بالا</span></td>
+          <td>تمام فایل‌های header، footer، API</td>
+          <td><span class="phase-badge">فاز ۲</span></td>
+          <td>کتابخانه مشترک (shared library) و معماری کامپوننتی ایجاد شود.</td>
+        </tr>
+        <tr>
+          <td>Q04</td>
+          <td><strong>نبود معماری مشخص (MVC/Service Layer)</strong><br>PHP/HTML/CSS/JS/SQL همه در یک فایل مخلوط شده‌اند.</td>
+          <td><span class="badge high">بالا</span></td>
+          <td>سراسری</td>
+          <td><span class="phase-badge">فاز ۳</span></td>
+          <td>جداسازی تدریجی به MVC: ابتدا Data Access Layer جدا شود، سپس Template و Logic.</td>
+        </tr>
+        <tr>
+          <td>Q05</td>
+          <td><strong>نبود Unit Test / Integration Test</strong><br>هیچ فایل تست خودکاری وجود ندارد.</td>
+          <td><span class="badge medium">متوسط</span></td>
+          <td>سراسری</td>
+          <td><span class="phase-badge">فاز ۳</span></td>
+          <td>PHPUnit را اضافه کنید. ابتدا تست‌ها را برای عملیات حیاتی بنویسید (login، save inspection).</td>
+        </tr>
+        <tr>
+          <td>Q06</td>
+          <td><strong>نبود Coding Standard</strong><br>سبک نام‌گذاری ناسازگار، بدون PSR compliance.</td>
+          <td><span class="badge medium">متوسط</span></td>
+          <td>سراسری</td>
+          <td><span class="phase-badge">فاز ۳</span></td>
+          <td>PHP CS Fixer / PHPStan اضافه شود. استاندارد PSR-12 رعایت شود.</td>
+        </tr>
+        <tr>
+          <td>Q07</td>
+          <td><strong>نبود مستندات</strong><br>هیچ README، API Doc، یا Architecture Doc وجود ندارد.</td>
+          <td><span class="badge medium">متوسط</span></td>
+          <td>سراسری</td>
+          <td><span class="phase-badge">فاز ۲</span></td>
+          <td>README.md، نمودار معماری، و Swagger/OpenAPI برای APIها ایجاد شود.</td>
+        </tr>
+        <tr>
+          <td>Q08</td>
+          <td><strong>عدم Error Logging یکپارچه</strong><br>لاگ‌ها پراکنده و بدون ساختار مشخص هستند.</td>
+          <td><span class="badge medium">متوسط</span></td>
+          <td>سراسری</td>
+          <td><span class="phase-badge">فاز ۱</span></td>
+          <td>Monolog یا مشابه برای لاگ ساختاریافته. فرمت JSON برای تحلیل.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ========== ROADMAP ========== -->
+<div class="section">
+  <div class="section-header">
+    <div class="icon" style="background:rgba(34,197,94,0.1); color:var(--green);">🗺️</div>
+    <h2>برنامه اصلاحی — نقشه راه فازبندی‌شده</h2>
+  </div>
+
+  <div class="phase-timeline">
+    <div class="phase-card p0">
+      <div class="phase-num">فاز ۰ — اورژانسی</div>
+      <h3>🚨 رفع فوری (۱ تا ۳ روز)</h3>
+      <div class="dur">اولویت: بحرانی — بدون تأخیر</div>
+      <ul>
+        <li>حذف <span class="code">info.php</span> از سرور</li>
+        <li>حذف <span class="code">localhost.sql.txt</span> از document root</li>
+        <li>Revoke و انتقال توکن تلگرام به .env</li>
+        <li>انتقال/مسدودسازی فایل‌های لاگ</li>
+        <li>حذف تمام فایل‌های test/debug از production</li>
+        <li>حذف ۳۴ فایل copy/old بلااستفاده</li>
+        <li>غیرفعال‌سازی display_errors در production</li>
+        <li>تغییر secret key کرون تلگرام</li>
+        <li>راه‌اندازی Git repository</li>
+      </ul>
+    </div>
+
+    <div class="phase-card p1">
+      <div class="phase-num">فاز ۱ — امنیت پایه</div>
+      <h3>🔒 تحکیم امنیتی (۱ تا ۳ هفته)</h3>
+      <div class="dur">اولویت: بالا — اسپرینت بعدی</div>
+      <ul>
+        <li>تبدیل تمام ۲۱۱ کوئری به Prepared Statement</li>
+        <li>اصلاح تمام نقاط XSS با htmlspecialchars</li>
+        <li>CSRF middleware مرکزی برای همه POST</li>
+        <li>Authorization middleware (role-based)</li>
+        <li>اعتبارسنجی فایل آپلود (whitelist + MIME)</li>
+        <li>اجبار HTTPS + HSTS header</li>
+        <li>CSP و security headers</li>
+        <li>Input validation layer مرکزی</li>
+        <li>Error handler یکپارچه + Monolog</li>
+        <li>Pagination سمت سرور برای لیست‌ها</li>
+      </ul>
+    </div>
+
+    <div class="phase-card p2">
+      <div class="phase-num">فاز ۲ — بهینه‌سازی</div>
+      <h3>⚡ کارایی و UX (۱ تا ۲ ماه)</h3>
+      <div class="dur">اولویت: متوسط — ارتقاء تجربه</div>
+      <ul>
+        <li>جداسازی CSS/JS به فایل‌های خارجی</li>
+        <li>ادغام headerهای تکراری (۱۵ → ۱ فایل responsive)</li>
+        <li>ادغام نسخه‌های Desktop و Mobile</li>
+        <li>Design System مشترک (CSS Variables)</li>
+        <li>رفع N+1 Query‌ها با JOIN</li>
+        <li>فعال‌سازی Gzip/Brotli compression</li>
+        <li>HTTP caching برای assetها</li>
+        <li>Auto-save فرم‌ها + loading indicators</li>
+        <li>Rate limiting روی APIها</li>
+        <li>مستندسازی (README + API docs)</li>
+      </ul>
+    </div>
+
+    <div class="phase-card p3">
+      <div class="phase-num">فاز ۳ — معماری</div>
+      <h3>🏗️ بازسازی ساختاری (۲ تا ۴ ماه)</h3>
+      <div class="dur">اولویت: بلندمدت — پایداری</div>
+      <ul>
+        <li>جداسازی معماری به MVC یا Service Layer</li>
+        <li>Shared library برای کد مشترک ghom/pardis</li>
+        <li>Asset bundling با Webpack/Vite</li>
+        <li>PHPUnit — تست عملیات حیاتی</li>
+        <li>Coding standard + PHPStan (static analysis)</li>
+        <li>PWA (Service Worker + manifest)</li>
+        <li>CI/CD pipeline (deploy خودکار)</li>
+        <li>Accessibility (WCAG 2.1 Level A)</li>
+        <li>Database connection pooling</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- Summary note -->
+<div class="exec-summary" style="margin-top:2rem; border-color: var(--accent); border-right: 4px solid var(--accent);">
+  <h3>📌 نکته کلیدی</h3>
+  <p>
+    <strong>فاز ۰ را همین امروز شروع کنید.</strong> حذف فایل‌های حساس (<span class="code">info.php</span>، <span class="code">localhost.sql.txt</span>، لاگ‌ها و توکن تلگرام) کمتر از ۱ ساعت زمان می‌برد ولی ریسک‌های بحرانی را فوراً برطرف می‌کند.
+  </p>
+  <p>
+    فاز ۱ (SQL Injection و XSS) مهم‌ترین بخش فنی است. ۲۱۱ کوئری ناامن باید اولویت اسپرینت بعدی باشد. بدون این اصلاح، سیستم در برابر حملات بسیار آسیب‌پذیر است.
+  </p>
+  <p>
+    فازهای ۲ و ۳ بهبود تدریجی هستند و می‌توانند موازی با توسعه قابلیت‌های جدید انجام شوند. هر فایل جدید باید از ابتدا طبق استانداردهای فاز ۲ و ۳ نوشته شود.
+  </p>
+</div>
+
+</div>
+</body>
+</html>

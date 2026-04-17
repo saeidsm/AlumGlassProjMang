@@ -1,0 +1,461 @@
+/* ghom/assets/css/mobile.css */
+@font-face {
+  font-family: "Samim";
+  src: url("/ghom/assets/fonts/Samim-FD.woff2") format("woff2"),
+    url("/ghom/assets/fonts/Samim-FD.woff") format("woff"),
+    url("/ghom/assets/fonts/Samim-FD.ttf") format("truetype");
+}
+
+:root {
+  --primary-color: #3f51b5;
+  --background-color: #f4f5f7;
+  --surface-color: #ffffff;
+  --on-surface-color: #212121;
+  --on-primary-color: #ffffff;
+  --bottom-nav-height: 60px;
+  --sheet-peek-height: 60%;
+}
+
+body,
+html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+  font-family: -apple-system, BlinkMacSystemFont, "Samim", "Tahoma", Roboto,
+    sans-serif;
+  background-color: var(--background-color);
+  overscroll-behavior: none;
+}
+
+#app-container {
+  display: flex;
+  flex-direction: column;
+  height: 80dvh;
+  width: 100vw;
+  overflow: hidden;
+}
+
+#main-view {
+  flex: 1;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  overflow: var(--bottom-nav-height);
+}
+
+#info-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 12px;
+  background-color: rgba(0, 0, 0, 0.7);
+  color: white;
+  font-size: 14px;
+  flex-shrink: 0;
+}
+#info-bar #backToPlanBtn {
+  background: var(--primary-color);
+  color: white;
+  border: none;
+  padding: 6px 10px;
+  border-radius: 4px;
+  font-size: 12px;
+}
+
+#svgContainer {
+  flex: 1;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  cursor: grab;
+  position: relative;
+  background-color: #e9e9e9;
+}
+#svgContainer.dragging {
+  cursor: grabbing;
+}
+#svgContainer svg {
+  width: 100%;
+  height: 100%;
+  transform-origin: 0 0;
+}
+.error-message {
+  color: red;
+  font-weight: bold;
+  text-align: center;
+  padding-top: 50px;
+}
+
+/* --- Bottom Navigation --- */
+#bottom-nav {
+  display: flex;
+  height: var(--bottom-nav-height, 60px);
+  background: var(--surface-color);
+  box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+  flex-shrink: 0;
+}
+.nav-button {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  color: var(--on-surface-color);
+  padding: 4px 0;
+  font-size: 12px;
+  opacity: 0.7;
+}
+.nav-button svg {
+  width: 24px;
+  height: 24px;
+  fill: currentColor;
+  margin-bottom: 4px;
+}
+
+/* --- Bottom Sheet --- */
+.bottom-sheet {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: var(--sheet-peek-height);
+  background: var(--surface-color);
+  border-top-left-radius: 16px;
+  border-top-right-radius: 16px;
+  box-shadow: 0 -4px 15px rgba(0, 0, 0, 0.2);
+  transform: translateY(100%);
+  transition: transform 0.3s ease-in-out;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+}
+.bottom-sheet.show {
+  transform: translateY(0);
+}
+.sheet-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  border-bottom: 1px solid #eee;
+  flex-shrink: 0;
+}
+.sheet-header h3 {
+  margin: 0;
+  font-size: 18px;
+}
+#sheet-close-btn {
+  font-size: 24px;
+  font-weight: bold;
+  background: none;
+  border: none;
+  color: #999;
+}
+#sheet-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px;
+}
+
+/* --- Sheet Content Styles --- */
+.sheet-controls-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 10px;
+}
+.sheet-controls-container button {
+  padding: 12px;
+  border: 1px solid #ccc;
+  background-color: #f0f0f0;
+  border-radius: 8px;
+  text-align: center;
+}
+.sheet-controls-container button.active {
+  background-color: var(--primary-color);
+  color: var(--on-primary-color);
+  border-color: var(--primary-color);
+}
+.sheet-controls-container button[data-status].active {
+  background-color: var(--status-color, var(--primary-color));
+}
+
+.sheet-nav-container h4 {
+  margin-top: 16px;
+  margin-bottom: 8px;
+  border-bottom: 2px solid var(--primary-color);
+  padding-bottom: 4px;
+}
+.sheet-nav-container ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.sheet-nav-container button,
+.sheet-nav-container a {
+  display: block;
+  width: 100%;
+  text-align: right;
+  padding: 12px;
+  background-color: #f9f9f9;
+  border: none;
+  border-bottom: 1px solid #eee;
+  font-size: 16px;
+  text-decoration: none;
+  color: var(--on-surface-color);
+}
+
+/* --- Full-Screen Form Popups --- */
+.form-popup-mobile,
+.drawer-modal-mobile {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: var(--background-color);
+  z-index: 2000;
+  display: none; /* Changed from visibility */
+  flex-direction: column;
+}
+.form-popup-mobile.show,
+.drawer-modal-mobile.show {
+  display: flex;
+}
+.form-header-new {
+  padding: 12px 16px;
+  background: var(--primary-color);
+  color: var(--on-primary-color);
+  flex-shrink: 0;
+  position: relative;
+}
+.form-header-new .close-mobile-form {
+  position: absolute;
+  top: 5px;
+  left: 10px;
+  font-size: 24px;
+  background: none;
+  border: none;
+  color: white;
+}
+.form-body-new {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px;
+}
+
+/* --- Loader --- */
+#loader-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.8);
+  z-index: 9999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.loader-spinner {
+  border: 8px solid #f3f3f3;
+  border-top: 8px solid var(--primary-color);
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  animation: spin 1s linear infinite;
+}
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+.stage-tabs-container {
+  display: flex; /* <-- This makes the buttons line up horizontally */
+  overflow-x: auto; /* <-- This makes the bar scroll if there are many tabs */
+  background-color: #f1f3f4;
+  border-bottom: 1px solid #dee2e6;
+  flex-shrink: 0;
+  -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+  scrollbar-width: none; /* Hide scrollbar on Firefox */
+}
+.stage-tabs-container::-webkit-scrollbar {
+  display: none;
+}
+.stage-tab-button {
+  padding: 14px 18px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  color: #5f6368;
+  white-space: nowrap; /* <-- This prevents button text from wrapping to a new line */
+  border-bottom: 3px solid transparent;
+  transition: all 0.2s ease-in-out;
+}
+.stage-tab-button.active {
+  color: var(--primary-color);
+  border-bottom-color: var(--primary-color);
+  background-color: #ffffff;
+}
+
+/* --- Tab Content --- */
+.stage-tab-content {
+  display: none;
+}
+.stage-tab-content.active {
+  display: block;
+}
+
+/* --- Checklist Item Rows --- */
+.item-row {
+  display: flex;
+  flex-direction: column;
+  padding: 12px 0;
+  border-bottom: 1px solid #e0e0e0;
+}
+.item-text {
+  font-weight: 500;
+  margin-bottom: 10px;
+}
+.item-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.checklist-input,
+.btn-draw {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+}
+.btn-draw {
+  background-color: #f0f0f0;
+  cursor: pointer;
+}
+
+/* --- OK / X Status Buttons (The main fix) --- */
+.status-selector-new {
+  display: flex;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  overflow: hidden;
+}
+.status-selector-new input[type="radio"] {
+  display: none; /* Hide the actual radio button */
+}
+.status-selector-new label {
+  padding: 8px 14px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 18px;
+  background-color: #f0f0f0;
+  color: #888;
+  transition: background-color 0.2s;
+}
+.status-selector-new label.ok {
+  border-left: 1px solid #ccc;
+}
+.status-selector-new input[type="radio"]:checked + label {
+  color: white;
+}
+.status-selector-new input[type="radio"][value="OK"]:checked + label {
+  background-color: #4caf50; /* Green for OK */
+}
+.status-selector-new input[type="radio"][value="Not OK"]:checked + label {
+  background-color: #f44336; /* Red for Not OK */
+}
+
+/* --- General Form Elements --- */
+.form-body-new {
+  padding: 0; /* Remove padding to allow content to go edge-to-edge */
+}
+.stage-content-container {
+  padding: 16px;
+}
+.form-group {
+  margin-bottom: 16px;
+}
+.form-group label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 500;
+  font-size: 14px;
+}
+.form-group input,
+.form-group select,
+.form-group textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box; /* Important */
+}
+.form-footer-new {
+  display: flex;
+  flex-direction: column-reverse; /* Save button on top */
+  gap: 10px;
+  padding: 16px;
+  background-color: #f5f5f5;
+  border-top: 1px solid #ddd;
+}
+.form-footer-new .btn {
+  padding: 14px;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: bold;
+}
+.form-footer-new .btn.save {
+  background-color: var(--primary-color);
+  color: white;
+}
+.form-footer-new .btn.cancel {
+  background-color: #e0e0e0;
+  color: #333;
+}
+@media (max-width: 600px) {
+  #gfrcSubPanelMenu {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 50vw;
+    max-width: 150px;
+    min-width: unset;
+    padding: 10px;
+    border-radius: 12px;
+    gap: 5px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  }
+
+  /* Make buttons larger and more touch-friendly */
+  #gfrcSubPanelMenu button {
+    padding: 8px;
+    font-size: 0.7rem;
+    text-align: center;
+    font-weight: 600;
+    background-color: #779ae6;
+  }
+
+  #gfrcSubPanelMenu button:not(.close-menu-btn):active {
+    transform: scale(0.98); /* Add a subtle press effect */
+  }
+
+  #gfrcSubPanelMenu .close-menu-btn {
+    padding: 8px;
+    font-size: 0.7rem;
+    background-color: #caf3b5;
+  }
+  #gfrcSubPanelMenu .close-menu-btn:hover {
+    background-color: #e9ecef; /* Slightly darker grey on hover */
+  }
+}

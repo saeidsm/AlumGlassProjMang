@@ -1,0 +1,18 @@
+{
+    "name": "hoore/includes",
+    "autoload": {
+        "psr-4": {
+            "Hoore\\Includes\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "hoore"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {
+        "phpoffice/phpspreadsheet": "^5.1",
+        "mpdf/mpdf": "^8.2"
+    }
+}
