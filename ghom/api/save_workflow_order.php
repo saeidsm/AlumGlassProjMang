@@ -5,14 +5,7 @@ header('Content-Type: application/json');
 require_once __DIR__ . '/../../../sercon/bootstrap.php';
 
 secureSession();
-if (!isLoggedIn()) {
-    http_response_code(401);
-    exit(json_encode(['status' => 'error', 'message' => 'Authentication required']));
-}
-if (!in_array($_SESSION['role'], ['admin', 'superuser'])) {
-    http_response_code(403);
-    exit(json_encode(['status' => 'error', 'message' => 'Access Denied']));
-}
+requireRole(['admin']);
 
 $data = json_decode(file_get_contents('php://input'), true);
 

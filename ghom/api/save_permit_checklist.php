@@ -4,20 +4,8 @@ header('Content-Type: application/json');
 require_once __DIR__ . '/../../../sercon/bootstrap.php';
 require_once __DIR__ . '/../includes/jdf.php';
 
-if (!isLoggedIn()) {
-    http_response_code(403);
-    exit(json_encode(['status'=>'error', 'message'=>'Unauthorized']));
-}
-
+requireRole(['admin', 'superuser', 'cat']);
 $userRole = $_SESSION['role'];
-
-// 1. Define allowed roles (Contractors MUST be allowed to fill the form)
-$allowedRoles = ['admin', 'superuser', 'noi', 'cat', 'car', 'coa', 'crs'];
-
-if (!in_array($userRole, $allowedRoles)) {
-    http_response_code(403);
-    exit(json_encode(['status'=>'error', 'message'=>'دسترسی غیرمجاز.']));
-}
 
 $data = json_decode(file_get_contents('php://input'), true);
 $pdo = getProjectDBConnection('ghom');

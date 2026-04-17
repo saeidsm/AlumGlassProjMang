@@ -2,7 +2,7 @@
 // ghom/admin_metrics.php
 require_once __DIR__ . '/../../sercon/bootstrap.php';
 secureSession();
-if ($_SESSION['role'] !== 'superuser') die("Access Denied");
+requireRole(['admin']);
 $pdo = getProjectDBConnection('ghom');
 
 $msg = '';

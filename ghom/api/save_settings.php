@@ -3,15 +3,8 @@
 header('Content-Type: application/json');
 require_once __DIR__ . '/../../../sercon/bootstrap.php';
 
-if (!isLoggedIn()) exit(json_encode(['status'=>'error', 'message'=>'Auth required']));
-require_once __DIR__ . '/../../includes/security.php';
+requireRole(['admin']);
 requireCsrf();
-
-// --- SECURITY CHECK ---
-if ($_SESSION['role'] !== 'superuser') {
-    http_response_code(403);
-    exit(json_encode(['status'=>'error', 'message'=>'دسترسی غیرمجاز. فقط مدیر ارشد مجاز است.']));
-}
 
 $pdo = getProjectDBConnection('ghom');
 

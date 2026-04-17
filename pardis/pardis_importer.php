@@ -12,15 +12,7 @@ if (($_SESSION['current_project_config_key'] ?? null) !== $expected_project_key)
     exit();
 }
 
-if (!isLoggedIn()) {
-    header('Location: /login.php');
-    exit();
-}
-
-$allowed_roles = ['admin', 'superuser', 'planner'];
-if (!isset($_SESSION['user_id']) || !in_array($_SESSION['role'], $allowed_roles)) {
-    exit('Access Denied. You do not have permission for this page.');
-}
+requireRole(['admin']);
 
 
 if (isset($_GET['action']) && $_GET['action'] === 'download_sample') {

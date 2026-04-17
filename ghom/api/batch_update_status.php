@@ -18,10 +18,7 @@ function logWorkflow($message)
 }
 
 if (session_status() == PHP_SESSION_NONE) session_start();
-if (!isLoggedIn()) {
-    http_response_code(403);
-    exit(json_encode(['status' => 'error', 'message' => 'Forbidden']));
-}
+requireRole(['admin', 'superuser']);
 
 function jalali_to_gregorian_for_db($jalali_date)
 {

@@ -2,11 +2,7 @@
 // ghom/admin_reports.php
 require_once __DIR__ . '/../../sercon/bootstrap.php';
 secureSession();
-
-$user_role = $_SESSION['role'];
-if (!in_array($user_role, ['superuser', 'pco', 'admin'])) {
-    die("Access Denied");
-}
+requireRole(['admin']);
 
 $pdo = getProjectDBConnection('ghom');
 $pageTitle = "مدیریت گزارشات پروژه";

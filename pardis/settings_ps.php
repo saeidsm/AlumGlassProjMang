@@ -3,8 +3,7 @@
 require_once __DIR__ . '/../../sercon/bootstrap.php';
 
 secureSession();
-if (!isLoggedIn()) { header('Location: /login.php'); exit(); }
-if (!in_array($_SESSION['role'], ['admin', 'superuser'])) { die('دسترسی محدود شده است.'); }
+requireRole(['admin']);
 
 $pdo = getProjectDBConnection('pardis');
 $report_id = $_GET['id'] ?? null;

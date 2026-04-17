@@ -1,7 +1,7 @@
 <?php
 // ghom/create_permit.php
 require_once __DIR__ . '/../../sercon/bootstrap.php';
-if (!isLoggedIn()) die("Access Denied");
+requireRole(['admin', 'superuser', 'cat', 'crs']);
 ?>
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
