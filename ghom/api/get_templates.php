@@ -3,7 +3,10 @@
 header('Content-Type: application/json');
 require_once __DIR__ . '/../../../sercon/bootstrap.php';
 secureSession();
-// Admin check can be added here as well
+if (!isLoggedIn()) {
+    http_response_code(401);
+    exit(json_encode(['status' => 'error', 'message' => 'Authentication required']));
+}
 try {
     $pdo = getProjectDBConnection('ghom');
     $stmt = $pdo->query("SELECT template_id, template_name, element_type FROM checklist_templates ORDER BY template_name");

@@ -3,6 +3,10 @@
 header('Content-Type: application/json');
 require_once __DIR__ . '/../../../sercon/bootstrap.php';
 secureSession();
+if (!isLoggedIn()) {
+    http_response_code(401);
+    exit(json_encode(['status' => 'error', 'message' => 'Authentication required']));
+}
 
 $stage_id = filter_input(INPUT_GET, 'stage_id', FILTER_VALIDATE_INT);
 $plan_file = filter_input(INPUT_GET, 'plan', FILTER_DEFAULT);

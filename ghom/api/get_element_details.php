@@ -2,6 +2,11 @@
 // /ghom/api/get_element_details.php
 header('Content-Type: application/json');
 require_once __DIR__ . '/../../../sercon/bootstrap.php';
+secureSession();
+if (!isLoggedIn()) {
+    http_response_code(401);
+    exit(json_encode(['status' => 'error', 'message' => 'Authentication required']));
+}
 
 // Check for required parameter
 if (!isset($_GET['id'])) {

@@ -2,6 +2,10 @@
 // /ghom/view_permit_details.php (CORRECTED FILE PATH)
 require_once __DIR__ . '/../../sercon/bootstrap.php';
 secureSession();
+if (!isLoggedIn()) {
+    http_response_code(401);
+    exit(json_encode(['status' => 'error', 'message' => 'Authentication required']));
+}
 
 if (!in_array($_SESSION['role'], ['admin', 'superuser'])) {
     http_response_code(403);

@@ -4,6 +4,10 @@
 header('Content-Type: application/json');
 require_once __DIR__ . '/../../../sercon/bootstrap.php';
 secureSession();
+if (!isLoggedIn()) {
+    http_response_code(401);
+    exit(json_encode(['status' => 'error', 'message' => 'Authentication required']));
+}
 
 // --- Security and Validation ---
 if (!in_array($_SESSION['role'], ['admin', 'superuser'])) {

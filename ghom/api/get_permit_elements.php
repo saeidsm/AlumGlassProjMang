@@ -3,13 +3,11 @@
 header('Content-Type: application/json');
 require_once __DIR__ . '/../../../sercon/bootstrap.php';
 
-// 1. Ensure Session is Started (Fix for $_SESSION error)
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
+secureSession();
+if (!isLoggedIn()) {
+    http_response_code(401);
+    exit(json_encode(['status' => 'error', 'message' => 'Authentication required']));
 }
-
-// Optional: Auth Check
-// if (!isset($_SESSION['user_id'])) { echo json_encode(['error' => 'Auth required']); exit; }
 
 $pdo = getProjectDBConnection('ghom');
 $id = $_GET['permit_id'] ?? 0;
