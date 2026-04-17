@@ -13,13 +13,14 @@ try {
     $pdo = getProjectDBConnection('ghom');
     $user_id = $_SESSION['user_id'] ?? 0;
 
-    // 1. AUTO-MIGRATION: Create Columns
-    $required_columns = ['logo_right', 'logo_middle', 'logo_left'];
-    foreach ($required_columns as $col) {
+    // 1. AUTO-MIGRATION: Create Columns (whitelisted — safe to interpolate)
+    $allowedColumns = ['logo_right', 'logo_middle', 'logo_left'];
+    foreach ($allowedColumns as $col) {
+        $safeCol = '`' . $col . '`'; // $col is from hardcoded whitelist above
         try {
-            $pdo->query("SELECT $col FROM print_settings LIMIT 1");
+            $pdo->query("SELECT " . $safeCol . " FROM print_settings LIMIT 1");
         } catch (PDOException $e) {
-            $pdo->exec("ALTER TABLE print_settings ADD COLUMN $col VARCHAR(255) DEFAULT ''");
+            $pdo->exec("ALTER TABLE print_settings ADD COLUMN " . $safeCol . " VARCHAR(255) DEFAULT ''");
         }
     }
 

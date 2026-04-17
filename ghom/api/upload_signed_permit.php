@@ -67,7 +67,9 @@ try {
     $p = $stmtInfo->fetch(PDO::FETCH_ASSOC);
 
     // Get Plan File for link
-    $planFile = $pdo->query("SELECT plan_file FROM elements WHERE element_id = '{$p['el_id']}'")->fetchColumn();
+    $stmtPlan = $pdo->prepare("SELECT plan_file FROM elements WHERE element_id = ?");
+    $stmtPlan->execute([$p['el_id']]);
+    $planFile = $stmtPlan->fetchColumn();
     $planFilename = $planFile ? basename($planFile) : 'Plan.svg';
 
     $group_info = [

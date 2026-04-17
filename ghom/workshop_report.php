@@ -43,8 +43,9 @@ try {
     $operator_ids = array_unique(array_filter(array_column($all_qc_data, 'qc_operator_id')));
     $users_map = [];
     if (!empty($operator_ids)) {
-        $ids = implode(',', $operator_ids);
-        $uStmt = $commonConn->query("SELECT id, first_name, last_name, username FROM users WHERE id IN ($ids)");
+        $placeholders = implode(',', array_fill(0, count($operator_ids), '?'));
+        $uStmt = $commonConn->prepare("SELECT id, first_name, last_name, username FROM users WHERE id IN ($placeholders)");
+        $uStmt->execute(array_values($operator_ids));
         while ($u = $uStmt->fetch(PDO::FETCH_ASSOC)) {
             $name = trim(($u['first_name']??'') . ' ' . ($u['last_name']??''));
             $users_map[$u['id']] = $name ?: $u['username'];
