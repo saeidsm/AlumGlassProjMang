@@ -1,0 +1,11 @@
+parameters:
+    level: 3
+    paths:
+        - shared/
+        - includes/
+    excludePaths:
+        - pardis/includes/mpdf/
+        - pardis/includes/libraries/
+        - shared/includes/jdf.php
+    reportUnmatchedIgnoredErrors: false
+    treatPhpDocTypesAsCertain: false

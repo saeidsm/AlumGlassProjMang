@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<ruleset name="AlumGlass">
+    <description>PSR-12 baseline for shared library code.</description>
+
+    <file>shared/</file>
+    <file>includes/</file>
+
+    <exclude-pattern>*/mpdf/*</exclude-pattern>
+    <exclude-pattern>*/libraries/*</exclude-pattern>
+    <exclude-pattern>shared/includes/jdf.php</exclude-pattern>
+    <exclude-pattern>vendor/*</exclude-pattern>
+
+    <arg name="extensions" value="php"/>
+    <arg name="colors"/>
+    <arg value="p"/>
+
+    <rule ref="PSR12">
+        <exclude name="PSR1.Files.SideEffects.FoundWithSymbols"/>
+    </rule>
+</ruleset>
