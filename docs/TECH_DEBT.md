@@ -13,7 +13,7 @@
 | 🔴 باز — بحرانی | 12 | نیاز به رفع فوری |
 | 🟠 باز — بالا | 14 | اسپرینت جاری |
 | 🟡 باز — متوسط | 11 | برنامه‌ریزی شده |
-| 🟢 رفع شده | 0 | تکمیل شده |
+| 🟢 رفع شده | 5 | تکمیل شده (Phase 0) |
 
 ---
 
@@ -229,7 +229,12 @@
 
 | تاریخ | شناسه | اقدام | commit |
 |--------|--------|--------|--------|
-| — | — | — | — |
+| 2026-04-17 | Phase-0 | Removed info.php, localhost.sql.txt (gitignored) | phase-0 branch |
+| 2026-04-17 | Phase-0 | Removed 37 copy/old/dead files | phase-0 branch |
+| 2026-04-17 | Phase-0 | Removed 6 debug/test files | phase-0 branch |
+| 2026-04-17 | Phase-0 | Moved log files to logs/ directory | phase-0 branch |
+| 2026-04-17 | Phase-0 | Moved 3 hardcoded secrets to env vars | phase-0 branch |
+| 2026-04-17 | Phase-0 | Disabled display_errors in 3 files | phase-0 branch |
 
 ---
 

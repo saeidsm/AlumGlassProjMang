@@ -8,31 +8,33 @@
 
 ## [Unreleased]
 
-### Phase 0 — Emergency Fixes
+### Phase 0 — Emergency Fixes (2026-04-17)
 #### Removed
-- [ ] `info.php` — phpinfo() exposure
-- [ ] `localhost.sql.txt` — database dump in document root
-- [ ] 34 copy/old/dead files
-- [ ] Debug/test files from production
-- [ ] Log files from document root
+- [x] `info.php` — phpinfo() exposure (gitignored, deleted from disk)
+- [x] `localhost.sql.txt` — database dump (gitignored, deleted from disk)
+- [x] 37 copy/old/dead files across ghom/, pardis/, root
+- [x] 6 debug/test files (debug_test, vv, final_test, test_telegram_proxy, test_weather, test_webhook)
+- [x] Log files moved from document root to `logs/`
 
 #### Added
-- [ ] `.env.example` — environment template
-- [ ] `.gitignore` — proper exclusions
-- [ ] `docs/ARCHITECTURE.md` — system architecture
-- [ ] `docs/TECH_DEBT.md` — technical debt registry
-- [ ] `docs/SETUP.md` — installation guide
-- [ ] `docs/CHANGELOG.md` — this file
+- [x] `.env.example` — environment template
+- [x] `.gitignore` — proper exclusions (logs, sql, env, IDE files)
+- [x] `docs/ARCHITECTURE.md` — system architecture
+- [x] `docs/TECH_DEBT.md` — technical debt registry
+- [x] `docs/SETUP.md` — installation guide
+- [x] `docs/CHANGELOG.md` — this file
+- [x] `logs/` directory structure (outside document root)
 
 #### Changed
-- [ ] Telegram tokens moved to `.env`
-- [ ] Cron secret key moved to `.env`
-- [ ] `display_errors` disabled in all files
+- [x] Telegram bot tokens moved to `getenv('TELEGRAM_BOT_TOKEN')`
+- [x] Cron secret key moved to `getenv('TELEGRAM_CRON_SECRET')`
+- [x] `display_errors` disabled in api/send_message.php, ghom/upload_weekly_data.php, api/get_new_messages.php
 
 #### Security
-- [ ] Removed exposed credentials from source code
-- [ ] Removed publicly accessible log files
-- [ ] Removed debug endpoints
+- [x] Removed 2 hardcoded Telegram bot tokens from source code
+- [x] Removed hardcoded cron secret key from source code
+- [x] Removed publicly accessible log files from document root
+- [x] Removed debug/test endpoints that expose system internals
 
 ---
 
@@ -69,5 +71,4 @@
 
 | نسخه | تاریخ | شرح |
 |------|--------|------|
-| 0.1.0 | 1405/01/27 | Initial Git commit — cleaned codebase |
-| — | — | — |
+| 0.1.0 | 2026-04-17 | Phase 0 — Emergency fixes, cleanup, secrets removal |
