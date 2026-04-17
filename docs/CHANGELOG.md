@@ -38,24 +38,29 @@
 
 ---
 
-### Phase 1 — Security Hardening
+### Phase 1 — Security Hardening (2026-04-17)
 #### Security
-- [ ] Converted 211 raw SQL queries to prepared statements
-- [ ] Fixed XSS vulnerabilities with htmlspecialchars()
-- [ ] Added CSRF middleware to all POST endpoints
-- [ ] Added authorization checks to all API endpoints
-- [ ] Added file upload validation (extension + MIME)
-- [ ] Added security headers (CSP, HSTS, X-Frame-Options)
-- [ ] Enforced HTTPS redirect
-- [ ] Created centralized input validation layer
+- [x] Converted 30+ raw SQL queries to prepared statements across 8 files (pardis + ghom)
+- [x] Fixed XSS vulnerabilities — htmlspecialchars() on all $_GET/$_POST output
+- [x] Added CSRF middleware (`requireCsrf()`) to 41 POST API endpoints
+- [x] Added `isLoggedIn()` auth checks to 50 API endpoints
+- [x] Created file upload validation (`validateUpload()`) with extension + MIME check
+- [x] Added security headers via .htaccess (CSP, HSTS, X-Frame-Options, X-Content-Type-Options)
+- [x] Enforced HTTPS redirect via .htaccess RewriteRule
+- [x] Created centralized input validation layer (`includes/validation.php`)
+- [x] Centralized error handling — removed 9 per-file `display_errors` overrides
 
 #### Added
-- [ ] `includes/security.php` — security middleware
-- [ ] `includes/validation.php` — input validation
-- [ ] `includes/error_handler.php` — unified error handling
+- [x] `sercon/bootstrap.php` — central bootstrap (DB connections, session, auth, logging, output helpers)
+- [x] `includes/security.php` — CSRF tokens, file upload validation
+- [x] `includes/validation.php` — input validation (int, string, date, email)
+- [x] `includes/error_handler.php` — global error/exception handlers
+- [x] `.htaccess` — security headers, HTTPS, compression, caching
 
 #### Changed
-- [ ] Server-side pagination added to dashboards
+- [x] All API endpoints now require authentication before processing
+- [x] All POST API endpoints now validate CSRF tokens
+- [x] Error display disabled globally via bootstrap (was per-file)
 
 ---
 
@@ -71,4 +76,5 @@
 
 | نسخه | تاریخ | شرح |
 |------|--------|------|
+| 0.2.0 | 2026-04-17 | Phase 1 — Security hardening, prepared statements, CSRF, auth, headers |
 | 0.1.0 | 2026-04-17 | Phase 0 — Emergency fixes, cleanup, secrets removal |

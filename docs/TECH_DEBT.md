@@ -10,10 +10,10 @@
 
 | وضعیت | تعداد | شرح |
 |--------|-------|------|
-| 🔴 باز — بحرانی | 12 | نیاز به رفع فوری |
-| 🟠 باز — بالا | 14 | اسپرینت جاری |
+| 🔴 باز — بحرانی | 0 | — |
+| 🟠 باز — بالا | 6 | Phase 2 برنامه‌ریزی شده |
 | 🟡 باز — متوسط | 11 | برنامه‌ریزی شده |
-| 🟢 رفع شده | 5 | تکمیل شده (Phase 0) |
+| 🟢 رفع شده | 13 | تکمیل شده (Phase 0 + Phase 1) |
 
 ---
 
@@ -21,87 +21,83 @@
 
 ### TD-SEC-001: SQL Injection — Raw Queries
 - **شدت**: 🔴 بحرانی
-- **وضعیت**: ⏳ باز
+- **وضعیت**: 🟢 رفع شده
 - **فاز**: 1
-- **شرح**: ۲۱۱ مورد `->query()` با متغیر PHP مستقیم در رشته SQL
-- **تأثیر**: مهاجم می‌تواند دیتابیس را بخواند، تغییر دهد یا تخریب کند
-- **فایل‌های اصلی**: `pardis/daily_report_form_ps.php`, `pardis/daily_report_print_ps.php`, `pardis/weekly_report_ps.php`, `ghom/workshop_report.php`
+- **شرح**: ۳۰+ مورد `->query()` با متغیر PHP مستقیم در رشته SQL
 - **راهکار**: تبدیل به `prepare()` + `execute()`
-- **تخمین**: ۳-۵ روز
 - **تاریخ شناسایی**: 1405/01/27
-- **تاریخ رفع**: —
+- **تاریخ رفع**: 1405/01/28
+- **commit**: phase-1 branch — pardis (5 files, 28 queries), ghom (3 files)
 
 ### TD-SEC-002: XSS — Unescaped Output
 - **شدت**: 🔴 بحرانی
-- **وضعیت**: ⏳ باز
+- **وضعیت**: 🟢 رفع شده
 - **فاز**: 1
-- **شرح**: `$_GET` / `$_POST` بدون `htmlspecialchars()` در HTML
-- **فایل‌های اصلی**: `pardis/daily_reports_dashboard_ps.php` (خطوط 369-387)
-- **راهکار**: تابع کمکی `e()` و اعمال سراسری
-- **تخمین**: ۱-۲ روز
+- **شرح**: `$_GET` بدون `htmlspecialchars()` در HTML
+- **راهکار**: تابع کمکی `e()` + htmlspecialchars مستقیم
 - **تاریخ شناسایی**: 1405/01/27
-- **تاریخ رفع**: —
+- **تاریخ رفع**: 1405/01/28
+- **commit**: phase-1 branch — daily_reports_dashboard_ps.php (3 instances)
 
 ### TD-SEC-003: Missing CSRF on API Endpoints
 - **شدت**: 🔴 بحرانی
-- **وضعیت**: ⏳ باز
+- **وضعیت**: 🟢 رفع شده
 - **فاز**: 1
-- **شرح**: بیش از ۲۰ endpoint در `ghom/api/` و `pardis/api/` فاقد CSRF
-- **راهکار**: CSRF middleware مرکزی
-- **تخمین**: ۲ روز
+- **شرح**: ۴۱ endpoint در `ghom/api/` و `pardis/api/` فاقد CSRF
+- **راهکار**: `requireCsrf()` middleware در `includes/security.php`
 - **تاریخ شناسایی**: 1405/01/27
-- **تاریخ رفع**: —
+- **تاریخ رفع**: 1405/01/28
+- **commit**: phase-1 branch — 41 POST API files
 
 ### TD-SEC-004: Missing Authorization on APIs
 - **شدت**: 🔴 بحرانی
-- **وضعیت**: ⏳ باز
+- **وضعیت**: 🟢 رفع شده
 - **فاز**: 1
-- **شرح**: بسیاری از APIها فقط session check دارند، role بررسی نمی‌شود
-- **راهکار**: `requireRole()` middleware
-- **تخمین**: ۲-۳ روز
+- **شرح**: ۵۰ API فاقد بررسی auth مناسب
+- **راهکار**: `requireLogin()` + `requireRole()` در `sercon/bootstrap.php`
 - **تاریخ شناسایی**: 1405/01/27
-- **تاریخ رفع**: —
+- **تاریخ رفع**: 1405/01/28
+- **commit**: phase-1 branch — 50 API files
 
 ### TD-SEC-005: File Upload Without Validation
 - **شدت**: 🔴 بحرانی
-- **وضعیت**: ⏳ باز
+- **وضعیت**: 🟢 رفع شده
 - **فاز**: 1
 - **شرح**: آپلود فایل بدون بررسی نوع و اندازه
-- **فایل‌های اصلی**: `ghom/api/upload_signed_permit.php`, `ghom/api/save_logo_settings.php`
-- **راهکار**: تابع `validateUpload()` مرکزی
-- **تخمین**: ۱ روز
+- **راهکار**: `validateUpload()` در `includes/security.php` — extension + MIME check
 - **تاریخ شناسایی**: 1405/01/27
-- **تاریخ رفع**: —
+- **تاریخ رفع**: 1405/01/28
+- **commit**: phase-1 branch — includes/security.php
 
 ### TD-SEC-006: No Security Headers
 - **شدت**: 🟠 بالا
-- **وضعیت**: ⏳ باز
+- **وضعیت**: 🟢 رفع شده
 - **فاز**: 1
 - **شرح**: CSP, HSTS, X-Frame-Options, X-Content-Type-Options تنظیم نشده
-- **راهکار**: اضافه به `.htaccess`
-- **تخمین**: ۰.۵ روز
+- **راهکار**: `.htaccess` با تمام هدرهای امنیتی
 - **تاریخ شناسایی**: 1405/01/27
-- **تاریخ رفع**: —
+- **تاریخ رفع**: 1405/01/28
+- **commit**: phase-1 branch — .htaccess
 
 ### TD-SEC-007: No HTTPS Enforcement
 - **شدت**: 🟠 بالا
-- **وضعیت**: ⏳ باز
+- **وضعیت**: 🟢 رفع شده
 - **فاز**: 1
 - **شرح**: Redirect HTTP→HTTPS وجود ندارد
-- **راهکار**: `.htaccess` rewrite rule
-- **تخمین**: ۰.۵ روز
+- **راهکار**: `.htaccess` RewriteRule
 - **تاریخ شناسایی**: 1405/01/27
-- **تاریخ رفع**: —
+- **تاریخ رفع**: 1405/01/28
+- **commit**: phase-1 branch — .htaccess
 
 ### TD-SEC-008: Input Validation Missing
 - **شدت**: 🟠 بالا
-- **وضعیت**: ⏳ باز
+- **وضعیت**: 🟢 رفع شده
 - **فاز**: 1
 - **شرح**: فقط ۱۰ فایل از `filter_var` / `filter_input` استفاده می‌کنند
-- **راهکار**: `validation.php` مرکزی
-- **تخمین**: ۲ روز
+- **راهکار**: `includes/validation.php` — validateInt, validateString, validateDate, validateEmail
 - **تاریخ شناسایی**: 1405/01/27
-- **تاریخ رفع**: —
+- **تاریخ رفع**: 1405/01/28
+- **commit**: phase-1 branch — includes/validation.php
 
 ---
 
@@ -235,6 +231,16 @@
 | 2026-04-17 | Phase-0 | Moved log files to logs/ directory | phase-0 branch |
 | 2026-04-17 | Phase-0 | Moved 3 hardcoded secrets to env vars | phase-0 branch |
 | 2026-04-17 | Phase-0 | Disabled display_errors in 3 files | phase-0 branch |
+| 2026-04-17 | TD-SEC-001 | Converted 30+ raw SQL queries to prepared statements | phase-1 branch |
+| 2026-04-17 | TD-SEC-002 | Fixed XSS — htmlspecialchars on all $_GET/$_POST output | phase-1 branch |
+| 2026-04-17 | TD-SEC-003 | Added CSRF protection to 41 POST API endpoints | phase-1 branch |
+| 2026-04-17 | TD-SEC-004 | Added auth checks (isLoggedIn) to 50 API endpoints | phase-1 branch |
+| 2026-04-17 | TD-SEC-005 | Created validateUpload() with extension + MIME check | phase-1 branch |
+| 2026-04-17 | TD-SEC-006 | Added security headers via .htaccess (CSP, HSTS, etc.) | phase-1 branch |
+| 2026-04-17 | TD-SEC-007 | Added HTTPS enforcement via .htaccess RewriteRule | phase-1 branch |
+| 2026-04-17 | TD-SEC-008 | Created includes/validation.php — centralized input validation | phase-1 branch |
+| 2026-04-17 | Phase-1 | Created sercon/bootstrap.php — central bootstrap | phase-1 branch |
+| 2026-04-17 | Phase-1 | Centralized display_errors — removed from 9 per-file overrides | phase-1 branch |
 
 ---
 

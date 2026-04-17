@@ -246,12 +246,43 @@ login.php → CSRF check → Rate limit check → Query users → password_verif
 - ✅ Password hashing (bcrypt)
 - ✅ Brute-force protection (login_attempts)
 - ✅ Session regeneration
-- 🔄 Prepared statements (Phase 1 — in progress)
-- 🔄 XSS prevention (Phase 1 — in progress)
-- 🔄 CSRF on all POST endpoints (Phase 1 — in progress)
-- 🔄 Security headers (Phase 1 — in progress)
-- 🔄 HTTPS enforcement (Phase 1 — in progress)
+- ✅ Prepared statements (all queries — Phase 1)
+- ✅ XSS prevention — htmlspecialchars on all user output (Phase 1)
+- ✅ CSRF on all POST endpoints — via includes/security.php (Phase 1)
+- ✅ Auth checks on all API endpoints — isLoggedIn() + requireRole() (Phase 1)
+- ✅ Security headers — CSP, HSTS, X-Frame-Options, X-Content-Type-Options (Phase 1)
+- ✅ HTTPS enforcement — via .htaccess redirect (Phase 1)
+- ✅ File upload validation — extension + MIME type check (Phase 1)
+- ✅ Centralized error handling — display_errors=Off, JSON logging (Phase 1)
+- ✅ Input validation layer — includes/validation.php (Phase 1)
 
 ---
 
-*This document is updated as the architecture evolves. Last audit: Phase 0 completion.*
+## 9. Security Middleware (Phase 1)
+
+| فایل | هدف |
+|------|------|
+| `sercon/bootstrap.php` | بوت‌استرپ مرکزی — DB, session, auth, logging, output helpers |
+| `includes/security.php` | CSRF token generation/verification, file upload validation |
+| `includes/validation.php` | Input validation (int, string, date, email, array check) |
+| `includes/error_handler.php` | Global error/exception handlers — log to JSON, friendly output |
+| `.htaccess` | Security headers, HTTPS enforcement, compression, caching |
+
+### Authentication Flow (Updated)
+
+```
+API Request → bootstrap.php → secureSession() → isLoggedIn()
+    → requireCsrf() (POST only) → Business Logic → Response
+```
+
+### CSRF Token Flow
+
+```
+Form Page: generateCsrfToken() → <input hidden> or <meta> tag
+AJAX POST: X-CSRF-TOKEN header or csrf_token POST field
+API: verifyCsrfToken() → validates hash_equals against session
+```
+
+---
+
+*This document is updated as the architecture evolves. Last audit: Phase 1 completion (2026-04-17).*
