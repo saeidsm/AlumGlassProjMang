@@ -2,7 +2,6 @@
 // api/get_new_messages.php
 
 error_reporting(0);
-ini_set('display_errors', 0);
 
 // Set content type BEFORE any output
 header('Content-Type: application/json');

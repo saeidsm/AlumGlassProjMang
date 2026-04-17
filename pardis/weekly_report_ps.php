@@ -55,7 +55,6 @@ function getRoleCategory($role) {
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['generate_zip'])) {
     
     error_reporting(0);
-    ini_set('display_errors', 0);
 
     $date_from_j = $_POST['date_from'];
     $date_to_j = $_POST['date_to'];

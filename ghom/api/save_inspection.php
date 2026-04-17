@@ -2,7 +2,6 @@
 // ===================================================================
 // DEBUG ENHANCED save_inspection.php - FIXED VERSION
 // ===================================================================
-ini_set('display_errors', 0);
 ob_start();
 header('Content-Type: application/json');
 
