@@ -177,3 +177,40 @@ function e(?string $str): string {
 // ── 8. Include error handler + security helpers ──
 require_once __DIR__ . '/../includes/error_handler.php';
 require_once __DIR__ . '/../includes/security.php';
+
+// ── 9. Repository factory ──
+/**
+ * Lazy repository factory.
+ *
+ * Usage:
+ *   $users = getRepository('UserRepository')->findByIds([1, 2, 3]);
+ *   $elem  = getRepository('ElementRepository')->findById('A1');
+ *
+ * Repositories that query a project database resolve to the current
+ * project via getCurrentProject() (see shared/includes/project_context.php).
+ */
+function getRepository(string $class): object
+{
+    static $instances = [];
+    if (isset($instances[$class])) {
+        return $instances[$class];
+    }
+
+    require_once __DIR__ . '/../shared/repositories/' . $class . '.php';
+    require_once __DIR__ . '/../shared/includes/project_context.php';
+
+    switch ($class) {
+        case 'UserRepository':
+            $instances[$class] = new UserRepository(getCommonDBConnection());
+            break;
+        case 'ElementRepository':
+        case 'InspectionRepository':
+        case 'DailyReportRepository':
+            $instances[$class] = new $class(getProjectDB());
+            break;
+        default:
+            throw new InvalidArgumentException("Unknown repository: $class");
+    }
+
+    return $instances[$class];
+}
