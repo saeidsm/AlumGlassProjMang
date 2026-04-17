@@ -7,7 +7,7 @@
 
 return [
     // Your Telegram Bot Token (from @BotFather)
-    'bot_token' => '8488060252:AAEiXEMhCO4DPFiZo_uRUNS3anUdp96OmfU', 
+    'bot_token' => getenv('TELEGRAM_BOT_TOKEN') ?: '',
      'proxy_url' => 'https://pt.sabaat.ir',
     // Your Telegram Group/Chat ID (negative number for groups)
     'chat_id' => '104884775', 

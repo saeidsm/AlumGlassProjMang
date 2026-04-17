@@ -8,7 +8,7 @@ require_once __DIR__ . '/includes/TelegramBot.php';
 require_once __DIR__ . '/includes/WeatherService.php';
 
 // Security: Only allow execution from command line or with secret key
-$secret_key = 'XyZ7mK2pQ7wR4nL8aT3WF6gH1jD5bN0c'; // CHANGE THIS!
+$secret_key = getenv('TELEGRAM_CRON_SECRET') ?: '';
 
 if (php_sapi_name() !== 'cli') {
     // Web request - check for secret key

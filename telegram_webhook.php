@@ -1,7 +1,7 @@
 <?php
 //public_html/telegram_webhook.php
 // --- Configuration ---
-define('TELEGRAM_BOT_TOKEN', '7971076421:AAEp9HpGooR-JXnypvC73qZtG03BZ4biu-A'); // Replace with your Bot Token
+define('TELEGRAM_BOT_TOKEN', getenv('TELEGRAM_BOT_TOKEN') ?: ''); // Set in .env
 
 // **IMPORTANT:** Paths MUST be absolute paths on your server.
 // Find your cPanel username: often visible in the File Manager path.
