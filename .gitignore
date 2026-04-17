@@ -57,3 +57,5 @@ info.php
 # Cache
 /cache/
 *.cache
+composer.lock
+/.phpunit.cache
