@@ -1406,6 +1406,7 @@ if (!function_exists('getActiveClass')) {
     <script src="/assets/js/persian-datepicker.min.js"></script>
     <script src="/assets/js/mobile-detect.min.js"></script>
     <script src="/pardis/assets/js/weather_integration.js"></script>
+    <script src="/assets/js/csrf-injector.js"></script>
 </head>
 
 <body>

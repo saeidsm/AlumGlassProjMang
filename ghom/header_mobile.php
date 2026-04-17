@@ -65,6 +65,7 @@ if ($pdo_common_header && isset($_SESSION['user_id'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="csrf-token" content="<?php echo htmlspecialchars(generateCsrfToken(), ENT_QUOTES, 'UTF-8'); ?>">
     <title><?php echo isset($pageTitle) ? htmlspecialchars($pageTitle) : 'HPC Factory'; ?></title>
     <style>
         :root {
@@ -219,6 +220,7 @@ if ($pdo_common_header && isset($_SESSION['user_id'])) {
             cursor: pointer;
         }
     </style>
+    <script src="/assets/js/csrf-injector.js"></script>
 </head>
 <body>
 

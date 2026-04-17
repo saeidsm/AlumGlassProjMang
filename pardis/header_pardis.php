@@ -160,7 +160,8 @@ if (!function_exists('isHomeDropdownActive')) {
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
+    <meta name="csrf-token" content="<?php echo htmlspecialchars(generateCsrfToken(), ENT_QUOTES, 'UTF-8'); ?>">
+
     <title>دانشگاه خاتم پردیس - <?php echo htmlspecialchars($pageTitle); ?></title>
     
     <!-- Favicons -->
@@ -922,6 +923,7 @@ if (!function_exists('isHomeDropdownActive')) {
     <script src="/assets/js/datatables.js"></script>
     <script src="/assets/js/datatables.min.js"></script>
     <script src="/assets/js/mobile-detect.min.js"></script>
+    <script src="/assets/js/csrf-injector.js"></script>
 
 </head>
 

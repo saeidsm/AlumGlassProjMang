@@ -12,6 +12,7 @@
 
 <!-- Bootstrap Bundle JS (includes Popper) - Essential for dropdowns, collapse, etc. -->
 <script src="/assets/js/bootstrap.bundle.min.js"></script>
+<script src="/assets/js/csrf-injector.js"></script>
 
 <?php
 // Allow pages to add their own specific JS files
