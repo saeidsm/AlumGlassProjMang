@@ -1,0 +1,580 @@
+/* Extracted from pardis/meeting_minutes_form.php during Phase 2C.
+ * Concatenates 1 inline <style> block(s).
+ */
+
+@media print {
+    .no-print { display: none !important; }
+    body { background: white; }
+    .form-container { box-shadow: none !important; border: 2px solid #000 !important; }
+    input, textarea { border-bottom: 1px solid #000 !important; }
+}
+
+.form-container {
+    background: white;
+    max-width: 210mm;
+    margin: 20px auto;
+    padding: 0;
+    box-shadow: 0 0 20px rgba(0,0,0,0.1);
+    border: 2px solid #333;
+}
+
+.form-header {
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr;
+    border-bottom: 2px solid #333;
+}
+
+.form-header > div {
+    padding: 15px;
+    border-left: 2px solid #333;
+}
+
+.form-header > div:first-child {
+    border-left: none;
+}
+
+.form-header > div:last-child {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.logo-placeholder {
+    width: 80px;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.logo-placeholder img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+}
+
+.form-title {
+    text-align: center;
+    font-size: 24px;
+    font-weight: bold;
+    padding: 20px;
+}
+
+.form-row {
+    display: grid;
+    border-bottom: 2px solid #333;
+}
+
+.form-row.attendee-row {
+    min-height: 40px !important;
+}
+
+.form-cell textarea.small-textarea {
+    min-height: 35px !important;
+    max-height: 50px;
+}
+
+.form-row.two-cols {
+    grid-template-columns: 1fr 1fr;
+}
+
+.form-row.three-cols {
+    grid-template-columns: 1fr 2fr 1fr;
+}
+
+.form-cell {
+    padding: 10px;
+    border-left: 2px solid #333;
+    display: flex;
+    align-items: center;
+}
+
+.form-cell:first-child {
+    border-left: none;
+}
+
+.form-cell label {
+    font-weight: bold;
+    margin-left: 5px;
+    white-space: nowrap;
+}
+
+.form-cell input,
+.form-cell textarea,
+.form-cell select {
+    flex: 1;
+    border: none;
+    border-bottom: 1px solid #999;
+    padding: 5px;
+    font-family: inherit;
+    background: transparent;
+}
+
+.form-cell input:focus,
+.form-cell textarea:focus,
+.form-cell select:focus {
+    outline: none;
+    border-bottom: 2px solid #007bff;
+}
+
+.number-input-group {
+    display: flex;
+    gap: 5px;
+    flex: 1;
+}
+
+.number-input-group select {
+    width: 80px;
+    flex: 0 0 auto;
+}
+
+.number-input-group input {
+    flex: 1;
+}
+
+.table-section {
+    border-bottom: 2px solid #333;
+}
+
+.table-header {
+    display: grid;
+    grid-template-columns: 60px 1fr 150px 100px;
+    background: #f0f0f0;
+    border-bottom: 2px solid #333;
+    font-weight: bold;
+}
+
+.table-header > div {
+    padding: 10px;
+    border-left: 2px solid #333;
+    text-align: center;
+}
+
+.table-header > div:first-child {
+    border-left: none;
+}
+
+.table-row {
+    display: grid;
+    grid-template-columns: 60px 1fr 150px 100px;
+    border-bottom: 1px solid #999;
+}
+
+.table-row:last-child {
+    border-bottom: 2px solid #333;
+}
+
+.table-cell {
+    padding: 5px;
+    border-left: 2px solid #333;
+}
+
+.table-cell:first-child {
+    border-left: none;
+}
+
+.table-cell input,
+.table-cell textarea {
+    width: 100%;
+    border: none;
+    border-bottom: 1px dotted #ccc;
+    padding: 3px;
+    font-family: inherit;
+    background: transparent;
+    min-height: 60px;
+}
+
+.signature-section {
+    display: block;
+    padding: 10px;
+    border-bottom: 2px solid #333;
+}
+
+.signature-section.single-signature {
+    text-align: center;
+}
+
+.signature-box.full-width {
+    width: 100%;
+    margin: 0 auto;
+}
+
+.signature-box {
+    padding: 10px;
+    text-align: right;
+}
+
+.signature-label {
+    font-weight: bold;
+    margin-bottom: 5px;
+    text-align: right;
+    font-size: 11pt;
+}
+
+.signature-canvas {
+    border: 2px dashed #999;
+    width: 100%;
+    height: 150px;
+    cursor: crosshair;
+    background: white;
+}
+
+.signature-buttons {
+    margin-top: 10px;
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+}
+
+.control-panel {
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.btn-group {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    font-family: 'Vazir', Tahoma;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.3s;
+}
+
+.btn-primary {
+    background: #007bff;
+    color: white;
+}
+
+.btn-primary:hover {
+    background: #0056b3;
+}
+
+.btn-success {
+    background: #28a745;
+    color: white;
+}
+
+.btn-success:hover {
+    background: #218838;
+}
+
+.btn-warning {
+    background: #ffc107;
+    color: #333;
+}
+
+.btn-warning:hover {
+    background: #e0a800;
+}
+
+.btn-secondary {
+    background: #6c757d;
+    color: white;
+}
+
+.btn-secondary:hover {
+    background: #545b62;
+}
+
+.btn-info {
+    background: #17a2b8;
+    color: white;
+}
+
+.btn-info:hover {
+    background: #138496;
+}
+
+.mode-toggle {
+    background: white;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.toggle-switch {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.page-number {
+    text-align: left;
+    font-size: 14px;
+    color: #666;
+}
+
+.page-indicator {
+    background: #f8f9fa;
+    padding: 8px 15px;
+    margin: 10px 0;
+    border-left: 4px solid #007bff;
+    font-weight: bold;
+}
+
+.dynamic-row {
+    position: relative;
+}
+
+.row-delete-btn {
+    position: absolute;
+    left: 5px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: #dc3545;
+    color: white;
+    border: none;
+    padding: 2px 6px;
+    font-size: 10px;
+    cursor: pointer;
+    border-radius: 3px;
+    z-index: 10;
+}
+
+.row-delete-btn:hover {
+    background: #c82333;
+}
+
+.ocr-editor {
+    background: #fff;
+    border: 2px solid #007bff;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.ocr-field-group {
+    margin-bottom: 15px;
+}
+
+.ocr-field-group label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #333;
+}
+
+.ocr-field-group input,
+.ocr-field-group textarea {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-family: inherit;
+}
+
+.ocr-field-group textarea {
+    min-height: 80px;
+}
+
+@media screen and (max-width: 768px) {
+    .form-container {
+        max-width: 100%;
+        margin: 10px;
+        font-size: 14px;
+    }
+    
+    .form-header {
+        grid-template-columns: 1fr;
+    }
+    
+    .form-header > div {
+        border-left: none;
+        border-bottom: 2px solid #333;
+    }
+    
+    .form-header > div:last-child {
+        border-bottom: none;
+    }
+    
+    .page-number {
+        text-align: center;
+        font-size: 12px;
+    }
+    
+    .form-title {
+        font-size: 18px;
+        padding: 10px;
+    }
+    
+    .logo-placeholder {
+        width: 60px;
+        height: 60px;
+        margin: 0 auto;
+    }
+    
+    .form-row.two-cols,
+    .form-row.three-cols {
+        grid-template-columns: 1fr;
+    }
+    
+    .form-cell {
+        border-left: none;
+        border-bottom: 1px solid #ddd;
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 8px;
+    }
+    
+    .form-cell:last-child {
+        border-bottom: none;
+    }
+    
+    .form-cell label {
+        margin-bottom: 5px;
+        display: block;
+        width: 100%;
+    }
+    
+    .form-cell input,
+    .form-cell textarea,
+    .form-cell select {
+        width: 100%;
+        margin-top: 5px;
+    }
+    
+    .number-input-group {
+        width: 100%;
+    }
+    
+    .number-input-group select {
+        width: 100px;
+    }
+    
+    .table-header,
+    .table-row {
+        grid-template-columns: 1fr;
+        display: block;
+    }
+    
+    .table-header > div,
+    .table-cell {
+        border-left: none;
+        border-bottom: 1px solid #ddd;
+        display: block;
+        padding: 8px;
+    }
+    
+    .table-cell:before {
+        content: attr(data-label);
+        font-weight: bold;
+        display: block;
+        margin-bottom: 5px;
+        color: #333;
+    }
+    
+    .table-cell input,
+    .table-cell textarea {
+        width: 100%;
+        min-height: 40px;
+    }
+    
+    .control-panel {
+        padding: 10px;
+    }
+    
+    .btn-group {
+        flex-direction: column;
+    }
+    
+    .btn {
+        width: 100%;
+        margin-bottom: 10px;
+        padding: 12px 15px;
+        font-size: 16px;
+    }
+    
+    .mode-toggle {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .toggle-switch {
+        flex-direction: column;
+        width: 100%;
+    }
+    
+    .toggle-switch button {
+        width: 100%;
+    }
+    
+    .signature-canvas {
+        width: 100%;
+        height: 200px;
+        touch-action: none;
+    }
+    
+    .signature-buttons {
+        flex-direction: column;
+    }
+    
+    .signature-buttons button {
+        width: 100%;
+    }
+    
+    #pageControls .row {
+        flex-direction: column;
+    }
+    
+    #pageControls .col-md-4 {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+    
+    .form-select,
+    .form-control {
+        font-size: 16px;
+        padding: 10px;
+    }
+    
+    #uploadSection .card-body {
+        padding: 10px;
+    }
+    
+    #uploadSection .row {
+        flex-direction: column;
+    }
+    
+    #uploadSection .col-md-6,
+    #uploadSection .col-md-3,
+    #uploadSection .col-md-7,
+    #uploadSection .col-md-5,
+    #uploadSection .col-md-12 {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+    
+    .row-delete-btn {
+        position: static;
+        display: block;
+        width: 100%;
+        margin-top: 5px;
+        padding: 8px;
+        font-size: 14px;
+    }
+}
+
+@media print {
+    .print-only-signatures {
+        display: grid !important;
+    }
+    .no-print-signatures {
+        display: none !important;
+    }
+}

@@ -1,0 +1,18 @@
+/* Extracted from pardis/letters.php during Phase 2C.
+ * Concatenates 1 inline <style> block(s).
+ */
+
+body { font-family: Tahoma, Arial, sans-serif; }
+        .card { margin-bottom: 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .letter-row:hover { background-color: #f8f9fa; cursor: pointer; }
+        .badge { font-size: 0.85em; }
+        .filter-section { background: #f8f9fa; padding: 15px; border-radius: 5px; margin-bottom: 20px; }
+        .search-results { position: absolute; z-index: 1000; background: white; border: 1px solid #ddd; 
+                         border-radius: 5px; max-height: 400px; overflow-y: auto; width: 100%; margin-top: 5px; }
+        .search-result-item { padding: 10px; border-bottom: 1px solid #eee; cursor: pointer; }
+        .search-result-item:hover { background: #f8f9fa; }
+        .search-highlight { background-color: yellow; font-weight: bold; }
+        .deep-search-badge { font-size: 0.7em; margin-left: 5px; }
+        .sortable { cursor: pointer; user-select: none; }
+        .sortable:hover { background-color: #e9ecef; }
+        .sort-icon { font-size: 0.8em; margin-right: 5px; }

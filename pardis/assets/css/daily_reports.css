@@ -1,0 +1,193 @@
+/* Extracted from pardis/daily_reports.php during Phase 2C.
+ * Concatenates 1 inline <style> block(s).
+ */
+
+body {
+            font-family: 'Tahoma', 'Arial', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+        }
+
+        .nav-tabs {
+            border-bottom: 2px solid #dee2e6;
+        }
+
+        .nav-tabs .nav-link {
+            border: none;
+            color: #6c757d;
+            font-weight: 500;
+            padding: 12px 24px;
+        }
+
+        .nav-tabs .nav-link:hover {
+            color: #0d6efd;
+            border: none;
+        }
+
+        .nav-tabs .nav-link.active {
+            color: #0d6efd;
+            border: none;
+            border-bottom: 3px solid #0d6efd;
+            background: none;
+        }
+
+        .card {
+            border: none;
+            border-radius: 12px;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+            margin-bottom: 20px;
+        }
+
+        .card-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 12px 12px 0 0 !important;
+            padding: 16px 20px;
+            font-weight: 600;
+        }
+
+        .stat-card {
+            border-right: 4px solid;
+            transition: transform 0.2s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .stat-card.primary {
+            border-right-color: #0d6efd;
+        }
+
+        .stat-card.success {
+            border-right-color: #198754;
+        }
+
+        .stat-card.warning {
+            border-right-color: #ffc107;
+        }
+
+        .stat-card.danger {
+            border-right-color: #dc3545;
+        }
+
+        .btn-custom {
+            padding: 10px 24px;
+            border-radius: 8px;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+
+        .btn-custom:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .table-hover tbody tr:hover {
+            background-color: #f8f9fa;
+        }
+
+        .badge-status {
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-weight: 500;
+        }
+
+        .progress-bar-custom {
+            height: 25px;
+            border-radius: 12px;
+            font-weight: 600;
+        }
+
+        .jdp-wrapper {
+            font-family: 'Tahoma', 'Arial', sans-serif !important;
+            z-index: 9999 !important;
+        }
+
+        .jdp-month,
+        .jdp-year {
+            font-family: 'Tahoma', 'Arial', sans-serif !important;
+        }
+        .calendar-container {
+    padding: 20px;
+}
+
+.calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 5px;
+}
+
+.calendar-header {
+    text-align: center;
+    padding: 10px;
+    font-weight: bold;
+    background: #f8f9fa;
+    border: 1px solid #dee2e6;
+}
+
+.calendar-day {
+    min-height: 100px;
+    padding: 8px;
+    border: 1px solid #dee2e6;
+    background: white;
+    position: relative;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.calendar-day:hover {
+    background: #f8f9fa;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.calendar-day.today {
+    background: #e3f2fd;
+    border-color: #2196F3;
+    font-weight: bold;
+}
+
+.calendar-day.other-month {
+    opacity: 0.3;
+    background: #fafafa;
+}
+
+.calendar-day.has-report {
+    background: #c8e6c9;
+    border-color: #4caf50;
+}
+
+.calendar-day-number {
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+
+.calendar-day-reports {
+    font-size: 11px;
+}
+
+.report-badge {
+    display: inline-block;
+    padding: 2px 6px;
+    margin: 2px;
+    border-radius: 3px;
+    background: #2196F3;
+    color: white;
+    font-size: 10px;
+}
+ .fc-event-success {
+            background-color: #198754;
+            border-color: #157347;
+        }
+        /* Style for Unfinished & Assigned Tasks */
+        .fc-event-warning {
+            background-color: #ffc107;
+            border-color: #d39e00;
+            color: #000 !important; /* Dark text for better readability on yellow */
+        }
+        /* Style for Missed Report background */
+        .fc-event-missed-day {
+            background-color: rgba(220, 53, 69, 0.15); /* A light, non-intrusive red */
+        }
+        .jalali-day-number { font-weight: bold; }
