@@ -153,6 +153,7 @@ require_once __DIR__ . '/header_ghom.php';
 <div class="container mt-4" dir="rtl">
     <?= $message ?>
     <form method="POST" action="">
+        <?= csrfField() ?>
         <!-- 1. Identification -->
         <div class="card">
             <h5 class="section-title">مشخصات قطعه (اجباری)</h5>

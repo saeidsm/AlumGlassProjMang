@@ -445,6 +445,7 @@ try {
                                     <a href="workshop_qc.php?view_id=<?php echo $row['qc_id']; ?>" class="btn btn-info">👁️ مشاهده</a>
                                     <a href="workshop_qc.php?edit_id=<?php echo $row['qc_id']; ?>" class="btn btn-warning">✏️ ویرایش</a>
                                     <form method="POST" style="display: inline;" onsubmit="return confirm('آیا از حذف این رکورد اطمینان دارید؟ این عمل قابل بازگشت نیست.');">
+                                        <?= csrfField() ?>
                                         <input type="hidden" name="qc_id" value="<?php echo $row['qc_id']; ?>">
                                         <button type="submit" name="action" value="delete_qc" class="btn btn-danger">🗑️ حذف</button>
                                     </form>

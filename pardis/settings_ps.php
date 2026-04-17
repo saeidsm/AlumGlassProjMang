@@ -132,6 +132,7 @@ require_once __DIR__ . '/header_pardis.php';
         <div class="settings-header"><i class="fas fa-hard-hat"></i> مدیریت قراردادهای پیمانکاران</div>
         
         <form method="POST" class="mb-4 p-3 border rounded bg-light">
+            <?= csrfField() ?>
             <input type="hidden" name="action" value="add"><input type="hidden" name="type" value="contractors">
             <h6 class="mb-3 fw-bold">افزودن پیمانکار جدید</h6>
             <div class="row g-2">
@@ -168,6 +169,7 @@ require_once __DIR__ . '/header_pardis.php';
                                 <i class="fas fa-edit fa-sm"></i> ویرایش
                             </button>
                             <form method="POST" style="display: inline;" onsubmit="return confirm('آیا مطمئن هستید که می‌خواهید این قرارداد را حذف کنید؟');">
+                                <?= csrfField() ?>
                                 <input type="hidden" name="action" value="delete"><input type="hidden" name="type" value="contractors"><input type="hidden" name="id" value="<?= $c['id'] ?>">
                                 <button class="btn-delete" type="submit"><i class="fas fa-trash"></i></button>
                             </form>
@@ -176,6 +178,7 @@ require_once __DIR__ . '/header_pardis.php';
                     
                     <div class="collapse p-3 border-top bg-light" id="contract-<?= $c['id'] ?>">
                         <form method="POST">
+                            <?= csrfField() ?>
                             <input type="hidden" name="action" value="update"><input type="hidden" name="type" value="contractors"><input type="hidden" name="id" value="<?= $c['id'] ?>">
                             <p class="small text-muted fw-bold">ویرایش قرارداد برای: <?= htmlspecialchars($c['name']) ?></p>
                             <div class="row g-2">
@@ -205,6 +208,7 @@ require_once __DIR__ . '/header_pardis.php';
             <div class="settings-card">
                 <div class="settings-header"><i class="fas fa-users"></i> نقش‌های نیروی انسانی</div>
                 <form method="POST" class="mb-3 d-flex gap-2">
+                    <?= csrfField() ?>
                     <input type="hidden" name="action" value="add"><input type="hidden" name="type" value="personnel">
                     <input type="text" name="value" class="form-control form-control-sm" placeholder="نام نقش" required>
                     <button class="btn btn-primary btn-sm">افزودن</button>
@@ -214,6 +218,7 @@ require_once __DIR__ . '/header_pardis.php';
                         <div class="list-item">
                             <?= htmlspecialchars($p['role_name']) ?>
                             <form method="POST"><input type="hidden" name="action" value="delete"><input type="hidden" name="type" value="personnel"><input type="hidden" name="id" value="<?= $p['id'] ?>"><button class="btn-delete"><i class="fas fa-trash"></i></button></form>
+                                <?= csrfField() ?>
                         </div>
                     <?php endforeach; ?>
                 </div>
@@ -224,6 +229,7 @@ require_once __DIR__ . '/header_pardis.php';
             <div class="settings-card">
                 <div class="settings-header"><i class="fas fa-tasks"></i> فعالیت‌های اجرایی</div>
                 <form method="POST" class="mb-3">
+                    <?= csrfField() ?>
                     <input type="hidden" name="action" value="add"><input type="hidden" name="type" value="activities">
                     <div class="row g-2">
                         <div class="col-md-4"><input type="text" name="value" class="form-control form-control-sm" placeholder="نام فعالیت" required></div>
@@ -237,6 +243,7 @@ require_once __DIR__ . '/header_pardis.php';
                         <div class="list-item">
                             <div><strong><?= htmlspecialchars($a['name']) ?></strong> <small class="text-muted ms-2">(<?= $a['category'] ?> | <?= $a['unit'] ?>)</small></div>
                             <form method="POST"><input type="hidden" name="action" value="delete"><input type="hidden" name="type" value="activities"><input type="hidden" name="id" value="<?= $a['id'] ?>"><button class="btn-delete"><i class="fas fa-trash"></i></button></form>
+                                <?= csrfField() ?>
                         </div>
                     <?php endforeach; ?>
                 </div>
@@ -247,6 +254,7 @@ require_once __DIR__ . '/header_pardis.php';
             <div class="settings-card">
                 <div class="settings-header"><i class="fas fa-tools"></i> ماشین آلات و ابزار</div>
                 <form method="POST" class="mb-3 d-flex gap-2">
+                    <?= csrfField() ?>
                     <input type="hidden" name="action" value="add"><input type="hidden" name="type" value="tools">
                     <input type="text" name="value" class="form-control form-control-sm" placeholder="نام ابزار" required>
                     <button class="btn btn-primary btn-sm">افزودن</button>
@@ -254,6 +262,7 @@ require_once __DIR__ . '/header_pardis.php';
                 <div style="max-height: 250px; overflow-y: auto;">
                     <?php foreach ($tools as $t): ?>
                         <div class="list-item"><?= htmlspecialchars($t['tool_name']) ?><form method="POST"><input type="hidden" name="action" value="delete"><input type="hidden" name="type" value="tools"><input type="hidden" name="id" value="<?= $t['id'] ?>"><button class="btn-delete"><i class="fas fa-trash"></i></button></form></div>
+                            <?= csrfField() ?>
                     <?php endforeach; ?>
                 </div>
             </div>
@@ -262,6 +271,7 @@ require_once __DIR__ . '/header_pardis.php';
             <div class="settings-card">
                 <div class="settings-header"><i class="fas fa-cubes"></i> مصالح</div>
                 <form method="POST" class="mb-3 d-flex gap-2">
+                    <?= csrfField() ?>
                     <input type="hidden" name="action" value="add"><input type="hidden" name="type" value="materials">
                     <input type="text" name="value" class="form-control form-control-sm" placeholder="نام مصالح" required>
                     <button class="btn btn-primary btn-sm">افزودن</button>
@@ -269,6 +279,7 @@ require_once __DIR__ . '/header_pardis.php';
                 <div style="max-height: 250px; overflow-y: auto;">
                     <?php foreach ($materials as $m): ?>
                         <div class="list-item"><?= htmlspecialchars($m['material_name']) ?><form method="POST"><input type="hidden" name="action" value="delete"><input type="hidden" name="type" value="materials"><input type="hidden" name="id" value="<?= $m['id'] ?>"><button class="btn-delete"><i class="fas fa-trash"></i></button></form></div>
+                            <?= csrfField() ?>
                     <?php endforeach; ?>
                 </div>
             </div>

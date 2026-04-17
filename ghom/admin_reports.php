@@ -236,6 +236,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </div>
     
     <form method="POST">
+        <?= csrfField() ?>
         <input type="hidden" name="action" value="save_metrics">
         
         <div class="row">
@@ -325,6 +326,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </div>
     
     <form method="POST">
+        <?= csrfField() ?>
         <input type="hidden" name="action" value="save_scurve_manual">
         <div class="row">
             <div class="col-6">

@@ -384,6 +384,7 @@ $assignable_roles = [
                             </div>
                             <div class="card-body">
                                 <form id="dailyReportForm" action="daily_report_submit.php" method="POST" enctype="multipart/form-data">
+                                    <?= csrfField() ?>
 
                                     <!-- Basic Information -->
                                     <div class="row mb-3">

@@ -437,6 +437,7 @@ require_once __DIR__ . '/header_pardis.php';
         </div>
         
         <form method="POST">
+            <?= csrfField() ?>
             <?php if(!$is_contractor): ?>
             <div class="mb-3">
                 <label class="form-label">پیمانکار</label>

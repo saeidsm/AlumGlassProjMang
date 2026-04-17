@@ -81,6 +81,7 @@ function renderSimpleTable($items, $tabName, $title) {
     echo '<div class="card shadow-sm mb-4"><div class="card-header bg-secondary text-white fw-bold">'.$title.'</div><div class="card-body">';
     // Add Form
     echo '<form method="POST" class="row g-2 mb-4 align-items-end">';
+        <?= csrfField() ?>
     echo '<input type="hidden" name="tab" value="'.$tabName.'"><input type="hidden" name="action" value="add">';
     echo '<div class="col-md-9"><input type="text" name="name" class="form-control" placeholder="نام جدید..." required></div>';
     echo '<div class="col-md-3"><button type="submit" class="btn btn-success w-100">+ افزودن</button></div></form>';
@@ -88,6 +89,7 @@ function renderSimpleTable($items, $tabName, $title) {
     echo '<div style="max-height:400px;overflow-y:auto"><table class="table table-striped table-hover align-middle mb-0"><tbody>';
     foreach($items as $item) {
         echo '<tr><form method="POST"><input type="hidden" name="tab" value="'.$tabName.'"><input type="hidden" name="action" value="edit"><input type="hidden" name="id" value="'.$item['id'].'">';
+            <?= csrfField() ?>
         echo '<td><input type="text" name="name" class="form-control form-control-sm border-0 bg-transparent" value="'.htmlspecialchars($item['name']).'"></td>';
         echo '<td class="text-end" style="width:100px;">
               <button type="submit" class="btn btn-sm btn-link text-primary"><i class="fas fa-save"></i></button>
@@ -136,6 +138,7 @@ function renderSimpleTable($items, $tabName, $title) {
                     <div class="card-body">
                         <!-- Add Activity Form -->
                         <form method="POST" class="row g-3 mb-4 border-bottom pb-4">
+                            <?= csrfField() ?>
                             <input type="hidden" name="tab" value="activities">
                             <input type="hidden" name="action" value="add">
                             <div class="col-md-4">
@@ -166,6 +169,7 @@ function renderSimpleTable($items, $tabName, $title) {
                                                     <?php foreach($items as $item): ?>
                                                     <tr>
                                                         <form method="POST">
+                                                            <?= csrfField() ?>
                                                             <input type="hidden" name="tab" value="activities">
                                                             <input type="hidden" name="action" value="edit">
                                                             <input type="hidden" name="id" value="<?= $item['id'] ?>">
@@ -214,6 +218,7 @@ function renderSimpleTable($items, $tabName, $title) {
 
     <!-- Hidden Delete Form -->
     <form id="deleteForm" method="POST" style="display:none;">
+        <?= csrfField() ?>
         <input type="hidden" name="action" value="delete">
         <input type="hidden" name="tab" id="delTab">
         <input type="hidden" name="id" id="delId">

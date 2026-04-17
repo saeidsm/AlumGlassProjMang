@@ -886,6 +886,7 @@ if (isMobileDevices()) {
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <form method="POST" enctype="multipart/form-data">
+                    <?= csrfField() ?>
                     <div class="modal-header">
                         <h5 class="modal-title">افزودن نامه جدید</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
@@ -992,6 +993,7 @@ if (isMobileDevices()) {
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <form method="POST" enctype="multipart/form-data" id="editLetterForm">
+                    <?= csrfField() ?>
                     <input type="hidden" name="letter_id" id="edit_letter_id">
                     <div class="modal-header">
                         <h5 class="modal-title">ویرایش نامه</h5>
@@ -1099,6 +1101,7 @@ if (isMobileDevices()) {
         <div class="modal-dialog">
             <div class="modal-content">
                 <form method="POST">
+                    <?= csrfField() ?>
                     <div class="modal-header">
                         <h5 class="modal-title">افزودن ارتباط بین نامه‌ها</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>

@@ -954,6 +954,7 @@ if (!function_exists('format_jalali_date')) {
                                 </td>
                                  <td style="min-width: 100px;">
                                     <form method="post" action="admin.php" class="project-assignment-form">
+                                        <?= csrfField() ?>
                                         <input type="hidden" name="user_id_projects" value="<?= $uid ?>">
                                         <input type="hidden" name="action_projects" value="update_assignments">
                                         <h6>پروژه‌های تخصیص یافته:</h6>
@@ -998,6 +999,7 @@ if (!function_exists('format_jalali_date')) {
                                 </td>
                                 <td style="min-width: 100px;">
                                     <form method="post" action="admin.php" class="project-assignment-form">
+                                        <?= csrfField() ?>
                                         <input type="hidden" name="user_id_projects" value="<?= $uid ?>">
                                         <input type="hidden" name="action_projects" value="update_assignments">
                                         <h6>پروژه‌های تخصیص یافته:</h6>
@@ -1037,6 +1039,7 @@ if (!function_exists('format_jalali_date')) {
                                     <div class="actions-container">
                                         <a href="profile.php?id=<?= $uid ?>" class="btn btn-info btn-sm" title="مشاهده/ویرایش پروفایل"><i class="fas fa-user-edit"></i></a>
                                         <form method="post" action="admin.php" class="d-inline action-form">
+                                            <?= csrfField() ?>
     <input type="hidden" name="user_id_action" value="<?= $uid ?>">
     <button type="submit" name="action" value="reset_password" class="btn btn-secondary btn-sm" 
             title="بازنشانی رمز عبور کاربر"
@@ -1047,6 +1050,7 @@ if (!function_exists('format_jalali_date')) {
 
 <!-- Generate New Password Button -->
 <form method="post" action="admin.php" class="d-inline action-form">
+    <?= csrfField() ?>
     <input type="hidden" name="user_id_action" value="<?= $uid ?>">
     <button type="submit" name="action" value="generate_password" class="btn btn-outline-info btn-sm" 
             title="تولید رمز عبور جدید"
@@ -1056,6 +1060,7 @@ if (!function_exists('format_jalali_date')) {
 </form>
 
                                         <form method="post" action="admin.php" class="d-inline action-form">
+                                            <?= csrfField() ?>
                                             <input type="hidden" name="user_id_action" value="<?= $uid ?>">
                                             <?php if ($user_item['is_active']): ?>
                                                 <button type="submit" name="action" value="deactivate" class="btn btn-warning btn-sm" title="غیرفعال کردن کاربر"><i class="fas fa-user-slash"></i></button>
@@ -1065,6 +1070,7 @@ if (!function_exists('format_jalali_date')) {
                                         </form>
                                         <!-- Role Change Dropdown -->
                                         <form method="post" action="admin.php" class="d-inline action-form">
+                                            <?= csrfField() ?>
                                             <input type="hidden" name="user_id_action" value="<?= $uid ?>">
                                             <select name="action" class="form-select form-select-sm role-select d-inline-block w-auto" onchange="this.form.submit()" title="تغییر نقش کاربر">
                                                 <option value="">نقش: <?= escapeHtml(translate_role($user_item['role'])) ?></option>
@@ -1096,6 +1102,7 @@ if (!function_exists('format_jalali_date')) {
                                         </form>
                                         <!-- Guest Chat Toggle -->
                                         <form method="post" action="admin.php" class="d-inline action-form">
+                                            <?= csrfField() ?>
                                             <input type="hidden" name="user_id_action" value="<?= $uid ?>">
                                             <?php if ($user_item['can_chat_with_guests']): ?>
                                                 <button type="submit" name="action" value="disallow_guest_chat" class="btn btn-outline-secondary btn-sm" title="لغو اجازه چت مهمان"><i class="fas fa-comments-slash"></i></button>
@@ -1107,6 +1114,7 @@ if (!function_exists('format_jalali_date')) {
                                         $current_admin_id = $_SESSION['user_id'];
                                         if ($current_admin_id != $uid): ?>
                                             <form method="post" action="admin.php" class="d-inline action-form">
+                                                <?= csrfField() ?>
                                                 <input type="hidden" name="user_id_action" value="<?= $uid ?>">
                                                 <button type="submit" name="action" value="delete_user" class="btn btn-danger btn-sm" title="حذف کاربر"
                                                     onclick="return confirm('آیا مطمئن هستید که می‌خواهید این کاربر و تمام دسترسی‌های پروژه‌ او را حذف کنید؟ این عمل قابل بازگشت نیست.')">
@@ -1211,6 +1219,7 @@ if (!function_exists('format_jalali_date')) {
                     <!-- Project Assignments for Mobile -->
                     <div class="project-assignments-section">
                         <form method="post" action="admin.php" class="project-assignment-form-mobile">
+                            <?= csrfField() ?>
                             <input type="hidden" name="user_id_projects" value="<?= $uid ?>">
                             <input type="hidden" name="action_projects" value="update_assignments">
                             <h6>پروژه‌های تخصیص یافته:</h6>
@@ -1245,6 +1254,7 @@ if (!function_exists('format_jalali_date')) {
                     <div class="user-card-actions mt-3">
                         <a href="profile.php?id=<?= $uid ?>" class="btn btn-info btn-sm w-100 mb-1"><i class="fas fa-user-edit me-1"></i> پروفایل</a>
 <form method="post" action="admin.php" class="action-form w-100 mb-1">
+    <?= csrfField() ?>
     <input type="hidden" name="user_id_action" value="<?= $uid ?>">
     <button type="submit" name="action" value="reset_password" class="btn btn-secondary btn-sm w-100"
             onclick="return confirm('آیا مطمئن هستید که می‌خواهید رمز عبور این کاربر را بازنشانی کنید؟')">
@@ -1254,6 +1264,7 @@ if (!function_exists('format_jalali_date')) {
 
 <!-- Generate New Password Button for Mobile -->
 <form method="post" action="admin.php" class="action-form w-100 mb-1">
+    <?= csrfField() ?>
     <input type="hidden" name="user_id_action" value="<?= $uid ?>">
     <button type="submit" name="action" value="generate_password" class="btn btn-outline-info btn-sm w-100"
             onclick="return confirm('آیا مطمئن هستید که می‌خواهید رمز عبور جدید برای این کاربر تولید کنید؟')">
@@ -1261,6 +1272,7 @@ if (!function_exists('format_jalali_date')) {
     </button>
 </form>
                         <form method="post" action="admin.php" class="action-form w-100 mb-1">
+                            <?= csrfField() ?>
                             <input type="hidden" name="user_id_action" value="<?= $uid ?>">
                             <?php if ($user_item['is_active']): ?>
                                 <button type="submit" name="action" value="deactivate" class="btn btn-warning btn-sm w-100"><i class="fas fa-user-slash me-1"></i> غیرفعال کردن</button>
@@ -1270,6 +1282,7 @@ if (!function_exists('format_jalali_date')) {
                         </form>
 
                         <form method="post" action="admin.php" class="action-form w-100 mb-1">
+                            <?= csrfField() ?>
                             <input type="hidden" name="user_id_action" value="<?= $uid ?>">
                             <select name="action" class="form-select form-select-sm role-select w-100" onchange="this.form.submit()" title="تغییر نقش کاربر">
                                 <option value="">نقش فعلی: <?= $user_role_translated ?></option>
@@ -1301,6 +1314,7 @@ if (!function_exists('format_jalali_date')) {
                         </form>
 
                         <form method="post" action="admin.php" class="action-form w-100 mb-1">
+                            <?= csrfField() ?>
                             <input type="hidden" name="user_id_action" value="<?= $uid ?>">
                             <?php if ($user_item['can_chat_with_guests']): ?>
                                 <button type="submit" name="action" value="disallow_guest_chat" class="btn btn-outline-secondary btn-sm w-100" title="لغو اجازه چت مهمان"><i class="fas fa-comments-slash me-1"></i> لغو چت مهمان</button>
@@ -1311,6 +1325,7 @@ if (!function_exists('format_jalali_date')) {
 
                         <?php if ($_SESSION['user_id'] != $uid): ?>
                             <form method="post" action="admin.php" class="action-form w-100">
+                                <?= csrfField() ?>
                                 <input type="hidden" name="user_id_action" value="<?= $uid ?>">
                                 <button type="submit" name="action" value="delete_user" class="btn btn-danger btn-sm w-100"
                                     onclick="return confirm('آیا مطمئن هستید که می‌خواهید این کاربر و تمام دسترسی‌های پروژه‌ او را حذف کنید؟ این عمل قابل بازگشت نیست.')">

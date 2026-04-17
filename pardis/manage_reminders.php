@@ -285,6 +285,7 @@ if (isMobileDevices()) {
             </div>
             <div class="card-body">
                 <form method="POST" style="display: inline;" onsubmit="return confirm('آیا مطمئن هستید؟');">
+                    <?= csrfField() ?>
                     <input type="hidden" name="action" value="send_all_reminders">
                     <button type="submit" class="btn btn-primary">
                         <i class="bi bi-send"></i> ارسال یادآوری به همه کاربران بدون گزارش
@@ -337,6 +338,7 @@ if (isMobileDevices()) {
                                 </td>
                                 <td>
                                     <form method="POST" style="display: flex; gap: 5px;">
+                                        <?= csrfField() ?>
                                         <input type="hidden" name="action" value="update_telegram_id">
                                         <input type="hidden" name="user_id" value="<?php echo $user['id']; ?>">
                                         <input 
@@ -376,6 +378,7 @@ echo $user['last_reminder']
                                 <td>
                                     <?php if (!empty($user['telegram_chat_id'])): ?>
                                     <form method="POST" style="display: inline;">
+                                        <?= csrfField() ?>
                                         <input type="hidden" name="action" value="send_test_reminder">
                                         <input type="hidden" name="user_id" value="<?php echo $user['id']; ?>">
                                         <button type="submit" class="btn btn-sm btn-outline-primary btn-test">

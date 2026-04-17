@@ -50,6 +50,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <?php if($msg) echo "<div class='alert alert-info'>$msg</div>"; ?>
     
     <form method="POST">
+        <?= csrfField() ?>
         <div class="row">
             <div class="col-md-4">
                 <label>تاریخ گزارش:</label>

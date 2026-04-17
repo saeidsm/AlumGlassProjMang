@@ -238,6 +238,7 @@ try {
             <div class="alert alert-warning">شما در حال حاضر به هیچ پروژه‌ای دسترسی ندارید. لطفاً با مدیر سیستم تماس بگیرید.</div>
         <?php elseif (!empty($available_projects)): ?>
             <form method="POST" action="select_project.php">
+                <?= csrfField() ?>
                 <?php foreach ($available_projects as $project): ?>
                     <button type="submit" name="select_project_id" value="<?= $project['project_id'] ?>" class="btn btn-primary project-button">
                         <?= escapeHtml($project['project_name']) ?>

@@ -183,6 +183,7 @@ require_once __DIR__ . '/header_ghom.php';
             </div>
 
             <form method="post" enctype="multipart/form-data">
+                <?= csrfField() ?>
                 <div class="mb-4">
                     <label class="form-label">فایل CSV را انتخاب کنید</label>
                     <input type="file" name="csv_file" class="form-control" required accept=".csv">

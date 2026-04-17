@@ -122,6 +122,7 @@ require_once __DIR__ . '/header_pardis.php';
 
         <?php if ($selected_project_id && !empty($tasks)): ?>
             <form method="POST" action="manage_weights.php?project_id=<?= $selected_project_id ?>">
+                <?= csrfField() ?>
                 <input type="hidden" name="project_id" value="<?= $selected_project_id ?>">
                 <div class="overflow-x-auto border border-gray-200 rounded-lg">
                     <table class="min-w-full text-sm divide-y divide-gray-200">

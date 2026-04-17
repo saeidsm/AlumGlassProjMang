@@ -174,5 +174,6 @@ function e(?string $str): string {
     return escapeHtml($str);
 }
 
-// ── 8. Include error handler ──
+// ── 8. Include error handler + security helpers ──
 require_once __DIR__ . '/../includes/error_handler.php';
+require_once __DIR__ . '/../includes/security.php';

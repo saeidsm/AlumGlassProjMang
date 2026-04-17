@@ -263,6 +263,7 @@ function g2j($gDate) {
                         <a href="workshop_qc.php?edit_id=<?= $row['qc_id'] ?>" class="btn btn-sm btn-warning py-0 shadow-sm">✏️</a>
                         <?php if ($user_can_manage): ?>
                         <form method="POST" style="display:inline" onsubmit="return confirm('حذف؟');">
+                            <?= csrfField() ?>
                             <input type="hidden" name="action" value="delete_qc">
                             <input type="hidden" name="qc_id" value="<?= $row['qc_id'] ?>">
                             <button class="btn btn-sm btn-danger py-0 shadow-sm">🗑️</button>

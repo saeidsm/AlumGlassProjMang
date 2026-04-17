@@ -396,6 +396,7 @@ require_once __DIR__ . '/header_pardis.php';
             </div>
 
             <form action="pardis_importer.php?view=importer" method="post" enctype="multipart/form-data">
+                <?= csrfField() ?>
                 <!-- Hidden input to keep track of the temporary file for import -->
                 <?php if(!empty($preview_data)) echo '<input type="hidden" name="csv_file_path" value="'.htmlspecialchars($dest_path).'">'; ?>
 
@@ -462,6 +463,7 @@ require_once __DIR__ . '/header_pardis.php';
             <div class="modal-header"><h5 class="modal-title">افزودن پروژه جدید</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div>
             <div class="modal-body">
                 <form method="POST" action="pardis_importer.php?view=projects">
+                    <?= csrfField() ?>
                     <input type="hidden" name="action" value="add_project">
                     <div class="mb-3"><label class="form-label">نام پروژه</label><input type="text" name="project_name" class="form-control" required></div>
                     <div class="mb-3"><label class="form-label">کد پروژه</label><input type="text" name="project_code" class="form-control"></div>
@@ -482,6 +484,7 @@ require_once __DIR__ . '/header_pardis.php';
             <div class="modal-header"><h5 class="modal-title">ویرایش پروژه</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div>
             <div class="modal-body">
                 <form id="editForm" method="POST" action="pardis_importer.php?view=projects">
+                    <?= csrfField() ?>
                     <input type="hidden" name="action" value="update_project">
                     <input type="hidden" name="project_id" id="edit_project_id">
                     <div class="mb-3"><label class="form-label">نام پروژه</label><input type="text" name="project_name" id="edit_project_name" class="form-control" required></div>
@@ -498,6 +501,7 @@ require_once __DIR__ . '/header_pardis.php';
 
 <!-- Hidden Form for Deletion -->
 <form id="deleteForm" method="POST" action="pardis_importer.php?view=projects" style="display: none;">
+    <?= csrfField() ?>
     <input type="hidden" name="action" value="delete_project">
     <input type="hidden" name="project_id" id="delete_project_id">
 </form>

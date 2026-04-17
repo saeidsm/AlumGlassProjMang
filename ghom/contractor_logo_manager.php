@@ -173,6 +173,7 @@ if (is_dir($logo_dir)) {
         </div>
         <div class="card-body">
             <form method="POST" enctype="multipart/form-data">
+                <?= csrfField() ?>
                 <div class="row g-3">
                     <div class="col-md-4">
                         <label class="form-label">نام پیمانکار</label>

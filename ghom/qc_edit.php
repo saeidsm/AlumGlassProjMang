@@ -172,6 +172,7 @@ require_once __DIR__ . '/header_ghom.php';
     </div>
 
     <form method="POST" action="">
+        <?= csrfField() ?>
         <input type="hidden" name="action" value="update">
         
         <!-- 1. Identification -->
@@ -326,6 +327,7 @@ require_once __DIR__ . '/header_ghom.php';
     
     <!-- Hidden Delete Form -->
     <form id="deleteForm" method="POST" action="">
+        <?= csrfField() ?>
         <input type="hidden" name="action" value="delete">
     </form>
 
