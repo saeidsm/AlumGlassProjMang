@@ -215,12 +215,19 @@ if ($report_id) {
         $stmt = $pdo->prepare("SELECT * FROM ps_daily_report_activities WHERE report_id = ?");
         $stmt->execute([$report_id]);
         $activities = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    $actNameStmt = $pdo->prepare("SELECT name FROM ps_project_activities WHERE id = ?");
+
+    // Batch-fetch activity names instead of one query per row.
+    $activityNames = [];
+    $activityIds = array_values(array_unique(array_filter(array_column($activities, 'activity_id'))));
+    if (!empty($activityIds)) {
+        $ph = implode(',', array_fill(0, count($activityIds), '?'));
+        $actNameStmt = $pdo->prepare("SELECT id, name FROM ps_project_activities WHERE id IN ($ph)");
+        $actNameStmt->execute($activityIds);
+        $activityNames = $actNameStmt->fetchAll(PDO::FETCH_KEY_PAIR);
+    }
     foreach($activities as &$act) {
-        $actNameStmt->execute([$act['activity_id']]);
-        $n = $actNameStmt->fetchColumn();
-        $act['act_name'] = $n;
-        
+        $act['act_name'] = $activityNames[$act['activity_id']] ?? null;
+
         // Calculate cumulative from DB for this activity
         $currentDate = convert_date($report['report_date']);
         if ($currentDate) {

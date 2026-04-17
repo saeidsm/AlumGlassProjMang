@@ -2,6 +2,7 @@
 // daily_reports_dashboard.php - FINAL VERSION (Fixed Signs, Materials, Exports)
 require_once __DIR__ . '/../../sercon/bootstrap.php';
 require_once __DIR__ . '/includes/jdf.php';
+require_once __DIR__ . '/../includes/pagination.php';
 secureSession();
 require_once __DIR__ . '/header.php';
 $contractor_map = [
@@ -135,9 +136,52 @@ if ($is_contractor) {
 }
 
 $sql = "SELECT * FROM daily_reports WHERE $whereClause ORDER BY report_date DESC, id DESC";
-$stmt = $pdo->prepare($sql);
-$stmt->execute($params);
-$reports = $stmt->fetchAll(PDO::FETCH_ASSOC);
+$pageResult = paginate($pdo, $sql, $params, 25);
+$reports = $pageResult['data'];
+
+// Batch-fetch per-report aggregates once instead of 3 queries per row.
+$reportIds = array_column($reports, 'id');
+$personnelStats = [];
+$equipmentStats = [];
+$activitiesCounts = [];
+if (!empty($reportIds)) {
+    $placeholders = implode(',', array_fill(0, count($reportIds), '?'));
+
+    $pStmt = $pdo->prepare("
+        SELECT report_id,
+               SUM(count) AS reported,
+               SUM(consultant_count) AS approved
+        FROM daily_report_personnel
+        WHERE report_id IN ($placeholders)
+        GROUP BY report_id
+    ");
+    $pStmt->execute($reportIds);
+    while ($row = $pStmt->fetch(PDO::FETCH_ASSOC)) {
+        $personnelStats[(int)$row['report_id']] = $row;
+    }
+
+    $eStmt = $pdo->prepare("
+        SELECT report_id,
+               SUM(active_count) AS reported,
+               SUM(consultant_active_count) AS approved
+        FROM daily_report_machinery
+        WHERE report_id IN ($placeholders)
+        GROUP BY report_id
+    ");
+    $eStmt->execute($reportIds);
+    while ($row = $eStmt->fetch(PDO::FETCH_ASSOC)) {
+        $equipmentStats[(int)$row['report_id']] = $row;
+    }
+
+    $aStmt = $pdo->prepare("
+        SELECT report_id, COUNT(*) AS total
+        FROM daily_report_activities
+        WHERE report_id IN ($placeholders)
+        GROUP BY report_id
+    ");
+    $aStmt->execute($reportIds);
+    $activitiesCounts = $aStmt->fetchAll(PDO::FETCH_KEY_PAIR);
+}
 $matChartQuery = $pdo->query("
     SELECT material_name, type, SUM(quantity) as total, unit
     FROM daily_report_materials drm
@@ -439,29 +483,11 @@ unset($report); // Break reference
                         <?php if(empty($reports)): ?>
                             <tr><td colspan="10" class="text-center py-4 text-muted">گزارشی یافت نشد.</td></tr>
                         <?php else: ?>
-                            <?php foreach ($reports as $row): 
-                                // 1. Personnel Stats
-                                $persSql = "SELECT 
-                                    SUM(count) as reported, 
-                                    SUM(consultant_count) as approved 
-                                    FROM daily_report_personnel WHERE report_id = ?";
-                                $persStmt = $pdo->prepare($persSql);
-                                $persStmt->execute([$row['id']]);
-                                $pStats = $persStmt->fetch(PDO::FETCH_ASSOC);
-                                
-                                // 2. Equipment Stats
-                                $equipSql = "SELECT 
-                                    SUM(active_count) as reported, 
-                                    SUM(consultant_active_count) as approved 
-                                    FROM daily_report_machinery WHERE report_id = ?";
-                                $equipStmt = $pdo->prepare($equipSql);
-                                $equipStmt->execute([$row['id']]);
-                                $eStats = $equipStmt->fetch(PDO::FETCH_ASSOC);
-                                
-                                // 3. Activities Stats (Count of rows only)
-                                $actCount = $pdo->prepare("SELECT COUNT(*) FROM daily_report_activities WHERE report_id = ?");
-                                $actCount->execute([$row['id']]);
-                                $totalAct = $actCount->fetchColumn() ?: 0;
+                            <?php foreach ($reports as $row):
+                                // Use pre-fetched batch aggregates (avoids N+1 inside the loop).
+                                $pStats = $personnelStats[(int)$row['id']] ?? ['reported' => 0, 'approved' => null];
+                                $eStats = $equipmentStats[(int)$row['id']] ?? ['reported' => 0, 'approved' => null];
+                                $totalAct = $activitiesCounts[(int)$row['id']] ?? 0;
                                 
                                 // Signatures
                                 $has_cont = !empty($row['signature_contractor']);
@@ -542,6 +568,7 @@ unset($report); // Break reference
                     </tbody>
                 </table>
             </div>
+            <?= renderPagination($pageResult, '/ghom/daily_reports_dashboard.php') ?>
         </div>
     </div>
 

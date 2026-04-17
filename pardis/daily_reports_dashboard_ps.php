@@ -2,6 +2,7 @@
 // daily_reports_dashboard_ps.php - FIXED VERSION
 require_once __DIR__ . '/../../sercon/bootstrap.php';
 require_once __DIR__ . '/includes/jdf.php';
+require_once __DIR__ . '/../includes/pagination.php';
 secureSession();
 
 // 1. DB CONNECTION & ROLES
@@ -244,9 +245,46 @@ if (!empty($_GET['date_to'])) {
 }
 
 $tableSql = "SELECT * FROM ps_daily_reports WHERE $tableWhere ORDER BY report_date DESC, id DESC";
-$stmt = $pdo->prepare($tableSql);
-$stmt->execute($tableParams);
-$reports = $stmt->fetchAll(PDO::FETCH_ASSOC);
+$pageResult = paginate($pdo, $tableSql, $tableParams, 25);
+$reports = $pageResult['data'];
+
+// Batch-fetch per-report aggregates in one query each to avoid N+1 inside the row loop.
+$reportIds = array_column($reports, 'id');
+$personnelTotals = [];
+$equipmentTotals = [];
+$activitiesCounts = [];
+if (!empty($reportIds)) {
+    $placeholders = implode(',', array_fill(0, count($reportIds), '?'));
+
+    $pStmt = $pdo->prepare("
+        SELECT report_id,
+               SUM(COALESCE(NULLIF(consultant_count, 0), count + count_night)) AS total
+        FROM ps_daily_report_personnel
+        WHERE report_id IN ($placeholders)
+        GROUP BY report_id
+    ");
+    $pStmt->execute($reportIds);
+    $personnelTotals = $pStmt->fetchAll(PDO::FETCH_KEY_PAIR);
+
+    $eStmt = $pdo->prepare("
+        SELECT report_id,
+               SUM(COALESCE(NULLIF(consultant_active_count, 0), active_count)) AS total
+        FROM ps_daily_report_machinery
+        WHERE report_id IN ($placeholders)
+        GROUP BY report_id
+    ");
+    $eStmt->execute($reportIds);
+    $equipmentTotals = $eStmt->fetchAll(PDO::FETCH_KEY_PAIR);
+
+    $aStmt = $pdo->prepare("
+        SELECT report_id, COUNT(*) AS total
+        FROM ps_daily_report_activities
+        WHERE report_id IN ($placeholders)
+        GROUP BY report_id
+    ");
+    $aStmt->execute($reportIds);
+    $activitiesCounts = $aStmt->fetchAll(PDO::FETCH_KEY_PAIR);
+}
 
 // Helper: Date Formatter
 function getJDate($gDate) {
@@ -418,22 +456,12 @@ function getJDate($gDate) {
                     <tbody>
                         <?php if(empty($reports)): ?>
                         <tr><td colspan="10" class="text-center py-4">داده‌ای یافت نشد.</td></tr>
-                        <?php else: foreach ($reports as $row): 
-                            // Personnel Total
-                            $pStmt = $pdo->prepare("SELECT SUM(COALESCE(NULLIF(consultant_count, 0), count + count_night)) FROM ps_daily_report_personnel WHERE report_id = ?");
-                            $pStmt->execute([$row['id']]);
-                            $pTot = $pStmt->fetchColumn() ?: 0;
+                        <?php else: foreach ($reports as $row):
+                            // Use pre-fetched batch aggregates (avoids N+1).
+                            $pTot = $personnelTotals[$row['id']] ?? 0;
+                            $eTot = $equipmentTotals[$row['id']] ?? 0;
+                            $aTot = $activitiesCounts[$row['id']] ?? 0;
 
-                            // Equipment Total
-                            $eStmt = $pdo->prepare("SELECT SUM(COALESCE(NULLIF(consultant_active_count, 0), active_count)) FROM ps_daily_report_machinery WHERE report_id = ?");
-                            $eStmt->execute([$row['id']]);
-                            $eTot = $eStmt->fetchColumn() ?: 0;
-
-                            // Activities Count
-                            $aStmt = $pdo->prepare("SELECT COUNT(*) FROM ps_daily_report_activities WHERE report_id = ?");
-                            $aStmt->execute([$row['id']]);
-                            $aTot = $aStmt->fetchColumn() ?: 0;
-                            
                             // Signature status
                             $sigC = !empty($row['signature_contractor']); 
                             $sigS = !empty($row['signature_consultant']); 
@@ -471,6 +499,7 @@ function getJDate($gDate) {
                     </tbody>
                 </table>
             </div>
+            <?= renderPagination($pageResult, '/pardis/daily_reports_dashboard_ps.php') ?>
         </div>
     </div>
     <!-- Charts Row 1 -->
