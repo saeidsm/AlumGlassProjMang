@@ -178,7 +178,9 @@ if ($report_id) {
             $stmt->execute([$report['contractor_fa_name']]);
             $report['contract_number'] = $stmt->fetchColumn() ?: '';
         }
-        $p_db = $pdo->query("SELECT * FROM ps_daily_report_personnel WHERE report_id=$report_id")->fetchAll(PDO::FETCH_ASSOC);
+        $stmt = $pdo->prepare("SELECT * FROM ps_daily_report_personnel WHERE report_id = ?");
+        $stmt->execute([$report_id]);
+        $p_db = $stmt->fetchAll(PDO::FETCH_ASSOC);
         if($p_db) {
             $p_map = []; foreach($p_db as $p) $p_map[$p['role_name']] = $p;
             foreach($personnel_data as &$pd) {
@@ -192,9 +194,13 @@ if ($report_id) {
             }
         }
         
-        $machinery = $pdo->query("SELECT * FROM ps_daily_report_machinery WHERE report_id=$report_id")->fetchAll(PDO::FETCH_ASSOC);
+        $stmt = $pdo->prepare("SELECT * FROM ps_daily_report_machinery WHERE report_id = ?");
+        $stmt->execute([$report_id]);
+        $machinery = $stmt->fetchAll(PDO::FETCH_ASSOC);
         
-        $mats = $pdo->query("SELECT * FROM ps_daily_report_materials WHERE report_id=$report_id")->fetchAll(PDO::FETCH_ASSOC);
+        $stmt = $pdo->prepare("SELECT * FROM ps_daily_report_materials WHERE report_id = ?");
+        $stmt->execute([$report_id]);
+        $mats = $stmt->fetchAll(PDO::FETCH_ASSOC);
         $materials_in = []; 
         $materials_out = [];
         
@@ -206,9 +212,13 @@ if ($report_id) {
         $mat_in = $materials_in;
         $mat_out = $materials_out;
         
-        $activities = $pdo->query("SELECT * FROM ps_daily_report_activities WHERE report_id=$report_id")->fetchAll(PDO::FETCH_ASSOC);
+        $stmt = $pdo->prepare("SELECT * FROM ps_daily_report_activities WHERE report_id = ?");
+        $stmt->execute([$report_id]);
+        $activities = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    $actNameStmt = $pdo->prepare("SELECT name FROM ps_project_activities WHERE id = ?");
     foreach($activities as &$act) {
-        $n = $pdo->query("SELECT name FROM ps_project_activities WHERE id={$act['activity_id']}")->fetchColumn();
+        $actNameStmt->execute([$act['activity_id']]);
+        $n = $actNameStmt->fetchColumn();
         $act['act_name'] = $n;
         
         // Calculate cumulative from DB for this activity
@@ -230,7 +240,9 @@ if ($report_id) {
         }
     }
         
-        $miscs = $pdo->query("SELECT * FROM ps_daily_report_misc WHERE report_id=$report_id")->fetchAll(PDO::FETCH_ASSOC);
+        $stmt = $pdo->prepare("SELECT * FROM ps_daily_report_misc WHERE report_id = ?");
+        $stmt->execute([$report_id]);
+        $miscs = $stmt->fetchAll(PDO::FETCH_ASSOC);
         foreach($miscs as $m) {
             if($m['type']=='PERMIT') $misc_p[]=$m; 
             elseif($m['type']=='TEST') $misc_t[]=$m; 
@@ -631,7 +643,9 @@ require_once __DIR__ . '/header_pardis.php';
                 <?php 
                 // Load existing material documents
                 if($report_id) {
-                    $matDocs = $pdo->query("SELECT * FROM ps_daily_report_material_docs WHERE report_id=$report_id")->fetchAll(PDO::FETCH_ASSOC);
+                    $stmt = $pdo->prepare("SELECT * FROM ps_daily_report_material_docs WHERE report_id = ?");
+                    $stmt->execute([$report_id]);
+                    $matDocs = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     $mdi = 0;
                     foreach($matDocs as $md):
                 ?>
@@ -681,7 +695,9 @@ require_once __DIR__ . '/header_pardis.php';
             <?php 
             // Load existing daily photos
             if($report_id) {
-                $photos = $pdo->query("SELECT * FROM ps_daily_report_photos WHERE report_id=$report_id ORDER BY id")->fetchAll(PDO::FETCH_ASSOC);
+                $stmt = $pdo->prepare("SELECT * FROM ps_daily_report_photos WHERE report_id = ? ORDER BY id");
+                $stmt->execute([$report_id]);
+                $photos = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 $pi = 0;
                 foreach($photos as $photo):
             ?>

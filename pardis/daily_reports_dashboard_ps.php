@@ -420,15 +420,19 @@ function getJDate($gDate) {
                         <tr><td colspan="10" class="text-center py-4">داده‌ای یافت نشد.</td></tr>
                         <?php else: foreach ($reports as $row): 
                             // Personnel Total
-                            $pSql = "SELECT SUM(COALESCE(NULLIF(consultant_count, 0), count + count_night)) FROM ps_daily_report_personnel WHERE report_id={$row['id']}";
-                            $pTot = $pdo->query($pSql)->fetchColumn() ?: 0;
-                            
+                            $pStmt = $pdo->prepare("SELECT SUM(COALESCE(NULLIF(consultant_count, 0), count + count_night)) FROM ps_daily_report_personnel WHERE report_id = ?");
+                            $pStmt->execute([$row['id']]);
+                            $pTot = $pStmt->fetchColumn() ?: 0;
+
                             // Equipment Total
-                            $eSql = "SELECT SUM(COALESCE(NULLIF(consultant_active_count, 0), active_count)) FROM ps_daily_report_machinery WHERE report_id={$row['id']}";
-                            $eTot = $pdo->query($eSql)->fetchColumn() ?: 0;
-                            
+                            $eStmt = $pdo->prepare("SELECT SUM(COALESCE(NULLIF(consultant_active_count, 0), active_count)) FROM ps_daily_report_machinery WHERE report_id = ?");
+                            $eStmt->execute([$row['id']]);
+                            $eTot = $eStmt->fetchColumn() ?: 0;
+
                             // Activities Count
-                            $aTot = $pdo->query("SELECT COUNT(*) FROM ps_daily_report_activities WHERE report_id={$row['id']}")->fetchColumn() ?: 0;
+                            $aStmt = $pdo->prepare("SELECT COUNT(*) FROM ps_daily_report_activities WHERE report_id = ?");
+                            $aStmt->execute([$row['id']]);
+                            $aTot = $aStmt->fetchColumn() ?: 0;
                             
                             // Signature status
                             $sigC = !empty($row['signature_contractor']); 

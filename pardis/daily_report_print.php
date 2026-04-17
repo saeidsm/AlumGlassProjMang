@@ -29,23 +29,32 @@ if (!empty($report['report_date'])) {
 }
 
 // Fetch Related Data
-$personnel = $pdo->query("SELECT * FROM ps_daily_report_personnel WHERE report_id = $report_id ORDER BY id")->fetchAll(PDO::FETCH_ASSOC);
-$machinery = $pdo->query("SELECT * FROM ps_daily_report_machinery WHERE report_id = $report_id ORDER BY id")->fetchAll(PDO::FETCH_ASSOC);
+$stmt = $pdo->prepare("SELECT * FROM ps_daily_report_personnel WHERE report_id = ? ORDER BY id");
+$stmt->execute([$report_id]);
+$personnel = $stmt->fetchAll(PDO::FETCH_ASSOC);
+$stmt = $pdo->prepare("SELECT * FROM ps_daily_report_machinery WHERE report_id = ? ORDER BY id");
+$stmt->execute([$report_id]);
+$machinery = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 // Materials
-$materials = $pdo->query("SELECT * FROM ps_daily_report_materials WHERE report_id = $report_id")->fetchAll(PDO::FETCH_ASSOC);
+$stmt = $pdo->prepare("SELECT * FROM ps_daily_report_materials WHERE report_id = ?");
+$stmt->execute([$report_id]);
+$materials = $stmt->fetchAll(PDO::FETCH_ASSOC);
 $mat_in = array_filter($materials, fn($m) => $m['type'] === 'IN');
 $mat_out = array_filter($materials, fn($m) => $m['type'] === 'OUT');
 
 // Activities
-$sql_act = "SELECT dra.*, pa.name as act_name 
-            FROM ps_daily_report_activities dra 
-            LEFT JOIN ps_project_activities pa ON dra.activity_id = pa.id 
-            WHERE dra.report_id = $report_id ORDER BY dra.id";
-$activities = $pdo->query($sql_act)->fetchAll(PDO::FETCH_ASSOC);
+$stmt = $pdo->prepare("SELECT dra.*, pa.name as act_name
+            FROM ps_daily_report_activities dra
+            LEFT JOIN ps_project_activities pa ON dra.activity_id = pa.id
+            WHERE dra.report_id = ? ORDER BY dra.id");
+$stmt->execute([$report_id]);
+$activities = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 // Misc items
-$misc = $pdo->query("SELECT * FROM ps_daily_report_misc WHERE report_id = $report_id")->fetchAll(PDO::FETCH_ASSOC);
+$stmt = $pdo->prepare("SELECT * FROM ps_daily_report_misc WHERE report_id = ?");
+$stmt->execute([$report_id]);
+$misc = $stmt->fetchAll(PDO::FETCH_ASSOC);
 $misc_hse = array_filter($misc, fn($m) => $m['type'] === 'HSE');
 $misc_test = array_filter($misc, fn($m) => $m['type'] === 'TEST');
 $misc_permit = array_filter($misc, fn($m) => $m['type'] === 'PERMIT');

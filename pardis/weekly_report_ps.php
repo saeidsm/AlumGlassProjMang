@@ -88,12 +88,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['generate_zip'])) {
     }
 
     $report_ids = array_column($reports, 'id');
-    $ids_str = implode(',', $report_ids);
+    $placeholders = implode(',', array_fill(0, count($report_ids), '?'));
 
     // 1. Personnel Stats
-    $persSql = "SELECT role_name, SUM(count + count_night) as total_days, SUM(consultant_count) as total_approved 
-                FROM ps_daily_report_personnel WHERE report_id IN ($ids_str) GROUP BY role_name";
-    $personnel_raw = $pdo->query($persSql)->fetchAll(PDO::FETCH_ASSOC);
+    $stmt = $pdo->prepare("SELECT role_name, SUM(count + count_night) as total_days, SUM(consultant_count) as total_approved
+                FROM ps_daily_report_personnel WHERE report_id IN ($placeholders) GROUP BY role_name");
+    $stmt->execute($report_ids);
+    $personnel_raw = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
     $total_executive_days = 0;
     $total_staff_days = 0;
@@ -109,32 +110,37 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['generate_zip'])) {
     }
 
     // 2. Machinery Stats
-    $macSql = "SELECT machine_name, SUM(active_count) as total_active, SUM(total_count) as total_present 
-               FROM ps_daily_report_machinery WHERE report_id IN ($ids_str) GROUP BY machine_name";
-    $machinery_stats = $pdo->query($macSql)->fetchAll(PDO::FETCH_ASSOC);
+    $stmt = $pdo->prepare("SELECT machine_name, SUM(active_count) as total_active, SUM(total_count) as total_present
+               FROM ps_daily_report_machinery WHERE report_id IN ($placeholders) GROUP BY machine_name");
+    $stmt->execute($report_ids);
+    $machinery_stats = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
     // 3. Materials Stats
-    $matSql = "SELECT material_name, unit, type, SUM(quantity) as total_qty 
-               FROM ps_daily_report_materials WHERE report_id IN ($ids_str) GROUP BY material_name, unit, type";
-    $material_stats = $pdo->query($matSql)->fetchAll(PDO::FETCH_ASSOC);
+    $stmt = $pdo->prepare("SELECT material_name, unit, type, SUM(quantity) as total_qty
+               FROM ps_daily_report_materials WHERE report_id IN ($placeholders) GROUP BY material_name, unit, type");
+    $stmt->execute($report_ids);
+    $material_stats = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
     // 4. Activities Stats
-    $actSql = "SELECT pa.name, dra.unit, dr.block_name, dra.location_facade,
+    $stmt = $pdo->prepare("SELECT pa.name, dra.unit, dr.block_name, dra.location_facade,
                SUM(COALESCE(dra.qty_day, 0) + COALESCE(dra.qty_night, 0)) as period_qty,
                MAX(dra.qty_cumulative) as max_cumulative,
                MAX(dra.vol_total) as total_volume
                FROM ps_daily_report_activities dra
                JOIN ps_daily_reports dr ON dra.report_id = dr.id
                JOIN ps_project_activities pa ON dra.activity_id = pa.id
-               WHERE dra.report_id IN ($ids_str)
-               GROUP BY pa.id, dr.block_name, dra.location_facade"; 
-    $activity_stats = $pdo->query($actSql)->fetchAll(PDO::FETCH_ASSOC);
+               WHERE dra.report_id IN ($placeholders)
+               GROUP BY pa.id, dr.block_name, dra.location_facade");
+    $stmt->execute($report_ids);
+    $activity_stats = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
     // 5. Photos & Docs
-    $photoSql = "SELECT * FROM ps_daily_report_photos WHERE report_id IN ($ids_str)";
-    $photos = $pdo->query($photoSql)->fetchAll(PDO::FETCH_ASSOC);
-    $docsSql = "SELECT * FROM ps_daily_report_material_docs WHERE report_id IN ($ids_str)";
-    $mat_docs = $pdo->query($docsSql)->fetchAll(PDO::FETCH_ASSOC);
+    $stmt = $pdo->prepare("SELECT * FROM ps_daily_report_photos WHERE report_id IN ($placeholders)");
+    $stmt->execute($report_ids);
+    $photos = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    $stmt = $pdo->prepare("SELECT * FROM ps_daily_report_material_docs WHERE report_id IN ($placeholders)");
+    $stmt->execute($report_ids);
+    $mat_docs = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
     // 6. Logs & Charts
     $log_problems = [];
@@ -151,7 +157,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['generate_zip'])) {
         $d = jdate('m/d', strtotime($r['report_date']));
         if(!isset($day_sums[$d])) $day_sums[$d] = 0;
         $pid = $r['id'];
-        $cnt = $pdo->query("SELECT SUM(count + count_night) FROM ps_daily_report_personnel WHERE report_id=$pid")->fetchColumn();
+        $cntStmt = $pdo->prepare("SELECT SUM(count + count_night) FROM ps_daily_report_personnel WHERE report_id = ?");
+        $cntStmt->execute([$pid]);
+        $cnt = $cntStmt->fetchColumn();
         $day_sums[$d] += ($cnt ?: 0);
     }
     $chart_dates = array_keys($day_sums);
