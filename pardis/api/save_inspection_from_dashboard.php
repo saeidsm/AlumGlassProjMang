@@ -5,6 +5,8 @@ require_once __DIR__ . '/../../../sercon/bootstrap.php';
 require_once __DIR__ . '/../includes/jdf.php';
 
 secureSession();
+require_once __DIR__ . '/../../includes/security.php';
+requireCsrf();
 
 // --- HELPER FUNCTIONS (FROM YOUR CODE) ---
 function jalali_to_gregorian_for_db($jalali_date)

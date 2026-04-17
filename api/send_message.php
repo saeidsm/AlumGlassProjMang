@@ -22,6 +22,8 @@ if (!isLoggedIn()) {
     ]);
     exit;
 }
+require_once __DIR__ . '/../includes/security.php';
+requireCsrf();
 
 // Get current user ID from session
 if (!isset($_SESSION['user_id'])) {

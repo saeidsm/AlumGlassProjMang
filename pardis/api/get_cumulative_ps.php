@@ -8,6 +8,8 @@ header('Content-Type: application/json');
 if (!isLoggedIn()) {
     exit(json_encode(['success' => false, 'message' => 'Unauthorized']));
 }
+require_once __DIR__ . '/../../includes/security.php';
+requireCsrf();
 
 $pdo = getProjectDBConnection('pardis');
 

@@ -17,6 +17,8 @@ if (!isLoggedIn()) {
     //log_upload("ERROR: User not logged in.");
     exit(json_encode(['success' => false, 'message' => 'Unauthorized']));
 }
+require_once __DIR__ . '/../../includes/security.php';
+requireCsrf();
 
 $pdo = getProjectDBConnection('ghom');
 $pdo->beginTransaction();

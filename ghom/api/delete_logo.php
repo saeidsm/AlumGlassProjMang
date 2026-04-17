@@ -7,6 +7,8 @@ if (function_exists('isLoggedIn') && !isLoggedIn()) {
     http_response_code(401);
     exit(json_encode(['success' => false, 'message' => 'Unauthorized']));
 }
+require_once __DIR__ . '/../../includes/security.php';
+requireCsrf();
 
 try {
     $pdo = getProjectDBConnection('ghom');

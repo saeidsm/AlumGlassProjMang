@@ -5,6 +5,8 @@ require_once __DIR__ . '/../../../sercon/bootstrap.php';
 require_once __DIR__ . '/../includes/notification_helper.php';
 
 if (!isLoggedIn()) exit(json_encode(['status'=>'error','message'=>'Auth required']));
+require_once __DIR__ . '/../../includes/security.php';
+requireCsrf();
 
 try {
     $pdo = getProjectDBConnection('ghom');

@@ -9,6 +9,8 @@ if (!isLoggedIn()) {
     echo json_encode(['success' => false, 'message' => 'Authentication required.']);
     exit;
 }
+require_once __DIR__ . '/../../includes/security.php';
+requireCsrf();
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     http_response_code(405);

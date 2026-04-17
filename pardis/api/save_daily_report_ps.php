@@ -9,8 +9,10 @@ if (!isLoggedIn()) {
     http_response_code(401);
     exit(json_encode(['success' => false, 'message' => 'Unauthorized']));
 }
+require_once __DIR__ . '/../../includes/security.php';
+requireCsrf();
 
-$pdo = getProjectDBConnection('pardis'); 
+$pdo = getProjectDBConnection('pardis');
 
 $user_id = $_SESSION['user_id'];
 $user_role = $_SESSION['role'];
