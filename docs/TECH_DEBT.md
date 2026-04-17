@@ -158,10 +158,12 @@
 
 ### TD-ARCH-001: No MVC / Service Layer
 - **شدت**: 🟠 بالا
-- **وضعیت**: ⏳ باز
+- **وضعیت**: 🟡 جزئی رفع شده (Repository pattern)
 - **فاز**: 3
 - **شرح**: منطق، نمایش و دسترسی داده همه در یک فایل
-- **تخمین**: ۲۰-۳۰ روز (تدریجی)
+- **Phase 3B نتیجه**: Repository pattern اضافه شد — `shared/repositories/` با `ElementRepository`, `InspectionRepository`, `DailyReportRepository`, `UserRepository`. لایه Controller/View هنوز یکپارچه نشده.
+- **تاریخ**: 2026-04-17 (Phase 3B)
+- **commit**: phase-3b-data-access-layer
 
 ### TD-ARCH-002: 15 Duplicate Headers
 - **شدت**: 🟠 بالا
@@ -177,31 +179,39 @@
 
 ### TD-ARCH-003: No Shared Library
 - **شدت**: 🟠 بالا
-- **وضعیت**: ⏳ باز
-- **فاز**: 2
+- **وضعیت**: 🟢 رفع شده
+- **فاز**: 3
 - **شرح**: کد مشترک بین ghom و pardis تکرار شده
-- **تخمین**: ۵-۷ روز
+- **Phase 3A نتیجه**: `shared/api/` (32 endpoint) + `shared/includes/project_context.php` (getCurrentProject) + `shared/includes/jdf.php`. فایل‌های ghom/api و pardis/api به shim تبدیل شدند. `shared/repositories/` در Phase 3B اضافه شد.
+- **تاریخ رفع**: 2026-04-17 (Phase 3A + 3B)
+- **commit**: phase-3a-shared-api, phase-3b-data-access-layer
 
 ### TD-ARCH-004: No Automated Tests
 - **شدت**: 🟡 متوسط
-- **وضعیت**: ⏳ باز
+- **وضعیت**: 🟢 رفع شده
 - **فاز**: 3
 - **شرح**: هیچ Unit/Integration test نوشته نشده
-- **تخمین**: ۱۰ روز (برای critical paths)
+- **Phase 3D نتیجه**: PHPUnit 10.5 setup + ۵۲ تست در ۵ کلاس (SecurityTest, ValidationTest, ProjectContextTest, PaginationTest, UserRepositoryTest با SQLite in-memory).
+- **تاریخ رفع**: 2026-04-17 (Phase 3D)
+- **commit**: phase-3d-testing
 
 ### TD-ARCH-005: No CI/CD
 - **شدت**: 🟡 متوسط
-- **وضعیت**: ⏳ باز
+- **وضعیت**: 🟢 رفع شده
 - **فاز**: 3
 - **شرح**: deploy دستی بدون pipeline
-- **تخمین**: ۲ روز
+- **Phase 3E نتیجه**: `.github/workflows/ci.yml` با ۳ job — lint (syntax + PHPStan + PHPCS), test (PHPUnit), security (SQLi/XSS/secret/dump gates).
+- **تاریخ رفع**: 2026-04-17 (Phase 3E)
+- **commit**: phase-3e-cicd
 
 ### TD-ARCH-006: No Coding Standards
 - **شدت**: 🟡 متوسط
-- **وضعیت**: ⏳ باز
+- **وضعیت**: 🟢 رفع شده
 - **فاز**: 3
 - **شرح**: نام‌گذاری ناسازگار، بدون PSR
-- **تخمین**: ۳ روز (setup + initial cleanup)
+- **Phase 3C نتیجه**: `composer.json` + `phpstan.neon` (level 3) + `phpcs.xml` (PSR-12) + `.editorconfig`. Scripts: `composer test | analyse | lint | lint-fix`.
+- **تاریخ رفع**: 2026-04-17 (Phase 3C)
+- **commit**: phase-3c-coding-standards
 
 ---
 

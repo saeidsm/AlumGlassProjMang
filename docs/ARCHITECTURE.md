@@ -147,6 +147,56 @@ AlumGlassProjMang/
                         [Template Engine]
 ```
 
+### 3.3 Shared Library (Phase 3)
+
+با تکمیل Phase 3 ساختار زیر اضافه شد:
+
+```
+shared/
+├── api/                      # 32 endpoint مشترک بین ghom و pardis
+│   ├── get_stages.php        # از getProjectDB() استفاده می‌کند
+│   ├── save_template.php     # پروژه را از session/URL تشخیص می‌دهد
+│   └── ... (32 files)
+├── includes/
+│   ├── project_context.php   # getCurrentProject() + getProjectDB()
+│   └── jdf.php               # Jalali date library (منبع واحد)
+└── repositories/             # Data access layer
+    ├── ElementRepository.php
+    ├── InspectionRepository.php
+    ├── DailyReportRepository.php
+    └── UserRepository.php
+```
+
+**Project Context Resolver** — هر درخواست به یک endpoint مشترک پروژه جاری را به این ترتیب تشخیص می‌دهد:
+1. `$_SESSION['current_project']` (تنظیم در project selector)
+2. بخش URL (`/ghom/api/...` → `ghom`)
+3. پارامتر GET/POST `project=...`
+4. در غیر این صورت: `RuntimeException`
+
+**Backward Compatibility** — مسیرهای قبلی (`ghom/api/get_stages.php`, `pardis/api/get_stages.php`) دست‌نخورده باقی مانده‌اند و در قالب shim یک‌خطی به `shared/api/` منتقل می‌شوند.
+
+**Repository Factory** — `getRepository('UserRepository')` در `sercon/bootstrap.php` یک singleton lazy-load می‌کند. مخازن پروژه‌ای به صورت خودکار به دیتابیس پروژه جاری متصل می‌شوند.
+
+### 3.4 Testing & CI/CD (Phase 3)
+
+- **PHPUnit 10.5**: `phpunit.xml` + `tests/bootstrap.php` مستقل (بدون DB واقعی). ۵۲ تست در ۵ کلاس.
+- **PHPStan level 3**: `phpstan.neon` روی `shared/` و `includes/`.
+- **PHP_CodeSniffer PSR-12**: `phpcs.xml`.
+- **GitHub Actions**: سه job — lint / test / security gates. فایل: `.github/workflows/ci.yml`.
+
+### 3.5 Migration Script (Phase 3)
+
+`scripts/migrate.sh` یک ابزار bash برای مهاجرت از استقرار قدیمی (ZIP-based) به استقرار جدید (Git-based) است:
+
+1. گرفتن credentials مبدأ و مقصد
+2. `mysqldump` هر سه دیتابیس از طریق SSH
+3. `rsync` فایل‌های آپلود شده
+4. `CREATE DATABASE` + import در مقصد
+5. تولید `.env` با permission 0600
+6. تنظیم ownership و permissions
+7. نصب crontab (حفظ entry های دیگر)
+8. اجرای `scripts/migrate_verify.php`
+
 ---
 
 ## 4. پایگاه داده (Database Architecture)

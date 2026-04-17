@@ -144,8 +144,57 @@
 
 ---
 
-### Phase 3 — Architecture (Planned)
-*To be documented upon completion*
+### Phase 3 — Architecture Refactoring (2026-04-17)
+
+#### Phase 3A — Shared API Layer
+##### Added
+- [x] `shared/includes/project_context.php` — `getCurrentProject()` resolver (session → URL → GET/POST) and `getProjectDB()` helper
+- [x] `shared/api/` — 32 unified endpoints (get_stages, save_template, get_calendar_events, batch_update_status, …) previously duplicated per project
+- [x] `shared/includes/jdf.php` — Jalali date library, single source of truth
+
+##### Changed
+- [x] `ghom/api/*.php` and `pardis/api/*.php` (32 files each) — now one-line shims that `require_once '../../shared/api/' . basename(__FILE__)`. Original URLs unchanged.
+
+##### Removed
+- [x] ~7500 lines of duplicated logic across ghom/api/ and pardis/api/
+
+#### Phase 3B — Data Access Layer
+##### Added
+- [x] `shared/repositories/ElementRepository.php` — element queries (findById, findByZone, status counts, updateStatus)
+- [x] `shared/repositories/InspectionRepository.php` — inspection queries (findByElement, getStatsByStage, getRecentByUser)
+- [x] `shared/repositories/DailyReportRepository.php` — report queries + `getActivityCountsByReportIds()` batch helper
+- [x] `shared/repositories/UserRepository.php` — user queries with batch `findByIds()`
+- [x] `getRepository()` factory in `sercon/bootstrap.php` — lazy singletons, auto-binds project repos to current project DB
+
+#### Phase 3C — Coding Standards
+##### Added
+- [x] `composer.json` — dev deps (PHPUnit 10.5, PHPStan 1.10, phpcs 3.9) + scripts (test/analyse/lint/lint-fix)
+- [x] `phpstan.neon` — level 3 over shared/ and includes/
+- [x] `phpcs.xml` — PSR-12 baseline
+- [x] `.editorconfig` — LF endings, 4-space PHP, 2-space frontend
+
+#### Phase 3D — Tests
+##### Added
+- [x] `phpunit.xml` + `tests/bootstrap.php` (standalone, no DB)
+- [x] `tests/Unit/SecurityTest.php` — escape + CSRF lifecycle (10 tests)
+- [x] `tests/Unit/ValidationTest.php` — int/string/email/date/in-array (19 tests)
+- [x] `tests/Unit/ProjectContextTest.php` — session/URL/GET/POST precedence (8 tests)
+- [x] `tests/Unit/PaginationTest.php` — renderPagination branches (8 tests)
+- [x] `tests/Unit/UserRepositoryTest.php` — in-memory SQLite integration (7 tests)
+
+#### Phase 3E — CI/CD
+##### Added
+- [x] `.github/workflows/ci.yml` — three jobs: lint (syntax + PHPStan + PHPCS), test (PHPUnit), security (SQLi/XSS/secret/dump gates)
+
+#### Phase 3F — Migration
+##### Added
+- [x] `scripts/migrate.sh` — 8-step bash migrator (credentials → dump → rsync → import → .env → permissions → cron → verify)
+- [x] `scripts/migrate_verify.php` — post-migration health check (DB connectivity, env vars, filesystem perms, Phase 3 layout, dangerous-file absence)
+
+---
+
+## [1.0.0] — 2026-04-17
+First stable release. Phases 0 → 3 complete: hardened, performant, tested, documented, and deployable via `scripts/migrate.sh`.
 
 ---
 
@@ -153,6 +202,7 @@
 
 | نسخه | تاریخ | شرح |
 |------|--------|------|
+| 1.0.0 | 2026-04-17 | Phase 3 — Shared API + repositories + tests + CI/CD + migration script |
 | 0.3.0 | 2026-04-17 | Phase 2 — Design system, header unification, inline-asset extraction, responsive mobile consolidation, N+1 fixes, pagination |
 | 0.2.1 | 2026-04-17 | Phase 1.5 — CSRF forms + global AJAX injector + role-based auth |
 | 0.2.0 | 2026-04-17 | Phase 1 — Security hardening, prepared statements, CSRF, auth, headers |

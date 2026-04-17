@@ -256,6 +256,56 @@ Options -Indexes
 
 ---
 
+## مهاجرت از نسخه قدیمی (Migration from Legacy Deployment)
+
+اگر از نسخه ZIP-based قدیمی (cPanel) به استقرار Git-based جدید منتقل می‌شوید، از `scripts/migrate.sh` استفاده کنید.
+
+### پیش‌نیازها روی سرور جدید
+- PHP 8.1+ با `pdo_mysql`, `mbstring`, `gd`, `fileinfo`
+- MySQL/MariaDB client, `rsync`, `ssh`, `openssl`, `crontab`
+- دسترسی SSH کلید-دار به سرور قدیمی
+
+### اجرای مهاجرت
+
+```bash
+cd /path/to/new/AlumGlassProjMang
+./scripts/migrate.sh --source-host old.example.com \
+                     --source-user root \
+                     --source-path /home/alumglas/public_html
+```
+
+اسکریپت ۸ مرحله زیر را انجام می‌دهد:
+
+| مرحله | شرح |
+|-------|------|
+| 1 | پرسش credential های MySQL مبدأ و مقصد و توکن‌های اپلیکیشن |
+| 2 | `mysqldump` هر سه دیتابیس (`alumglas_common`, `alumglas_hpc`, `alumglas_pardis`) از طریق SSH |
+| 3 | `rsync` فایل‌های آپلود (`ghom/uploads`, `pardis/uploads`, logos, images) |
+| 4 | `CREATE DATABASE` + import در سرور جدید |
+| 5 | تولید `.env` با permission 0600 و `TELEGRAM_CRON_SECRET` تازه |
+| 6 | تنظیم permission فایل‌ها و ownership به کاربر web server |
+| 7 | نصب entry های cron برای yادآورهای روزانه و broadcast تلگرام |
+| 8 | اجرای `scripts/migrate_verify.php` |
+
+### بررسی پس از مهاجرت
+
+```bash
+php scripts/migrate_verify.php
+```
+
+این اسکریپت بررسی می‌کند: اتصال به هر سه دیتابیس، وجود متغیرهای محیطی ضروری، permission فایل `.env`، وجود مسیرهای `shared/api/`, `shared/repositories/`, و غیاب فایل‌های خطرناک قدیمی (info.php, localhost.sql.txt و غیره).
+
+Exit code 0 = همه چیز سالم، 1 = یک یا چند بررسی شکست خورد.
+
+### پشتیبان‌گیری خودکار
+
+اسکریپت مهاجرت یک پوشه `migration_backup_YYYYMMDD_HHMMSS` در root پروژه می‌سازد که شامل:
+- `databases/` — dump های SQL
+- `uploads/` — فایل‌های آپلود (اگر rsync موفق نبود)
+- `config/env.backup` — `.env` قبلی در صورت وجود
+
+---
+
 ## بروزرسانی (Update Process)
 
 ```bash
