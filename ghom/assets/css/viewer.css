@@ -1,0 +1,579 @@
+/* Extracted from ghom/viewer.php during Phase 2C.
+ * Concatenates 1 inline <style> block(s).
+ */
+
+@font-face {
+            font-family: "Samim";
+            src: url("/ghom/assets/fonts/Samim-FD.woff2") format("woff2");
+        }
+
+        body,
+        html {
+            margin: 0;
+            padding: 0;
+            font-family: 'Samim', sans-serif;
+            height: 100vh;
+            overflow: hidden;
+            background-color: #f0f0f0;
+        }
+
+        .viewer-wrapper {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        #viewer-toolbar {
+            padding: 8px;
+            background: #fff;
+            border-bottom: 1px solid #ccc;
+            text-align: left;
+            flex-shrink: 0;
+            direction: ltr;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap-reverse;
+            gap: 10px;
+        }
+
+        #viewer-toolbar .controls {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-grow: 1;
+        }
+
+        #viewer-toolbar button {
+            padding: 8px 14px;
+            margin: 0 4px;
+            cursor: pointer;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            background-color: #f8f9fa;
+            font-size: 1rem;
+        }
+
+        #legend {
+            padding: 5px 10px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            flex-grow: 1;
+        }
+
+        #legend span {
+            display: inline-flex;
+            align-items: center;
+            margin: 0;
+            font-size: 13px;
+        }
+
+        .legend-color {
+            display: inline-block;
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            border: 1px solid #555;
+            vertical-align: middle;
+            margin-left: 6px;
+        }
+
+        .legend-count {
+            font-weight: bold;
+            margin-right: 4px;
+            background-color: #e9ecef;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 12px;
+        }
+
+        #svg-container-wrapper {
+            flex-grow: 1;
+            overflow: hidden;
+            background: #e9ecef;
+            cursor: grab;
+            position: relative;
+            touch-action: none;
+            /* Prevents default touch actions like scrolling */
+        }
+
+        #svg-container-wrapper.grabbing {
+            cursor: grabbing;
+        }
+
+        #svg-container {
+            width: 100%;
+            height: 100%;
+            position: relative;
+        }
+
+        #svg-container svg {
+            width: 100%;
+            height: 100%;
+            transform-origin: 0 0;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        .highlight-marker {
+            stroke: #000;
+            stroke-width: 1px;
+            transition: transform 0.15s ease, stroke-width 0.15s ease;
+            cursor: pointer;
+            transform-origin: center;
+        }
+
+        .highlight-marker text {
+            display: none !important;
+        }
+
+        .marker-hover {
+            stroke-width: 2px;
+            transform: scale(1.2);
+        }
+
+        .svg-tooltip {
+            position: fixed;
+            background-color: rgba(0, 0, 0, 0.9);
+            color: white;
+            padding: 10px 14px;
+            border-radius: 8px;
+            font-size: 13px;
+            pointer-events: none;
+            z-index: 10000;
+            max-width: 350px;
+            line-height: 1.6;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.15s ease-in-out;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            white-space: nowrap;
+        }
+
+        .tooltip-visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .svg-tooltip strong {
+            color: #ffc107;
+        }
+
+        #loading,
+        #filter-no-results-message {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 18px;
+            z-index: 1000;
+        }
+
+        #loading {
+            top: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        #filter-no-results-message {
+            top: 20px;
+            background-color: rgba(255, 193, 7, 0.9);
+            color: #333;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-weight: bold;
+            text-align: center;
+            display: none;
+        }
+
+        @media print {
+
+            /* --- 1. Hide only the interactive/unnecessary elements --- */
+            #viewer-toolbar .controls,
+            /* Hide zoom, print, download buttons */
+            #viewer-toolbar #legend,
+            /* Hide the interactive color legend */
+            #stage-filter-panel,
+            /* Hide the workflow filter panel */
+            .svg-tooltip {
+                /* Hide the hover tooltip */
+                display: none !important;
+            }
+
+            /* --- 2. Ensure the main toolbar and the new header ARE visible --- */
+            #viewer-toolbar {
+                display: flex !important;
+                justify-content: flex-end !important;
+                /* Aligns header to the right */
+                border-bottom: 2px solid #000 !important;
+                /* Add a solid line for print */
+                padding: 10px 0 !important;
+                background-color: #fff !important;
+            }
+
+            #viewer-header-info {
+                display: flex !important;
+                /* Make sure the header itself is visible */
+                width: 100%;
+                justify-content: center;
+                /* Center the header info on the printed page */
+                font-size: 14pt !important;
+            }
+
+            #viewer-header-info strong {
+                color: #000 !important;
+                /* Use black for better print contrast */
+            }
+
+            /* --- 3. Keep all the other essential print styles --- */
+            body {
+                background-color: #fff !important;
+            }
+
+            .viewer-wrapper {
+                height: 100vh;
+                display: flex;
+                flex-direction: column;
+            }
+
+            #svg-container-wrapper {
+                flex-grow: 1;
+                height: 70vh;
+                overflow: visible;
+                border: 1px solid #ccc !important;
+            }
+
+            #status-chart-container {
+                flex-shrink: 0;
+                margin-top: 20px;
+                page-break-before: auto;
+            }
+
+            #svg-container svg {
+                /* Reset the view to default for a clean print */
+                transform: translate(0, 0) scale(1) !important;
+                width: 100%;
+                height: 100%;
+            }
+
+            .chart-bar,
+            .detail-color,
+            #svg-container svg path,
+            #svg-container svg rect {
+                /* Force colors to print */
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+        }
+
+        #status-chart-container {
+            width: 90%;
+            max-width: 800px;
+            /* A good max-width for the chart */
+            margin: 20px auto;
+            padding: 15px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .chart-title {
+            text-align: center;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #333;
+            font-size: 1.1em;
+        }
+
+        .chart-bar-wrapper {
+            display: flex;
+            width: 100%;
+            height: 35px;
+            /* A slightly taller bar */
+            border-radius: 6px;
+            overflow: hidden;
+            /* This makes the corners of the child bars appear rounded */
+            border: 1px solid #e0e0e0;
+        }
+
+        .chart-bar {
+            height: 100%;
+            transition: width 0.6s ease-in-out;
+            /* A smoother transition */
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 13px;
+            font-weight: bold;
+            white-space: nowrap;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4);
+        }
+
+        .chart-details-wrapper {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            /* Distributes items evenly */
+            margin-top: 15px;
+            padding-top: 10px;
+            border-top: 1px solid #eee;
+        }
+
+        .chart-detail {
+            display: flex;
+            align-items: center;
+            margin: 5px 10px;
+            font-size: 14px;
+        }
+
+        .detail-color {
+            width: 14px;
+            height: 14px;
+            border-radius: 3px;
+            /* Changed to a square for differentiation */
+            margin-left: 8px;
+            flex-shrink: 0;
+            /* Prevents the color box from shrinking */
+        }
+
+        .detail-label {
+            color: #555;
+            margin-left: 4px;
+        }
+
+        .detail-value {
+            color: #000;
+            font-weight: bold;
+            direction: ltr;
+            /* Ensures numbers and parens are displayed correctly */
+            text-align: left;
+        }
+
+        /* Button Styles */
+        .btn {
+            padding: 8px 15px;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            color: white;
+            font-family: inherit;
+            font-size: 0.9em;
+            transition: background-color 0.2s;
+        }
+
+        .btn-load {
+            background-color: #007bff;
+        }
+
+        .btn-load:hover {
+            background-color: #0069d9;
+        }
+
+        .btn-save {
+            background-color: #28a745;
+        }
+
+        .btn-new {
+            background-color: #6c757d;
+        }
+
+        .btn-back {
+            background-color: #5a6268;
+            text-decoration: none;
+            display: inline-block;
+
+        }
+
+        path[data-status],
+        rect[data-status] {
+            transition: fill 0.3s ease-in-out;
+        }
+
+        #stage-filter-panel {
+            position: fixed;
+            top: 80px;
+            right: 20px;
+            z-index: 1000;
+            width: 300px;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+            border: 1px solid #ccc;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .panel-header {
+            padding: 12px 15px;
+            background-color: #f8f9fa;
+            border-bottom: 1px solid #e0e0e0;
+            border-radius: 8px 8px 0 0;
+        }
+
+        .panel-header h4 {
+            margin: 0;
+            color: #333;
+        }
+
+        .panel-body {
+            padding: 15px;
+        }
+
+        .panel-body .form-group {
+            margin-bottom: 15px;
+        }
+
+        .panel-body label {
+            font-weight: bold;
+            font-size: 13px;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .panel-body select {
+            width: 100%;
+            padding: 8px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+        }
+
+        .panel-footer {
+            padding: 10px 15px;
+            background-color: #f8f9fa;
+            border-top: 1px solid #e0e0e0;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .panel-footer button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* --- NEW INSPECTION COUNT INDICATOR --- */
+        .inspection-count-marker {
+            fill: rgba(255, 255, 255, 0.9);
+            stroke: #333;
+            stroke-width: 0.5px;
+        }
+
+        .inspection-count-text {
+            fill: #000;
+            font-size: 4px;
+            /* Will be scaled with the view */
+            font-weight: bold;
+            text-anchor: middle;
+            dominant-baseline: middle;
+            pointer-events: none;
+            /* Text should not block clicks */
+        }
+
+        #totals-display {
+            display: flex;
+            gap: 20px;
+            /* Space between the two total items */
+            background-color: #e9ecef;
+            padding: 8px 15px;
+            border-radius: 6px;
+            border: 1px solid #dee2e6;
+            margin: 0 auto;
+            /* Helps center it within the flex toolbar */
+        }
+
+        .total-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .total-label {
+            font-size: 13px;
+            color: #495057;
+            font-weight: bold;
+        }
+
+        .total-value {
+            font-size: 15px;
+            font-weight: bold;
+            color: #0056b3;
+            /* A distinct blue color */
+            background-color: #fff;
+            padding: 3px 8px;
+            border-radius: 4px;
+            min-width: 40px;
+            text-align: center;
+        }
+
+        .panel-summary {
+            padding: 10px 15px;
+            background-color: #f0f8ff;
+            /* A light blue to stand out */
+            border-top: 1px solid #e0e0e0;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .summary-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 13px;
+            padding: 4px 0;
+        }
+
+        .summary-item strong {
+            font-size: 14px;
+            color: #0056b3;
+        }
+
+        #viewer-header-info {
+            display: flex;
+            gap: 25px;
+            /* Adds space between items */
+            padding: 5px 15px;
+            font-size: 14px;
+            color: #333;
+            /* Pushes it to the far right in the LTR toolbar container */
+            margin-right: auto;
+            direction: rtl;
+            /* Ensures text inside the header is right-to-left */
+            flex-wrap: wrap;
+            /* Allow wrapping on smaller screens */
+        }
+
+        #viewer-header-info span {
+            white-space: nowrap;
+            /* Prevents text from wrapping unnecessarily */
+        }
+
+        #viewer-header-info strong {
+            color: #0056b3;
+            /* Highlight the dynamic data */
+            font-weight: bold;
+        }
+        details {
+  display: inline-block; /* so it only takes as much width as needed */
+}
+
+details summary {
+  background-color: #007bff; /* blue like a button */
+  color: white;
+  padding: 6px 12px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  user-select: none;
+  list-style: none; 
+  width: fit-content; 
+
+}
+
+details summary::-webkit-details-marker {
+  display: none; /* remove default triangle in Chrome/Safari */
+}
+
+details[open] summary {
+  background-color: #0056b3; /* darker when open */
+}
