@@ -375,16 +375,16 @@ function getJDate($gDate) {
                 <?php if(!$is_contractor): ?>
                 <div class="col-md-3">
                     <label class="small">پیمانکار</label>
-                    <input type="text" name="contractor" class="form-control form-control-sm" value="<?= $_GET['contractor']??'' ?>" placeholder="جستجو...">
+                    <input type="text" name="contractor" class="form-control form-control-sm" value="<?= htmlspecialchars($_GET['contractor'] ?? '', ENT_QUOTES, 'UTF-8') ?>" placeholder="جستجو...">
                 </div>
                 <?php endif; ?>
                 <div class="col-md-2">
                     <label class="small">از تاریخ</label>
-                    <input type="text" name="date_from" data-jdp class="form-control form-control-sm" value="<?= $_GET['date_from']??'' ?>">
+                    <input type="text" name="date_from" data-jdp class="form-control form-control-sm" value="<?= htmlspecialchars($_GET['date_from'] ?? '', ENT_QUOTES, 'UTF-8') ?>">
                 </div>
                 <div class="col-md-2">
                     <label class="small">تا تاریخ</label>
-                    <input type="text" name="date_to" data-jdp class="form-control form-control-sm" value="<?= $_GET['date_to']??'' ?>">
+                    <input type="text" name="date_to" data-jdp class="form-control form-control-sm" value="<?= htmlspecialchars($_GET['date_to'] ?? '', ENT_QUOTES, 'UTF-8') ?>">
                 </div>
                 <div class="col-md-2">
                     <button type="submit" class="btn btn-sm btn-secondary w-100">فیلتر</button>
