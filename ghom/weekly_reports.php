@@ -7,7 +7,7 @@ if (!isLoggedIn()) { header('Location: /login.php'); exit; }
 
 $pdo = getProjectDBConnection('ghom');
 $pageTitle = "گزارشات هفتگی";
-require_once __DIR__ . '/header_ghom.php';
+require_once __DIR__ . '/header.php';
 $datesStmt = $pdo->query("SELECT DISTINCT report_date FROM scurve_data ORDER BY report_date DESC");
 $availableDates = $datesStmt->fetchAll(PDO::FETCH_COLUMN);
 

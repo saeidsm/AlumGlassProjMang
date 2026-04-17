@@ -180,7 +180,7 @@ $cProd = array_column($timelineData, 'prod');
 $cSent = array_column($timelineData, 'sent');
 
 $pageTitle = "داشبورد جامع (کارخانه + سایت)";
-require_once __DIR__ . '/header_ghom.php';
+require_once __DIR__ . '/header.php';
 ?>
 
 <!-- Libs -->

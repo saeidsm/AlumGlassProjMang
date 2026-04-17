@@ -132,7 +132,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 $pageTitle = "فرم ثبت کنترل کیفی";
-require_once __DIR__ . '/header_ghom.php';
+require_once __DIR__ . '/header.php';
 ?>
 
 <style>

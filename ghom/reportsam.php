@@ -18,7 +18,7 @@ if (!$has_full_access && !in_array($user_role, ['cat', 'car', 'coa', 'crs'])) {
     exit;
 }
 $pageTitle = "گزارشات پروژه قم";
-require_once __DIR__ . '/header_ghom.php';
+require_once __DIR__ . '/header.php';
 
 // --- QUERIES FOR INITIAL PAGE RENDER ONLY ---
 // These are small, fast queries needed to build the HTML shell before the data loads.

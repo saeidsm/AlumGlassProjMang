@@ -14,7 +14,7 @@ if (!in_array($_SESSION['role'], ['admin', 'superuser','supervisor'])) {
 }
 
 $pageTitle = "مدیریت قالب‌های چک‌لیست";
-require_once __DIR__ . '/header_pardis.php';
+require_once __DIR__ . '/header.php';
 // Note: We don't include header_pardis.php to keep this page self-contained and simple.
 ?>
 <!DOCTYPE html>

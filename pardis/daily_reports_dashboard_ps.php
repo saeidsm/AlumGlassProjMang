@@ -17,9 +17,9 @@ $is_contractor = array_key_exists($user_role, $contractor_map);
 
 // Load Header
 if (preg_match("/(android|avantgo|blackberry|bolt|boost|cricket|docomo|fone|hiptop|mini|mobi|palm|phone|pie|tablet|up\.browser|up\.link|webos|wos)/i", $_SERVER["HTTP_USER_AGENT"])) {
-    require_once __DIR__ . '/header_p_mobile.php';
+    require_once __DIR__ . '/header.php';
 } else {
-    require_once __DIR__ . '/header_pardis.php';
+    require_once __DIR__ . '/header.php';
 }
 
 // --- 2. BASE QUERY (ISOLATION) ---

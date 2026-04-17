@@ -19,7 +19,7 @@ if (!$has_full_access && !in_array($user_role, ['cat', 'car', 'coa', 'crs'])) {
 }
 $pageTitle = "گزارشات پروژه قم (موبایل)";
 // Use the same header file
-require_once __DIR__ . '/header_ghom_mobile.php';
+require_once __DIR__ . '/header.php';
 
 // --- INITIAL DATA QUERIES (Identical to Desktop) ---
 try {

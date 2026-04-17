@@ -301,7 +301,7 @@ try {
 }
 
 // Include header file from the project's directory structure
-require_once __DIR__ . '/header_pardis.php';
+require_once __DIR__ . '/header.php';
 ?>
     
 

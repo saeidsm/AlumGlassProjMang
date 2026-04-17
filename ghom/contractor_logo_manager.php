@@ -2,7 +2,7 @@
 // contractor_logo_manager.php - Manage Contractor Logos
 require_once __DIR__ . '/../../sercon/bootstrap.php';
 secureSession();
-require_once __DIR__ . '/header_ghom.php';
+require_once __DIR__ . '/header.php';
 
 $pdo = getProjectDBConnection('ghom');
 $user_role = $_SESSION['role'];

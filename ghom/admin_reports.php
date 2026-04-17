@@ -6,7 +6,7 @@ requireRole(['admin']);
 
 $pdo = getProjectDBConnection('ghom');
 $pageTitle = "مدیریت گزارشات پروژه";
-require_once __DIR__ . '/header_ghom.php';
+require_once __DIR__ . '/header.php';
 
 $msg = '';
 

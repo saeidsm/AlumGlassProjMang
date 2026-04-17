@@ -17,7 +17,7 @@ if (!$is_contractor && !$is_consultant) {
 }
 $pageTitle = "انتخاب نقشه";
 //define('APP_ROOT', __DIR__); // Define a constant to prevent re-inclusion issues
-require_once __DIR__ . '/header_mobile.php'; 
+require_once __DIR__ . '/header.php'; 
 ?>
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">

@@ -84,7 +84,7 @@ if (isset($_GET['api_action'])) {
 }
 
 // --- UI HEADER ---
-require_once __DIR__ . '/header_ghom.php';
+require_once __DIR__ . '/header.php';
 ob_end_flush();
 
 // Weather Service

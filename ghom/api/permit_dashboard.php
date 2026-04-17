@@ -10,7 +10,7 @@ if (!isLoggedIn()) {
 }
 
 $pageTitle = "کارتابل مجوزها";
-require_once __DIR__ . '/header_ghom.php'; // Add Header
+require_once __DIR__ . '/header.php'; // Add Header
 
 $pdo = getProjectDBConnection('ghom');
 

@@ -46,9 +46,9 @@ if (!isset($_SESSION['current_project_config_key']) || $_SESSION['current_projec
 
 // --- PAGE SETUP ---
 $pageTitle = "راهنمای پروژه بیمارستان هزار تخت خوابی قم";
-//require_once __DIR__ . '/header_ghom.php';
+//require_once __DIR__ . '/header.php';
 // Include the project-specific header
-require_once __DIR__ . '/header_ins.php';
+require_once __DIR__ . '/header.php';
 // The header content is included directly in the HTML below for this self-contained example.
 
 $user_role = $_SESSION['role'] ?? 'guest';

@@ -7,7 +7,7 @@ secureSession();
 if (!isLoggedIn()) { header('Location: /login.php'); exit; }
 
 $pageTitle = "کارتابل مجوزها";
-require_once __DIR__ . '/header_ghom.php';
+require_once __DIR__ . '/header.php';
 
 $pdo = getProjectDBConnection('ghom');
 

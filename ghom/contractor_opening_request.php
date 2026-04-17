@@ -14,7 +14,7 @@ if (!in_array($_SESSION['role'], ['admin', 'superuser', 'cat', 'car', 'coa', 'cr
     exit;
 }
 $pageTitle = "درخواست بازگشایی پانل";
-require_once __DIR__ . '/header_ghom.php';
+require_once __DIR__ . '/header.php';
 ?>
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">

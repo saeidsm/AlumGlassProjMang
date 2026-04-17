@@ -28,7 +28,7 @@ if (!$is_contractor && !$is_consultant) {
     exit;
 }
 $pageTitle = "اعلام وضعیت گروهی";
-require_once __DIR__ . '/header_ghom.php';
+require_once __DIR__ . '/header.php';
 ?>
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">

@@ -412,7 +412,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['generate_zip'])) {
     }
 }
 ob_end_flush();
-require_once __DIR__ . '/header_pardis.php';
+require_once __DIR__ . '/header.php';
 ?>
 
 <!DOCTYPE html>

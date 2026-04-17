@@ -10,7 +10,7 @@ if (!isLoggedIn() || !in_array($_SESSION['role'] ?? '', ['admin', 'superuser', '
 }
 
 $pageTitle = "تحلیل‌های تفصیلی";
-require_once __DIR__ . '/header_pardis.php';
+require_once __DIR__ . '/header.php';
 
 // Fetch unique project names for the filter dropdown
 $pdo = getProjectDBConnection('pardis');

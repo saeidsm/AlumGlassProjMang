@@ -11,7 +11,7 @@ if (!isLoggedIn() || !in_array($_SESSION['role'] ?? '', ['admin', 'superuser']))
     die('Access Denied');
 }
 $pageTitle = "ارسال دستی گزارشات به تلگرام";
-require_once __DIR__ . '/header_pardis.php';
+require_once __DIR__ . '/header.php';
 
 ?>
 <!DOCTYPE html>

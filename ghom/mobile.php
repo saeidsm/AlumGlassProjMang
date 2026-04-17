@@ -30,7 +30,7 @@ if (!isset($_SESSION['current_project_config_key']) || $_SESSION['current_projec
 // --- PAGE SETUP ---
 $pageTitle = "پروژه بیمارستان قم (موبایل)";
 // Use the same header, as it likely contains necessary meta tags and scripts
-require_once __DIR__ . '/header_ghom_mobile.php'; 
+require_once __DIR__ . '/header.php'; 
 $user_role = $_SESSION['role'] ?? 'guest';
 ?>
 

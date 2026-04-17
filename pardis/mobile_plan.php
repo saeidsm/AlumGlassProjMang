@@ -22,7 +22,7 @@ if (!$plan_file_to_load || !preg_match('/^[a-zA-Z0-9_.-]+\.svg$/', $plan_file_to
 
 // --- PAGE SETUP ---
 $pageTitle = "نقشه: " . htmlspecialchars(str_replace('.svg', '', $plan_file_to_load));
-require_once __DIR__ . '/header_p_mobile.php'; 
+require_once __DIR__ . '/header.php'; 
 $user_role = $_SESSION['role'] ?? 'guest';
 ?>
 

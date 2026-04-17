@@ -14,7 +14,7 @@ if (!in_array($_SESSION['role'], ['admin', 'superuser', 'user', 'cat', 'car', 'c
     exit;
 }
 $pageTitle = "مدیریت مراحل بازرسی";
-require_once __DIR__ . '/header_pardis.php';
+require_once __DIR__ . '/header.php';
 
 $stages_by_template = [];
 $stages_by_template = [];

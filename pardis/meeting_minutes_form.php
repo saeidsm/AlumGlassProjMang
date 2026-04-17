@@ -39,9 +39,9 @@ function isMobileDevices() {
 }
 
 if (isMobileDevices()) {
-    require_once __DIR__ . '/header_p_mobile.php';
+    require_once __DIR__ . '/header.php';
 } else {
-    require_once __DIR__ . '/header_pardis.php';
+    require_once __DIR__ . '/header.php';
 }
 
 $current_gregorian = date('Y-m-d');

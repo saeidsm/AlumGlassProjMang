@@ -45,6 +45,8 @@ if (isLoggedIn()) { // isLoggedIn() from bootstrap.php
     <link rel="apple-touch-icon" sizes="180x180" href="/assets/images/apple-touch-icon.png">
     <link rel="stylesheet" href="/assets/css/bootstrap.rtl.min.css">
     <link rel="stylesheet" href="/assets/css/all.min.css"> <!-- Font Awesome -->
+    <link rel="stylesheet" href="/assets/css/design-system.css">
+    <link rel="stylesheet" href="/assets/css/global.css">
     <style>
         @font-face {
             font-family: 'Vazir';
@@ -147,6 +149,8 @@ if (isLoggedIn()) { // isLoggedIn() from bootstrap.php
         }
     }
     ?>
+    <script src="/assets/js/csrf-injector.js" defer></script>
+    <script src="/assets/js/global.js" defer></script>
 </head>
 
 <body>

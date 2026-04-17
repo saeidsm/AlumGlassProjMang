@@ -20,7 +20,7 @@ $status_query = $pdo->query("SHOW COLUMNS FROM notifications LIKE 'status'");
 preg_match("/^enum\(\'(.*)\'\)$/", $status_query->fetch(PDO::FETCH_ASSOC)['Type'], $matches);
 $all_statuses = explode("','", $matches[1]);
 // --- END: Fetch all data for filters ---
-require_once __DIR__ . '/header_ghom.php';
+require_once __DIR__ . '/header.php';
 ?>
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
