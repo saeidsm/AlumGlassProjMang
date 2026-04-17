@@ -207,6 +207,8 @@ if (!function_exists('isHomeDropdownActive')) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="<?php echo htmlspecialchars(generateCsrfToken(), ENT_QUOTES, 'UTF-8'); ?>">
     <title>qom hospital<?php echo htmlspecialchars($pageTitle); ?></title>
+    <link rel="stylesheet" href="/assets/css/design-system.css">
+    <link rel="stylesheet" href="/assets/css/global.css">
     <link rel="icon" type="image/png" sizes="16x16" href="/assets/images/favicon-16x16.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/assets/images/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="96x96" href="/assets/images/favicon-96x96.png">
@@ -839,6 +841,7 @@ if (!function_exists('isHomeDropdownActive')) {
     <script src="/assets/js/datatables.min.js"></script>
     <script src="/assets/js/mobile-detect.min.js"></script>
     <script src="/assets/js/csrf-injector.js"></script>
+    <script src="/assets/js/global.js" defer></script>
 </head>
 
 <body>
