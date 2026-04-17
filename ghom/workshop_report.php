@@ -16,7 +16,7 @@ $conn = getProjectDBConnection("ghom");
 $commonConn = getCommonDBConnection(); 
 
 $pageTitle = "گزارش جامع سایت (کارگاه)";
-require_once __DIR__ . '/header_ghom.php';
+require_once __DIR__ . '/header.php';
 
 $message = '';
 $error = '';

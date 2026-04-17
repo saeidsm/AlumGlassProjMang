@@ -61,7 +61,7 @@ if (!isset($_SESSION['current_project_config_key']) || $_SESSION['current_projec
     exit();
 }
 $pageTitle = "پروژه دانشگاه خاتم پردیس";
-require_once __DIR__ . '/header_pardis.php';
+require_once __DIR__ . '/header.php';
 // If all checks pass, the script continues and will render the HTML below.
 $user_role = $_SESSION['role'] ?? 'guest';
 ?>

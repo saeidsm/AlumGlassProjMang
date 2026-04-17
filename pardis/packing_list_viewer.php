@@ -434,10 +434,10 @@ function isMobileDevices() {
 // If a mobile device is detected, redirect to the mobile page and stop script execution
 if (isMobileDevices()) {
     // Make sure the path to your mobile page is correct
-    require_once __DIR__ . '/header_p_mobile.php';
+    require_once __DIR__ . '/header.php';
 
 }
-else{require_once __DIR__ . '/header_pardis.php';
+else{require_once __DIR__ . '/header.php';
 
 }
 

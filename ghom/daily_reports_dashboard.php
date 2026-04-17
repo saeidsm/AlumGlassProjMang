@@ -3,7 +3,7 @@
 require_once __DIR__ . '/../../sercon/bootstrap.php';
 require_once __DIR__ . '/includes/jdf.php';
 secureSession();
-require_once __DIR__ . '/header_ghom.php';
+require_once __DIR__ . '/header.php';
 $contractor_map = [
     'cat' => 'شرکت آتیه نما',
     'car' => 'شرکت آرانسج',

@@ -148,7 +148,7 @@ while ($r = $std_res->fetch(PDO::FETCH_ASSOC)) {
 }
 
 $pageTitle = "ویرایش رکورد QC #$id";
-require_once __DIR__ . '/header_ghom.php';
+require_once __DIR__ . '/header.php';
 ?>
 
 <style>

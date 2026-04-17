@@ -97,7 +97,7 @@ if (!in_array($_SESSION['role'], ['admin', 'supervisor', 'user', 'superuser', 'c
 }
 
 $pageTitle = "داشبورد بازرسی (موبایل)";
-require_once __DIR__ . '/header_ghom.php';
+require_once __DIR__ . '/header.php';
 
 // --- INITIALIZATION ---
 $user_role = $_SESSION['role'];

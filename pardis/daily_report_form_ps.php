@@ -302,7 +302,7 @@ $ro = $can_edit_contractor ? '' : 'readonly';
 $dis = $can_edit_contractor ? '' : 'disabled';
 $cons_ro = $can_edit_consultant ? '' : 'readonly';
 
-require_once __DIR__ . '/header_pardis.php';
+require_once __DIR__ . '/header.php';
 ?>
 
 <style>

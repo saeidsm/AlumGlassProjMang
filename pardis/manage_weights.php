@@ -90,7 +90,7 @@ try {
 // =================================================================
 // 5. RENDER THE PAGE
 // =================================================================
-require_once __DIR__ . '/header_pardis.php';
+require_once __DIR__ . '/header.php';
 ?>
 <div class="content-wrapper p-6">
 

@@ -62,7 +62,7 @@ $stmt->execute([$report_id]);
 $attachments = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 $pageTitle = "ویرایش گزارش روزانه";
-require_once __DIR__ . '/header_pardis.php';
+require_once __DIR__ . '/header.php';
 
 // Engineering roles
 $engineering_roles = [

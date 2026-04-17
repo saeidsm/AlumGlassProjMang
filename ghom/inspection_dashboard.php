@@ -94,7 +94,7 @@ if (!in_array($_SESSION['role'], $allowed_roles, true)) {
 
 // ------------------- PAGE TITLE -------------------
 $pageTitle = "داشبورد جامع بازرسی";
-require_once __DIR__ . '/header_ghom.php';
+require_once __DIR__ . '/header.php';
 
 // ------------------- VARIABLES -------------------
 $user_role        = $_SESSION['role'];

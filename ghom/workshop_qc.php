@@ -18,7 +18,7 @@ if (!in_array($_SESSION['role'], ['admin', 'superuser', 'cat', 'car', 'coa', 'cr
 }
 
 $pageTitle = "گزارش کنترل کیفیت پنل‌های باز شده";
-require_once __DIR__ . '/header_ghom.php';
+require_once __DIR__ . '/header.php';
 $message = '';
 $error = '';
 $user_can_manage = in_array($_SESSION['role'], ['admin', 'superuser']);

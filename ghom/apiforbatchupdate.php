@@ -8,7 +8,7 @@ if (!in_array($_SESSION['role'], ['admin', 'supervisor'])) {
     die("Access Denied. You do not have permission to view this page.");
 }
 $pageTitle = "اعلام وضعیت گروهی";
-require_once __DIR__ . '/header_ghom.php';
+require_once __DIR__ . '/header.php';
 ?>
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">

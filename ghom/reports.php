@@ -31,7 +31,7 @@ if (!$has_full_access && !in_array($user_role, ['cat', 'car', 'coa', 'crs'])) {
     exit;
 }
 $pageTitle = "گزارشات پروژه قم";
-require_once __DIR__ . '/header_ghom.php';
+require_once __DIR__ . '/header.php';
 function get_status_persian(?string $status): string {
     $status_map = [
         'OK' => 'تایید شده',

@@ -14,7 +14,7 @@ if (!in_array($_SESSION['role'], ['admin', 'superuser'])) {
 }
 
 $pageTitle = "مدیریت قالب‌های چک‌لیست";
-require_once __DIR__ . '/header_ghom.php';
+require_once __DIR__ . '/header.php';
 // Note: We don't include header_ghom.php to keep this page self-contained and simple.
 ?>
 <!DOCTYPE html>
