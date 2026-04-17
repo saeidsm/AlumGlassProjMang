@@ -146,20 +146,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['generate_zip'])) {
     $chart_dates = [];
     $chart_vals = [];
     $day_sums = [];
-    
+
+    // Batch-fetch personnel totals keyed by report_id to avoid N+1.
+    $personnelByReport = [];
+    $cntStmt = $pdo->prepare("
+        SELECT report_id, SUM(count + count_night) AS total
+        FROM ps_daily_report_personnel
+        WHERE report_id IN ($placeholders)
+        GROUP BY report_id
+    ");
+    $cntStmt->execute($report_ids);
+    $personnelByReport = $cntStmt->fetchAll(PDO::FETCH_KEY_PAIR);
+
     foreach($reports as $r) {
         $jDate = jdate('Y/m/d', strtotime($r['report_date']));
         if(!empty($r['problems_and_obstacles'])) {
             $log_problems[] = "[$jDate - {$r['block_name']}]: " . $r['problems_and_obstacles'];
         }
-        
+
         $d = jdate('m/d', strtotime($r['report_date']));
         if(!isset($day_sums[$d])) $day_sums[$d] = 0;
-        $pid = $r['id'];
-        $cntStmt = $pdo->prepare("SELECT SUM(count + count_night) FROM ps_daily_report_personnel WHERE report_id = ?");
-        $cntStmt->execute([$pid]);
-        $cnt = $cntStmt->fetchColumn();
-        $day_sums[$d] += ($cnt ?: 0);
+        $day_sums[$d] += (int)($personnelByReport[$r['id']] ?? 0);
     }
     $chart_dates = array_keys($day_sums);
     $chart_vals = array_values($day_sums);
