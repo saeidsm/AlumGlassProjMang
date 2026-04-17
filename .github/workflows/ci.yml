@@ -1,0 +1,122 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  lint:
+    name: PHP Lint + PHPStan + PHPCS
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.4'
+          tools: composer, phpstan, phpcs
+
+      - name: Install Composer dependencies
+        run: composer install --prefer-dist --no-progress --no-interaction
+
+      - name: PHP syntax check (shared/ includes/ tests/)
+        run: |
+          set -e
+          FAILED=0
+          for f in $(find shared includes tests -name "*.php" 2>/dev/null); do
+            if ! php -l "$f" > /dev/null 2>&1; then
+              echo "Syntax error in $f"
+              php -l "$f" || true
+              FAILED=1
+            fi
+          done
+          exit $FAILED
+
+      - name: PHPStan
+        run: composer analyse
+        continue-on-error: true
+
+      - name: PHP_CodeSniffer
+        run: composer lint
+        continue-on-error: true
+
+  test:
+    name: PHPUnit
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.4'
+          extensions: pdo, pdo_sqlite, pdo_mysql, mbstring, gd, fileinfo
+          coverage: none
+
+      - name: Install Composer dependencies
+        run: composer install --prefer-dist --no-progress --no-interaction
+
+      - name: Run PHPUnit
+        run: composer test
+
+  security:
+    name: Security gates (SQLi/XSS/secrets/dumps)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check for raw SQL concatenation (SQL injection risk)
+        run: |
+          COUNT=$(grep -rn '->query("' --include="*.php" . \
+            | grep '\$' \
+            | grep -v 'vendor\|mpdf\|libraries\|TCPDF' \
+            | wc -l)
+          echo "Unsafe ->query() calls: $COUNT"
+          if [ "$COUNT" -gt 0 ]; then
+            echo "::error::SQL injection risk — convert to prepared statements"
+            grep -rn '->query("' --include="*.php" . | grep '\$' | grep -v 'vendor\|mpdf\|libraries\|TCPDF'
+            exit 1
+          fi
+
+      - name: Check for unescaped user input (XSS)
+        run: |
+          COUNT=$(grep -rn 'echo.*\$_GET\|<?=.*\$_GET\|echo.*\$_POST\|<?=.*\$_POST' --include="*.php" . \
+            | grep -v 'htmlspecialchars\|json_encode' \
+            | grep -v 'vendor\|mpdf\|libraries' \
+            | wc -l)
+          echo "Unescaped user input: $COUNT"
+          if [ "$COUNT" -gt 0 ]; then
+            echo "::warning::Potential XSS — review each occurrence"
+          fi
+
+      - name: Check for hardcoded secrets
+        run: |
+          COUNT=$(grep -rn 'TELEGRAM_BOT_TOKEN.*=' --include="*.php" . \
+            | grep -v 'getenv\|_ENV\|\.env\|example' \
+            | wc -l || true)
+          if [ "$COUNT" -gt 0 ]; then
+            echo "::error::Hardcoded TELEGRAM_BOT_TOKEN found"
+            grep -rn 'TELEGRAM_BOT_TOKEN.*=' --include="*.php" . | grep -v 'getenv\|_ENV\|\.env\|example'
+            exit 1
+          fi
+
+      - name: Check for SQL dump files
+        run: |
+          if find . -path ./.git -prune -o \( -name "*.sql" -o -name "*.sql.txt" \) -print | grep -q .; then
+            echo "::error::SQL dump files found in repo"
+            find . -path ./.git -prune -o \( -name "*.sql" -o -name "*.sql.txt" \) -print
+            exit 1
+          fi
+
+      - name: Check for debug/phpinfo files
+        run: |
+          BAD=$(find . -path ./.git -prune -o -type f \
+            \( -name "info.php" -o -name "phpinfo.php" -o -name "*debug*.php" -o -name "test_*.php" \) -print \
+            | grep -v 'tests/\|vendor/' || true)
+          if [ -n "$BAD" ]; then
+            echo "::warning::Debug/test files present in source tree:"
+            echo "$BAD"
+          fi
