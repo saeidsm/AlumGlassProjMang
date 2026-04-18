@@ -1,0 +1,12 @@
+# Storage directory — route all non-existent paths through serve.php
+# so every file read goes through the auth check.
+
+RewriteEngine On
+RewriteCond %{REQUEST_URI} !^/storage/serve\.php
+RewriteCond %{REQUEST_URI} !^/storage/\.htaccess
+RewriteRule ^(.*)$ serve.php/$1 [L,QSA]
+
+# Defence in depth: block direct execution of uploaded files.
+<FilesMatch "\.(php|phtml|phar|pl|py|sh|cgi)$">
+  Require all denied
+</FilesMatch>

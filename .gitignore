@@ -8,6 +8,8 @@
 *.sql.txt
 *.sql.gz
 *.sql.bak
+# Migration files are schema DDL, not data — allow them
+!scripts/migrations/*.sql
 
 # Logs
 logs/
@@ -37,8 +39,16 @@ Thumbs.db
 uploads/
 ghom/uploads/
 pardis/uploads/
+chat/uploads/
 pardis/includes/mpdf/
 pardis/includes/libraries/
+
+# Content-addressable storage — actual file blobs never committed,
+# but keep directory layout and .htaccess/serve.php
+/storage/*
+!/storage/.gitkeep
+!/storage/.htaccess
+!/storage/serve.php
 
 # Backup copies
 * copy*

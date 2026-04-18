@@ -8,6 +8,29 @@
 
 ## [Unreleased]
 
+### Phase 4A — Real-time Chat + File Deduplication (2026-04-18)
+#### Added
+- [x] `shared/services/FileService.php` — content-addressable SHA-256 storage; deduplication via ref-counting; cleanup on last-reference removal
+- [x] `storage/serve.php` + `storage/.htaccess` — auth-gated file serving with immutable caching + path-traversal guard
+- [x] `scripts/migrations/004_chat_tables.sql` — `conversations`, `conversation_members`, `user_presence`; idempotent ALTERs on `messages` for `conversation_id`, `reply_to_id`, `reactions`, `message_type`, `file_ref_id`
+- [x] `scripts/migrations/005_file_storage.sql` — `file_store` + `file_references` tables
+- [x] `scripts/cleanup_files.php` — nightly orphan sweep (cron)
+- [x] `websocket/` — Node.js + `ws` WebSocket relay with PHP session auth, heartbeat, presence, typing, read receipts; PM2 ecosystem file
+- [x] `chat/api/` — `conversations.php`, `direct.php`, `messages.php`, `search.php`, `read.php`, `contacts.php`, `upload.php`, `verify_session.php` (loopback-only)
+- [x] `chat/assets/js/` — ES6 module frontend: `chat-socket.js`, `chat-ui.js`, `chat-search.js`, `chat-notifications.js`, `chat-app.js`
+- [x] `chat/assets/css/chat.css` — RTL-first, responsive (mobile switches to single-pane)
+- [x] `chat/index.php` — thin semantic skeleton with progressive-enhancement module script
+
+#### Changed
+- [x] `messages.php` — full rewrite: 1,575-line monolith → 301 redirect to `/chat/` (preserves `user_id` / `conversation` query params)
+
+#### Security
+- [x] Upload MIME + size validation at FileService boundary
+- [x] Storage directory blocks script execution (`.htaccess` `FilesMatch` deny)
+- [x] `verify_session.php` restricted to loopback (`127.0.0.1`, `::1`) unless `WS_VERIFY_ALLOW_REMOTE=1`
+
+---
+
 ### Phase 0 — Emergency Fixes (2026-04-17)
 #### Removed
 - [x] `info.php` — phpinfo() exposure (gitignored, deleted from disk)

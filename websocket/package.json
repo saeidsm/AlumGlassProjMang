@@ -1,0 +1,18 @@
+{
+  "name": "alumglass-websocket",
+  "version": "1.0.0",
+  "description": "AlumGlass real-time chat WebSocket relay",
+  "main": "server.js",
+  "private": true,
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js",
+    "lint": "node --check server.js && node --check auth.js"
+  },
+  "dependencies": {
+    "ws": "^8.16.0"
+  }
+}
