@@ -49,6 +49,20 @@ SET @sql := IF(@col = 0,
   'SELECT "messages.reactions already exists"');
 PREPARE stmt FROM @sql; EXECUTE stmt; DEALLOCATE PREPARE stmt;
 
+SET @col := (SELECT COUNT(*) FROM INFORMATION_SCHEMA.COLUMNS
+  WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'messages' AND COLUMN_NAME = 'message_type');
+SET @sql := IF(@col = 0,
+  'ALTER TABLE `messages` ADD COLUMN `message_type` VARCHAR(20) NOT NULL DEFAULT "text"',
+  'SELECT "messages.message_type already exists"');
+PREPARE stmt FROM @sql; EXECUTE stmt; DEALLOCATE PREPARE stmt;
+
+SET @col := (SELECT COUNT(*) FROM INFORMATION_SCHEMA.COLUMNS
+  WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'messages' AND COLUMN_NAME = 'file_ref_id');
+SET @sql := IF(@col = 0,
+  'ALTER TABLE `messages` ADD COLUMN `file_ref_id` INT UNSIGNED DEFAULT NULL',
+  'SELECT "messages.file_ref_id already exists"');
+PREPARE stmt FROM @sql; EXECUTE stmt; DEALLOCATE PREPARE stmt;
+
 SET @idx := (SELECT COUNT(*) FROM INFORMATION_SCHEMA.STATISTICS
   WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'messages' AND INDEX_NAME = 'idx_conversation');
 SET @sql := IF(@idx = 0,
