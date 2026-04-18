@@ -51,8 +51,19 @@ if (isLoggedIn()) { // isLoggedIn() from bootstrap.php
     <link rel="stylesheet" href="/assets/css/responsive-tables.css">
     <link rel="stylesheet" href="/assets/css/touch-gestures.css">
     <link rel="stylesheet" href="/assets/css/form-wizard.css">
+    <link rel="stylesheet" href="/assets/css/dark-mode.css">
+    <link rel="stylesheet" href="/assets/css/ui-polish.css">
     <link rel="manifest" href="/manifest.webmanifest">
     <meta name="theme-color" content="#0a4d8c">
+    <meta name="theme-color" content="#0b1220" media="(prefers-color-scheme: dark)">
+
+    <script>
+        // Apply stored theme before first paint to avoid a flash
+        try {
+            var t = localStorage.getItem('ag-theme');
+            if (t === 'dark' || t === 'light') document.documentElement.setAttribute('data-theme', t);
+        } catch (e) {}
+    </script>
     <style>
         @font-face {
             font-family: 'Vazir';
@@ -160,6 +171,7 @@ if (isLoggedIn()) { // isLoggedIn() from bootstrap.php
     <script src="/assets/js/mobile-nav.js" defer></script>
     <script src="/assets/js/responsive-tables.js" defer></script>
     <script src="/assets/js/touch-gestures.js" defer></script>
+    <script src="/assets/js/theme-toggle.js" defer></script>
     <script src="/assets/js/pwa-register.js" defer></script>
 </head>
 

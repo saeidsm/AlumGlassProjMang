@@ -1,0 +1,135 @@
+/* AlumGlass dark mode
+ * Activated when <html> has data-theme="dark" OR when the user has
+ * prefers-color-scheme: dark AND no manual override is set.
+ *
+ * The JS toggle in theme-toggle.js lives in ../js/ and stores the
+ * user's choice in localStorage so it survives refreshes.
+ */
+
+:root[data-theme="dark"] {
+    --ag-primary:       #60a5fa;
+    --ag-primary-light: #93c5fd;
+    --ag-primary-dark:  #1e40af;
+    --ag-primary-50:    #0f1c38;
+    --ag-primary-100:   #1a2c5a;
+    --ag-primary-700:   #3b82f6;
+    --ag-primary-900:   #1e3a8a;
+    --ag-accent:        #60a5fa;
+
+    --ag-success:       #34d399;
+    --ag-success-bg:    #064e3b;
+    --ag-success-text:  #a7f3d0;
+    --ag-danger:        #f87171;
+    --ag-danger-bg:     #5b1a1a;
+    --ag-danger-text:   #fecaca;
+    --ag-warning:       #fbbf24;
+    --ag-warning-bg:    #451a03;
+    --ag-warning-text:  #fde68a;
+    --ag-info:          #38bdf8;
+    --ag-info-bg:       #0c4a6e;
+    --ag-info-text:     #bae6fd;
+
+    --ag-white:         #0f172a;   /* "paper" surface */
+    --ag-gray-50:       #0b1220;
+    --ag-gray-100:      #111827;
+    --ag-gray-200:      #1f2937;
+    --ag-gray-300:      #374151;
+    --ag-gray-400:      #4b5563;
+    --ag-gray-500:      #9ca3af;
+    --ag-gray-600:      #d1d5db;
+    --ag-gray-700:      #e5e7eb;
+    --ag-gray-800:      #f3f4f6;
+    --ag-gray-900:      #f8fafc;
+
+    --ag-bg:            #0b1220;
+    --ag-text:          #e5e7eb;
+    --ag-text-muted:    #9ca3af;
+    --ag-border:        #1f2937;
+
+    --ag-shadow-sm:  0 1px 2px rgba(0, 0, 0, 0.35);
+    --ag-shadow:     0 1px 3px rgba(0, 0, 0, 0.45), 0 1px 2px rgba(0, 0, 0, 0.35);
+    --ag-shadow-md:  0 4px 6px rgba(0, 0, 0, 0.45), 0 2px 4px rgba(0, 0, 0, 0.35);
+    --ag-shadow-lg:  0 10px 15px rgba(0, 0, 0, 0.55), 0 4px 6px rgba(0, 0, 0, 0.35);
+    --ag-shadow-xl:  0 20px 25px rgba(0, 0, 0, 0.55), 0 10px 10px rgba(0, 0, 0, 0.30);
+
+    --chat-bg:            #0b1220;
+    --chat-panel-bg:      #0f172a;
+    --chat-border:        #1f2937;
+    --chat-text:          #e5e7eb;
+    --chat-muted:         #94a3b8;
+    --chat-bubble-mine:   #1e3a8a;
+    --chat-bubble-theirs: #111827;
+}
+
+:root[data-theme="dark"] body {
+    background: var(--ag-bg);
+    color: var(--ag-text);
+}
+
+/* Respect system preference when user hasn't chosen */
+@media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]):not([data-theme="dark"]) {
+        /* Apply the same overrides by cascading through data-theme selector
+         * above — we simply repeat the class-less rule via :root */
+    }
+    :root:not([data-theme]) body {
+        background-color: #0b1220;
+        color: #e5e7eb;
+    }
+}
+
+/* --- Theme toggle button --- */
+.ag-theme-toggle {
+    appearance: none;
+    border: 1px solid var(--ag-border);
+    background: var(--ag-white);
+    color: var(--ag-text);
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background .15s, border-color .15s;
+}
+.ag-theme-toggle:hover { background: var(--ag-gray-100); }
+.ag-theme-toggle svg { width: 18px; height: 18px; }
+
+:root[data-theme="dark"] .ag-theme-toggle__sun { display: inline; }
+:root[data-theme="dark"] .ag-theme-toggle__moon { display: none; }
+:root:not([data-theme="dark"]) .ag-theme-toggle__sun { display: none; }
+:root:not([data-theme="dark"]) .ag-theme-toggle__moon { display: inline; }
+
+/* Enhance Bootstrap where it's in use, without breaking LTR components */
+:root[data-theme="dark"] .card,
+:root[data-theme="dark"] .modal-content,
+:root[data-theme="dark"] .dropdown-menu {
+    background-color: var(--ag-white);
+    color: var(--ag-text);
+    border-color: var(--ag-border);
+}
+:root[data-theme="dark"] .navbar-common {
+    background-color: #0f172a;
+    border-bottom-color: #1e40af;
+}
+:root[data-theme="dark"] .form-control,
+:root[data-theme="dark"] .form-select,
+:root[data-theme="dark"] input,
+:root[data-theme="dark"] textarea,
+:root[data-theme="dark"] select {
+    background-color: var(--ag-gray-100);
+    border-color: var(--ag-border);
+    color: var(--ag-text);
+}
+:root[data-theme="dark"] .text-muted,
+:root[data-theme="dark"] .text-secondary {
+    color: var(--ag-text-muted) !important;
+}
+:root[data-theme="dark"] table {
+    color: var(--ag-text);
+}
+:root[data-theme="dark"] .bg-light,
+:root[data-theme="dark"] .bg-white {
+    background-color: var(--ag-gray-100) !important;
+    color: var(--ag-text);
+}

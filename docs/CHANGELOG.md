@@ -8,6 +8,21 @@
 
 ## [Unreleased]
 
+### Phase 4D — Design System Enhancements (2026-04-18)
+#### Added
+- [x] `assets/css/dark-mode.css` — full dark palette via `[data-theme="dark"]` on `<html>`; overrides brand/semantic colors, neutrals, shadows, chat-* tokens; enhances Bootstrap cards/modals/forms for dark
+- [x] `assets/js/theme-toggle.js` — sync pre-paint theme application (prevents flash), nav-button toggle with sun/moon icons, `localStorage` persistence, `AG.setTheme()` programmatic API, `ag:theme-change` event
+- [x] `includes/breadcrumbs.php` — `renderBreadcrumbs()` + `autoBreadcrumbs()` with Schema.org BreadcrumbList JSON-LD and itemprop metadata
+- [x] `includes/empty_state.php` — `renderEmptyState()` with icon set (file, chat, users, search, inbox, alert)
+- [x] `assets/css/ui-polish.css` — breadcrumbs, empty-state component, toast action/close buttons, theme-transition respecting `prefers-reduced-motion`
+
+#### Changed
+- [x] `assets/js/global.js` — `AG.toast()` now accepts `{duration, action:{label, onClick}}` options object (back-compat: number still means duration); adds close button + aria-live container
+- [x] `header_common.php` — pulls in dark-mode + ui-polish CSS, theme-toggle JS, adds `<meta name=theme-color media=dark>`, inline pre-paint theme script
+- [x] `profile.php` — replaced two `alert()` calls with `AG.toast(..., 'danger')` (alert fallback for non-JS/older browsers)
+
+---
+
 ### Phase 4C — Form Wizard & Auto-save (2026-04-18)
 #### Added
 - [x] `assets/js/form-wizard.js` — ES6 `FormWizard` class: progress bar + step indicator, per-step validation via `checkValidity()`, Enter-key-advances (not submit), Prev/Next nav, debounced + interval draft auto-save to `localStorage`, restore-toast integration, `ag:wizard-step` event
