@@ -8,6 +8,23 @@
 
 ## [Unreleased]
 
+### Phase 4C — Form Wizard & Auto-save (2026-04-18)
+#### Added
+- [x] `assets/js/form-wizard.js` — ES6 `FormWizard` class: progress bar + step indicator, per-step validation via `checkValidity()`, Enter-key-advances (not submit), Prev/Next nav, debounced + interval draft auto-save to `localStorage`, restore-toast integration, `ag:wizard-step` event
+- [x] `assets/css/form-wizard.css` — stepper, progress bar, animations, mobile-responsive (stacks 2 per row under 640px)
+- [x] `docs/examples/form-wizard.md` — integration guide + suggested step breakdowns for the two target forms
+
+#### Deferred (captured as tech debt)
+- [ ] TD-UX-002 — Convert `pardis/daily_report_form_ps.php` (1,599 lines) into 7 wizard steps
+- [ ] TD-UX-003 — Convert `pardis/meeting_minutes_form.php` (1,970 lines) into 4 wizard steps
+
+Both targets were postponed: the component is ready and tested, but wrapping the existing inline-state-heavy forms safely requires a running PHP environment to verify. The integration path is fully documented in the tech-debt entries.
+
+#### Changed
+- [x] `header_common.php` — pulls in `form-wizard.css` so every logged-in page can opt into wizardised forms without extra `<link>` tags
+
+---
+
 ### Phase 4B — Mobile Experience & PWA (2026-04-18)
 #### Added
 - [x] `assets/css/mobile-nav.css` + `assets/js/mobile-nav.js` — fixed bottom nav (Home, Reports, Chat+badge, Calendar, More) under 768px; 44px targets; safe-area-inset-bottom
