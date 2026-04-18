@@ -1,0 +1,22 @@
+{
+  "name": "AlumGlass Project Management",
+  "short_name": "AlumGlass",
+  "description": "سامانه مدیریت پروژه‌های نمای آلومگلس",
+  "start_url": "/select_project.php",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "theme_color": "#0a4d8c",
+  "background_color": "#f8fafc",
+  "lang": "fa",
+  "dir": "rtl",
+  "icons": [
+    { "src": "/assets/images/favicon-32x32.png", "sizes": "32x32", "type": "image/png" },
+    { "src": "/assets/images/apple-touch-icon.png", "sizes": "180x180", "type": "image/png", "purpose": "any maskable" }
+  ],
+  "shortcuts": [
+    { "name": "پیام‌ها", "url": "/chat/", "icons": [{ "src": "/assets/images/favicon-32x32.png", "sizes": "32x32" }] },
+    { "name": "گزارش روزانه", "url": "/pardis/daily_report_form_ps.php", "icons": [{ "src": "/assets/images/favicon-32x32.png", "sizes": "32x32" }] }
+  ],
+  "categories": ["business", "productivity"]
+}

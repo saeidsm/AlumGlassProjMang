@@ -1,0 +1,101 @@
+/* AlumGlass mobile bottom navigation
+ * Fixed bar visible under 768px. Use `.ag-bottom-nav` and .ag-bottom-nav-item.
+ */
+
+.ag-bottom-nav { display: none; }
+
+@media (max-width: 768px) {
+    .ag-bottom-nav {
+        position: fixed;
+        bottom: 0;
+        inset-inline-start: 0;
+        inset-inline-end: 0;
+        height: 60px;
+        background: var(--ag-white, #fff);
+        border-top: 1px solid var(--ag-gray-300, #d1d5db);
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        z-index: var(--ag-z-fixed, 1030);
+        padding-bottom: env(safe-area-inset-bottom);
+        box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.06);
+    }
+
+    .ag-bottom-nav-item {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 2px;
+        color: var(--ag-gray-500, #6b7280);
+        text-decoration: none;
+        font-size: 10.5px;
+        position: relative;
+        padding: 6px 0 4px;
+        min-height: 44px;
+        touch-action: manipulation;
+    }
+
+    .ag-bottom-nav-item svg,
+    .ag-bottom-nav-item i {
+        font-size: 20px;
+        line-height: 1;
+        width: 22px;
+        height: 22px;
+    }
+
+    .ag-bottom-nav-item.is-active {
+        color: var(--ag-primary, #1e40af);
+        font-weight: 600;
+    }
+
+    .ag-bottom-nav-item.is-active::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        inset-inline-start: 50%;
+        transform: translateX(-50%);
+        width: 24px;
+        height: 2px;
+        background: var(--ag-primary, #1e40af);
+        border-radius: 0 0 2px 2px;
+    }
+
+    .ag-bottom-nav-item .ag-nav-badge {
+        position: absolute;
+        top: 2px;
+        inset-inline-end: calc(50% - 20px);
+        background: var(--ag-danger, #dc3545);
+        color: #fff;
+        font-size: 9px;
+        font-weight: 700;
+        min-width: 16px;
+        height: 16px;
+        padding: 0 4px;
+        border-radius: 8px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    body.has-bottom-nav {
+        padding-bottom: calc(70px + env(safe-area-inset-bottom));
+    }
+
+    /* Hide desktop-only sidebars on phones */
+    .d-none-mobile { display: none !important; }
+}
+
+/* Visually hidden helper for a11y */
+.ag-visually-hidden {
+    position: absolute !important;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
