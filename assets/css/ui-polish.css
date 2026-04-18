@@ -1,0 +1,130 @@
+/* UI polish — Phase 4D
+ * Toast action button, breadcrumbs, empty-state component, and other
+ * small reusable bits that don't warrant their own stylesheet.
+ */
+
+/* ── Toast extensions ───────────────────────────────────────── */
+.ag-toast {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.ag-toast__msg { flex: 1; }
+.ag-toast__action {
+    background: transparent;
+    border: 0;
+    color: inherit;
+    font: inherit;
+    font-weight: 700;
+    cursor: pointer;
+    padding: 4px 10px;
+    border-radius: 6px;
+    text-decoration: underline;
+    flex: 0 0 auto;
+}
+.ag-toast__action:hover { text-decoration: none; background: rgba(255,255,255,.15); }
+.ag-toast__close {
+    background: transparent;
+    border: 0;
+    color: inherit;
+    font-size: 18px;
+    line-height: 1;
+    cursor: pointer;
+    opacity: 0.7;
+    padding: 0 4px;
+}
+.ag-toast__close:hover { opacity: 1; }
+
+/* ── Breadcrumbs ───────────────────────────────────────────── */
+.ag-breadcrumb-nav {
+    padding: 10px 0;
+}
+.ag-breadcrumb {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 4px;
+    margin: 0;
+    padding: 0;
+    font-size: 13px;
+    color: var(--ag-text-muted, #6b7280);
+}
+.ag-breadcrumb__item {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+.ag-breadcrumb__item + .ag-breadcrumb__item::before {
+    content: '\002F'; /* '/' */
+    color: var(--ag-gray-400, #9ca3af);
+    margin: 0 2px;
+}
+html[dir="rtl"] .ag-breadcrumb__item + .ag-breadcrumb__item::before {
+    content: '\003E'; /* '>' — less ambiguous under RTL */
+    transform: scaleX(-1);
+    display: inline-block;
+}
+.ag-breadcrumb__item a {
+    color: var(--ag-primary, #1e40af);
+    text-decoration: none;
+}
+.ag-breadcrumb__item a:hover { text-decoration: underline; }
+.ag-breadcrumb__item.is-current { color: var(--ag-text, #1e293b); font-weight: 600; }
+
+/* ── Empty state ───────────────────────────────────────────── */
+.ag-empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 48px 24px;
+    text-align: center;
+    color: var(--ag-text-muted, #6b7280);
+}
+.ag-empty-state__icon {
+    width: 88px;
+    height: 88px;
+    color: var(--ag-gray-300, #d1d5db);
+}
+.ag-empty-state__title {
+    margin: 4px 0 0;
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--ag-text, #1e293b);
+}
+.ag-empty-state__desc {
+    margin: 0;
+    max-width: 420px;
+    line-height: 1.6;
+}
+.ag-empty-state__action {
+    margin-top: 10px;
+    padding: 10px 24px;
+    background: var(--ag-primary, #1e40af);
+    color: #fff;
+    text-decoration: none;
+    border-radius: var(--ag-radius, 8px);
+    font-weight: 600;
+    border: 0;
+    cursor: pointer;
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+.ag-empty-state__action:hover {
+    background: var(--ag-primary-dark, #1d4ed8);
+    color: #fff;
+}
+
+/* ── Transition for theme swap, but respect reduced motion ── */
+:root {
+    --ag-theme-transition: background-color 250ms ease, color 250ms ease, border-color 250ms ease;
+}
+body, .card, .navbar-common, .form-control, .form-select {
+    transition: var(--ag-theme-transition);
+}
+@media (prefers-reduced-motion: reduce) {
+    :root { --ag-theme-transition: none; }
+}

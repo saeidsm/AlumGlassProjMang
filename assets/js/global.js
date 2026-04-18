@@ -7,28 +7,67 @@
     const AG = window.AG || {};
 
     // ── Toast Notifications ────────────────────────────────────
-    AG.toast = function (message, type, duration) {
+    // Third argument can be a number (legacy) or an options object
+    // supporting {duration, action:{label, onClick}}.
+    AG.toast = function (message, type, opts) {
         type = type || 'info';
-        duration = duration || 4000;
+        let duration = 4000;
+        let action = null;
+        if (typeof opts === 'number') {
+            duration = opts;
+        } else if (opts && typeof opts === 'object') {
+            if (typeof opts.duration === 'number') duration = opts.duration;
+            if (opts.action && typeof opts.action.onClick === 'function') action = opts.action;
+        }
 
         let container = document.querySelector('.ag-toast-container');
         if (!container) {
             container = document.createElement('div');
             container.className = 'ag-toast-container';
+            container.setAttribute('role', 'status');
+            container.setAttribute('aria-live', 'polite');
             document.body.appendChild(container);
         }
 
         const toast = document.createElement('div');
         toast.className = 'ag-toast ag-toast-' + type;
-        toast.textContent = message;
+
+        const msgSpan = document.createElement('span');
+        msgSpan.className = 'ag-toast__msg';
+        msgSpan.textContent = message;
+        toast.appendChild(msgSpan);
+
+        if (action) {
+            const btn = document.createElement('button');
+            btn.type = 'button';
+            btn.className = 'ag-toast__action';
+            btn.textContent = action.label || 'OK';
+            btn.addEventListener('click', function () {
+                try { action.onClick(); } catch (_) {}
+                dismiss();
+            });
+            toast.appendChild(btn);
+        }
+
+        const close = document.createElement('button');
+        close.type = 'button';
+        close.className = 'ag-toast__close';
+        close.setAttribute('aria-label', 'بستن');
+        close.textContent = '×';
+        close.addEventListener('click', dismiss);
+        toast.appendChild(close);
+
         container.appendChild(toast);
 
-        setTimeout(function () {
+        const timer = setTimeout(dismiss, duration);
+
+        function dismiss() {
+            clearTimeout(timer);
             toast.classList.add('ag-toast-out');
             setTimeout(function () {
                 if (toast.parentNode) toast.parentNode.removeChild(toast);
             }, 300);
-        }, duration);
+        }
 
         return toast;
     };

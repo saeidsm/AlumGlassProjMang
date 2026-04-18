@@ -449,14 +449,14 @@ $csrf_token = $_SESSION['csrf_token'] ?? '';
                 // Basic client-side type check (optional, server-side is essential)
                 const allowedTypes = ['image/jpeg', 'image/png', 'image/gif'];
                 if (!allowedTypes.includes(file.type)) {
-                    alert('فرمت فایل نامعتبر است. لطفاً JPG، PNG یا GIF انتخاب کنید.');
+                    (window.AG?.toast || window.alert)('فرمت فایل نامعتبر است. لطفاً JPG، PNG یا GIF انتخاب کنید.', 'danger');
                     avatarInput.value = ''; // Clear the input
                     return;
                 }
                 // Basic client-side size check (optional, server-side is essential)
                 const maxSize = 5 * 1024 * 1024; // 5MB
                 if (file.size > maxSize) {
-                    alert('حجم فایل بیش از 5 مگابایت است.');
+                    (window.AG?.toast || window.alert)('حجم فایل بیش از 5 مگابایت است.', 'danger');
                     avatarInput.value = ''; // Clear the input
                     return;
                 }
