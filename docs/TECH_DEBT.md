@@ -295,4 +295,24 @@
 
 ---
 
+## بدهی‌های جدید — Phase 4
+
+### TD-UX-002: Wizardise `pardis/daily_report_form_ps.php`
+- **شدت**: 🟡 متوسط
+- **وضعیت**: 🟠 باز (FormWizard component is ready — integration pending)
+- **فاز**: 4C (postponed)
+- **شرح**: The 1,599-line daily report form still runs as a single page. The new FormWizard component (`/assets/js/form-wizard.js`) is ready but the surgical integration (wrapping existing sections with `data-step` markers) was postponed because the form contains tightly coupled inline JS (`addMac()`, `collectArrayData()`, etc.) that needs careful testing against a running PHP environment before being split across wizard steps.
+- **راهکار**: Follow the 7-step breakdown documented in `docs/examples/form-wizard.md`. Wrap each existing card block in `<div data-step="N" data-title="…">` without touching the inner markup; the wizard JS handles show/hide via CSS `hidden`. Test submit, draft-save, and file-attach flows end-to-end before merging.
+- **تاریخ شناسایی**: 2026-04-18
+
+### TD-UX-003: Wizardise `pardis/meeting_minutes_form.php`
+- **شدت**: 🟡 متوسط
+- **وضعیت**: 🟠 باز (FormWizard component is ready — integration pending)
+- **فاز**: 4C (postponed)
+- **شرح**: Same pattern as TD-UX-002; 1,970 lines, 4-step breakdown suggested.
+- **راهکار**: See `docs/examples/form-wizard.md`.
+- **تاریخ شناسایی**: 2026-04-18
+
+---
+
 *هر بدهی فنی جدید باید در این سند ثبت شود. هر رفع باید با commit hash مستند شود.*
