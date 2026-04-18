@@ -6,7 +6,13 @@
 
 ---
 
-## [Unreleased]
+## [2.0.0] — 2026-04-18
+
+Phase 4 — UI/UX Overhaul. Real-time chat, content-addressable file
+deduplication, mobile experience + PWA, form wizard component with
+auto-save, full dark mode, breadcrumbs, empty-state component.
+
+---
 
 ### Phase 4D — Design System Enhancements (2026-04-18)
 #### Added
@@ -272,6 +278,7 @@ First stable release. Phases 0 → 3 complete: hardened, performant, tested, doc
 
 | نسخه | تاریخ | شرح |
 |------|--------|------|
+| 2.0.0 | 2026-04-18 | Phase 4 — Real-time chat, file dedup, mobile+PWA, form wizard, dark mode, breadcrumbs/empty-state |
 | 1.0.0 | 2026-04-17 | Phase 3 — Shared API + repositories + tests + CI/CD + migration script |
 | 0.3.0 | 2026-04-17 | Phase 2 — Design system, header unification, inline-asset extraction, responsive mobile consolidation, N+1 fixes, pagination |
 | 0.2.1 | 2026-04-17 | Phase 1.5 — CSRF forms + global AJAX injector + role-based auth |

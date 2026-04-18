@@ -358,4 +358,95 @@ diff .env .env.example
 
 ---
 
+## Phase 4 — WebSocket & Node.js Deployment (v2.0.0+)
+
+### نصب Node.js (>= 18)
+
+```bash
+# Ubuntu / Debian via NodeSource
+curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
+sudo apt install -y nodejs
+
+# Verify
+node --version   # should be >= 18
+npm  --version
+```
+
+### نصب PM2
+
+```bash
+sudo npm install -g pm2
+```
+
+### راه‌اندازی WebSocket relay
+
+```bash
+cd /path/to/AlumGlassProjMang/websocket
+npm install --production
+pm2 start ecosystem.config.js
+pm2 save
+pm2 startup systemd        # run once per host
+```
+
+متغیرهای محیطی (داخل `ecosystem.config.js` یا فایل `.env` جدا):
+
+- `WS_PORT` — پورتی که Node.js روی آن Listen می‌کند (پیش‌فرض 8080)
+- `PHP_AUTH_URL` — آدرس `/chat/api/verify_session.php` (پیش‌فرض `http://localhost/chat/api/verify_session.php`)
+
+### پیکربندی nginx / Apache (reverse proxy)
+
+**nginx** (نمونه برای `/ws/`):
+
+```nginx
+location /ws/ {
+    proxy_pass http://127.0.0.1:8080/;
+    proxy_http_version 1.1;
+    proxy_set_header Upgrade $http_upgrade;
+    proxy_set_header Connection "upgrade";
+    proxy_set_header Host $host;
+    proxy_read_timeout 3600s;
+}
+```
+
+**Apache** (`.htaccess` — نیازمند `mod_proxy_wstunnel`):
+
+```
+RewriteEngine On
+RewriteCond %{HTTP:Upgrade} =websocket [NC]
+RewriteRule /ws/(.*) ws://127.0.0.1:8080/$1 [P,L]
+```
+
+### مایگریشن دیتابیس
+
+اجرای migration‌های Phase 4 روی دیتابیس `alumglas_common`:
+
+```bash
+mysql -u user -p alumglas_common < scripts/migrations/004_chat_tables.sql
+mysql -u user -p alumglas_common < scripts/migrations/005_file_storage.sql
+```
+
+### Cron برای پاکسازی فایل‌های بی‌مرجع
+
+```cron
+0 2 * * * /usr/bin/php /path/to/AlumGlassProjMang/scripts/cleanup_files.php >> /path/to/logs/file_cleanup.log 2>&1
+```
+
+### متغیرهای محیطی جدید (`.env`)
+
+```env
+# Phase 4 — File storage
+STORAGE_ROOT=/path/to/storage     # فقط در صورتی نیاز است که بخواهید مسیر پیش‌فرض را تغییر دهید
+UPLOAD_MAX_SIZE=52428800           # 50MB
+WS_PUBLIC_URL=wss://example.com/ws # آدرس عمومی WebSocket که کلاینت به آن وصل می‌شود
+```
+
+### دسترسی نوشتن روی `/storage/`
+
+```bash
+sudo chown -R www-data:www-data /path/to/AlumGlassProjMang/storage
+sudo chmod 755 /path/to/AlumGlassProjMang/storage
+```
+
+---
+
 *این سند با هر تغییر در فرآیند نصب بروزرسانی می‌شود.*

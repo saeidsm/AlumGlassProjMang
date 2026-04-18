@@ -347,4 +347,67 @@ API: verifyCsrfToken() → validates hash_equals against session
 
 ---
 
+## 10. Phase 4 Additions (2026-04-18)
+
+### 10.1 Real-time Chat (`/chat/`)
+
+```
+Browser (chat-app.js)
+    ↓ HTTPS fetch                            ↓ WebSocket
+/chat/api/… (PHP + PDO)               ws://host:8080/?token=<PHPSESSID>
+    ↓                                         ↓
+MariaDB (conversations,               Node.js relay (websocket/)
+messages, members,                    - auths via verify_session.php (loopback)
+user_presence)                        - relays: chat_message, typing, read_receipt
+                                      - tracks per-user presence
+```
+
+The PHP API persists and authorizes; Node.js only relays.
+
+### 10.2 Content-Addressable File Storage
+
+Every upload is deduplicated by SHA-256 hash.
+
+```
+POST /chat/api/upload.php  (or messages.php with file)
+  → FileService::store()
+    → hash = sha256(content)
+    → existing? ref_count++  :  move to /storage/<h[0:2]>/<h[2:4]>/<h>.ext
+    → file_references row (module, entity_type, entity_id, uploaded_by)
+
+GET  /storage/<sharded-path>
+  → storage/serve.php  (auth + path-traversal guard)
+  → Cache-Control: public, max-age=31536000, immutable
+```
+
+Tables: `file_store` (hash unique, ref_count), `file_references`.
+Nightly `scripts/cleanup_files.php` removes orphans.
+
+### 10.3 Frontend Module Architecture (`/chat/assets/js/`, ES6)
+
+- `chat-socket.js` — WebSocket client: reconnect with exp-backoff, pings, event emitter
+- `chat-ui.js` — pure render helpers (no state)
+- `chat-search.js` — debounced LIKE search with AbortController
+- `chat-notifications.js` — browser Notifications API wrapper
+- `chat-app.js` — controller (state, optimistic UI, URL sync)
+
+### 10.4 PWA
+
+- `manifest.webmanifest` — installable PWA (RTL, Persian locale)
+- `service-worker.js` — versioned caches, strategies:
+  - Navigation: network-first + `offline.html` fallback
+  - Static assets: stale-while-revalidate
+  - `/storage/` (content-addressable): cache-first immutable
+  - `/chat/api/` + `/api/`: network-only (never cached)
+
+### 10.5 Design System Extensions
+
+- `assets/css/dark-mode.css` — `[data-theme="dark"]` overrides all tokens
+- `assets/js/theme-toggle.js` — pre-paint theme apply + nav button toggle
+- `includes/breadcrumbs.php` — with Schema.org BreadcrumbList JSON-LD
+- `includes/empty_state.php` — reusable component with 6 icon variants
+- `assets/js/form-wizard.js` — multi-step form wrapper with localStorage auto-save
+
+---
+
 *This document is updated as the architecture evolves. Last audit: Phase 1 completion (2026-04-17).*
