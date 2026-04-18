@@ -8,6 +8,21 @@
 
 ## [Unreleased]
 
+### Phase 4B — Mobile Experience & PWA (2026-04-18)
+#### Added
+- [x] `assets/css/mobile-nav.css` + `assets/js/mobile-nav.js` — fixed bottom nav (Home, Reports, Chat+badge, Calendar, More) under 768px; 44px targets; safe-area-inset-bottom
+- [x] `assets/css/responsive-tables.css` + `assets/js/responsive-tables.js` — auto card-view on phones via `table.ag-table-responsive`; MutationObserver picks up dynamic tables
+- [x] `assets/css/touch-gestures.css` + `assets/js/touch-gestures.js` — pull-to-refresh (`data-ag-pull-refresh`), `AG.onSwipe()` helper, min-height safety net on small screens
+- [x] `manifest.webmanifest` — installable PWA (RTL, Persian name, shortcuts)
+- [x] `service-worker.js` — network-first nav + offline.html; stale-while-revalidate for static; cache-first immutable `/storage/`; network-only for APIs; `SKIP_WAITING` message handler
+- [x] `offline.html` — standalone offline fallback
+- [x] `assets/js/pwa-register.js` — registration + update-available toast
+
+#### Changed
+- [x] `header_common.php` — pulls in all four Phase-4B stylesheets + scripts + `<link rel=manifest>` + `theme-color`
+
+---
+
 ### Phase 4A — Real-time Chat + File Deduplication (2026-04-18)
 #### Added
 - [x] `shared/services/FileService.php` — content-addressable SHA-256 storage; deduplication via ref-counting; cleanup on last-reference removal

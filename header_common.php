@@ -47,6 +47,11 @@ if (isLoggedIn()) { // isLoggedIn() from bootstrap.php
     <link rel="stylesheet" href="/assets/css/all.min.css"> <!-- Font Awesome -->
     <link rel="stylesheet" href="/assets/css/design-system.css">
     <link rel="stylesheet" href="/assets/css/global.css">
+    <link rel="stylesheet" href="/assets/css/mobile-nav.css">
+    <link rel="stylesheet" href="/assets/css/responsive-tables.css">
+    <link rel="stylesheet" href="/assets/css/touch-gestures.css">
+    <link rel="manifest" href="/manifest.webmanifest">
+    <meta name="theme-color" content="#0a4d8c">
     <style>
         @font-face {
             font-family: 'Vazir';
@@ -151,6 +156,10 @@ if (isLoggedIn()) { // isLoggedIn() from bootstrap.php
     ?>
     <script src="/assets/js/csrf-injector.js" defer></script>
     <script src="/assets/js/global.js" defer></script>
+    <script src="/assets/js/mobile-nav.js" defer></script>
+    <script src="/assets/js/responsive-tables.js" defer></script>
+    <script src="/assets/js/touch-gestures.js" defer></script>
+    <script src="/assets/js/pwa-register.js" defer></script>
 </head>
 
 <body>
