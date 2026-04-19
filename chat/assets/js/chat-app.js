@@ -479,6 +479,12 @@ class ChatApp {
         const fd = new FormData(this.els.groupForm);
         if (!fd.has('csrf_token')) fd.append('csrf_token', CSRF_TOKEN);
         const selected = [...this.els.groupForm.querySelectorAll('[name="members"]:checked')].map((c) => c.value);
+        const name = (fd.get('name') || '').toString().trim();
+        if (!name || selected.length === 0) {
+            this.toast('نام گروه و حداقل یک عضو الزامی است', 'warning');
+            return;
+        }
+        fd.set('name', name);
         fd.set('members', JSON.stringify(selected));
         try {
             const res = await fetch('/chat/api/conversations.php', { method: 'POST', body: fd, credentials: 'same-origin' });
