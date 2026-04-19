@@ -215,8 +215,7 @@ case 'generate_password':
 
             // Log this specific action
             log_activity(
-                $current_admin_id,
-                $current_admin_username,
+                $pdo,
                 $log_action,
                 $log_description
             );
@@ -247,9 +246,8 @@ case 'generate_password':
                     // Log the generic action if not 'reset_password' (which logs itself)
                     // For 'delete_user', the message is specific, but logging 'delete_user_user' is fine.
                     log_activity(
-                        $current_admin_id,
-                        $current_admin_username,
-                        $action . '_user', // e.g., activate_user, make_admin_user, delete_user_user
+                        $pdo,
+                        $action . '_user',
                         "Target User ID: {$user_id_to_action}"
                     );
                 } elseif (empty($error) && empty($message)) {
@@ -333,7 +331,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action_projects'], $_
                     $stmt_update_default->execute([$intended_default_project_id, $user_id_for_projects]);
 
                     $message = "پروژه‌های کاربر و پروژه پیش‌فرض با موفقیت به‌روز شد.";
-                    log_activity($current_admin_id, $current_admin_username, 'update_user_project_assignments', "For User ID: {$user_id_for_projects}. Assigned: " . implode(',', $intended_assigned_project_ids) . ". Default: " . ($intended_default_project_id ?? 'None'));
+                    log_activity($pdo, 'update_user_project_assignments', "For User ID: {$user_id_for_projects}. Assigned: " . implode(',', $intended_assigned_project_ids) . ". Default: " . ($intended_default_project_id ?? 'None'));
                 }
             }
             // Only commit if there were no errors during the process

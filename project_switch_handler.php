@@ -43,11 +43,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['switch_to_project_id'
                 $_SESSION['current_project_base_path'] = $project_to_switch_to['base_path'];
 
                 log_activity(
-                    $user_id,
-                    $_SESSION['username'],
+                    $pdo_common,
                     'project_switch',
-                    "Switched to project: " . $project_to_switch_to['project_name'],
-                    $project_to_switch_to['project_id']
+                    "Switched to project: " . $project_to_switch_to['project_name'] . " (project_id={$project_to_switch_to['project_id']})"
                 );
 
                 // Regenerate CSRF token after successful switch and session update

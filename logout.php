@@ -13,11 +13,9 @@ if (isset($_SESSION['user_id']) && isset($_SESSION['username'])) {
     $current_project_id_for_log = isset($_SESSION['current_project_id']) ? $_SESSION['current_project_id'] : null;
 
     log_activity(
-        $_SESSION['user_id'],
-        $_SESSION['username'],
-        'logout', // activity_type
-        'User logged out successfully.', // details
-        $current_project_id_for_log // project_id (optional, could be null if it's a general system logout)
+        getCommonDBConnection(),
+        'logout',
+        'User logged out successfully.' . ($current_project_id_for_log ? " (project_id={$current_project_id_for_log})" : '')
     );
 } else {
     // If user_id or username isn't in session, log an anonymous/incomplete logout if desired.

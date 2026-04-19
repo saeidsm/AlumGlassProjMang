@@ -219,7 +219,7 @@ try {
                     $updateStmt = $pdo->prepare($sql);
                     if ($updateStmt->execute($params)) {
                         $message .= "اطلاعات پروفایل ذخیره شد.";
-                        log_activity($current_user_id, $current_user_username, 'update_profile', "Profile updated for User ID: {$requested_user_id}");
+                        log_activity($pdo, 'update_profile', "Profile updated for User ID: {$requested_user_id}");
                         // No need to refetch user data here, transaction commit handles it.
                     } else {
                         $error = "خطا در ذخیره تغییرات پروفایل.";

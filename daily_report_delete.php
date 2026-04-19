@@ -72,7 +72,7 @@ try {
         
         // Log the activity with proper parameters
         $details = "Deleted daily report (ID: $report_id, Date: {$report['report_date']}, Engineer: {$report['engineer_name']})";
-        log_activity($user_id, $username, 'delete_daily_report', $details, 'pardis');
+        log_activity(getCommonDBConnection(), 'delete_daily_report', $details . ' [project=pardis]');
         
         echo json_encode(['success' => true, 'message' => 'Report deleted successfully']);
         

@@ -59,7 +59,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         $stmt->execute([$ip]);
 
                         // Log login activity to hpc_common.activity_log (project_id will be null for general login)
-                        log_activity($user['id'], $user['username'], 'login', 'User logged in successfully');
+                        log_activity($pdo, 'login', 'User logged in successfully');
 
                         // *** NEW REDIRECT ***
                         header('Location: select_project.php'); // Redirect to project selection page

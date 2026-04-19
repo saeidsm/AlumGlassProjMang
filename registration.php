@@ -130,7 +130,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                             $pdo->commit();
 
-                            log_activity(null, $username, 'register_success', "User registered, pending activation. ID: " . $new_user_id);
+                            log_activity($pdo, 'register_success', "User registered '{$username}', pending activation. ID: " . $new_user_id);
                             $success = "ثبت نام با موفقیت انجام شد! لطفاً منتظر تأیید مدیر برای فعال‌سازی حساب خود باشید.";
                             // Clear form values on success
                             $username_val = $email_val = $first_name_val = $last_name_val = $phone_number_val = '';

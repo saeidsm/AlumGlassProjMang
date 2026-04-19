@@ -120,7 +120,7 @@ try {
                 $_SESSION['user_default_project_id'] = $project_to_set['project_id']; // Update session immediately
             }
 
-            log_activity($_SESSION['user_id'], $_SESSION['username'], 'select_project', "Selected Project: {$project_to_set['project_name']}", $project_to_set['project_id']);
+            log_activity($pdo_common, 'select_project', "Selected Project: {$project_to_set['project_name']} (project_id={$project_to_set['project_id']})");
             $redirect_url = get_role_based_redirect_url($_SESSION['role'], $project_to_set['base_path'], $project_to_set['project_code']);
             header("Location: " . $redirect_url);
             exit();
@@ -141,7 +141,7 @@ try {
 
         if ($default_is_accessible) {
             set_project_session_vars($user_default_project_data); // This contains all necessary fields from the JOIN
-            log_activity($_SESSION['user_id'], $_SESSION['username'], 'auto_select_project', "Default Project: {$user_default_project_data['project_name']}", $user_default_project_data['project_id']);
+            log_activity($pdo_common, 'auto_select_project', "Default Project: {$user_default_project_data['project_name']} (project_id={$user_default_project_data['project_id']})");
             $redirect_url = get_role_based_redirect_url($_SESSION['role'], $user_default_project_data['base_path'], $user_default_project_data['project_code']);
             header("Location: " . $redirect_url);
             exit();
