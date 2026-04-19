@@ -1,7 +1,7 @@
 <?php
 // ghom/api/upload_signed_permit.php
 header('Content-Type: application/json');
-require_once __DIR__ . '/../../../sercon/bootstrap.php';
+require_once __DIR__ . '/../../sercon/bootstrap.php';
 require_once __DIR__ . '/../includes/notification_helper.php';
 
 if (!isLoggedIn()) exit(json_encode(['status'=>'error','message'=>'Auth required']));

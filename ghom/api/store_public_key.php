@@ -1,8 +1,8 @@
 <?php
 // FINAL store_public_key.php
 header('Content-Type: application/json');
-require_once __DIR__ . '/../../../sercon/vendor/autoload.php';
-require_once __DIR__ . '/../../../sercon/bootstrap.php';
+require_once __DIR__ . '/../../sercon/vendor/autoload.php';
+require_once __DIR__ . '/../../sercon/bootstrap.php';
 
 function write_key_log($message) {
     $log_file = __DIR__ . '/logs/store_key_' . date("Y-m-d") . '.log';

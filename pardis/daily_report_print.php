@@ -1,6 +1,6 @@
 <?php
 // daily_report_print_ps.php - EXACT FORM LAYOUT FROM HTML
-require_once __DIR__ . '/../../sercon/bootstrap.php';
+require_once __DIR__ . '/../sercon/bootstrap.php';
 require_once __DIR__ . '/includes/jdf.php';
 
 // --- 1. SETUP & DB ---

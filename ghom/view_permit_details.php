@@ -1,6 +1,6 @@
 <?php
 // /ghom/view_permit_details.php (CORRECTED AND ROBUST)
-require_once __DIR__ . '/../../sercon/bootstrap.php';
+require_once __DIR__ . '/../sercon/bootstrap.php';
 secureSession();
 
 // Security check: Only allow authorized roles to view these files.

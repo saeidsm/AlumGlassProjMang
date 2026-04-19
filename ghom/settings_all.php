@@ -1,6 +1,6 @@
 <?php
 // settings_all.php
-require_once __DIR__ . '/../../sercon/bootstrap.php';
+require_once __DIR__ . '/../sercon/bootstrap.php';
 requireRole(['admin']);
 $pdo = getProjectDBConnection('ghom');
 

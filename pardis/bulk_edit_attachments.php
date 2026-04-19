@@ -1,6 +1,6 @@
 <?php
 // bulk_edit_attachments.php - Bulk edit attachments with missing content
-require_once __DIR__ . '/../../sercon/bootstrap.php';
+require_once __DIR__ . '/../sercon/bootstrap.php';
 
 secureSession();
 

@@ -1,6 +1,6 @@
 <?php
 // public_html/registration.php
-require_once __DIR__ . '/../sercon/bootstrap.php'; // Use the new bootstrap
+require_once __DIR__ . '/sercon/bootstrap.php'; // Use the new bootstrap
 
 initializeSession(); // Initialize session for CSRF and other uses. Call before any session access.
 // secureSession(); // You can call secureSession() if you want the full security checks on this page too,

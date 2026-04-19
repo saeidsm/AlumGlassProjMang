@@ -3,7 +3,7 @@
 // START: FINAL ELEMENT MANAGEMENT CONSOLE (WITH COMPLETE HISTORY VIEWER)
 // ===================================================================
 
-require_once __DIR__ . '/../../sercon/bootstrap.php';
+require_once __DIR__ . '/../sercon/bootstrap.php';
 require_once __DIR__ . '/includes/jdf.php';
 
 if (session_status() == PHP_SESSION_NONE) {

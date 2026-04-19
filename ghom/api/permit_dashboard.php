@@ -1,6 +1,6 @@
 <?php
 // ghom/permit_dashboard.php
-require_once __DIR__ . '/../../../../sercon/bootstrap.php';
+require_once __DIR__ . '/../../sercon/bootstrap.php';
 require_once __DIR__ . '/includes/jdf.php'; // Ensure jdf.php is here for Persian dates
 
 secureSession();

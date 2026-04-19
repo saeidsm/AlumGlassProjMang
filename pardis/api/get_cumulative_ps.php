@@ -1,6 +1,6 @@
 <?php
 // pardis/api/get_cumulative_ps.php - Calculate cumulative quantity from DB
-require_once __DIR__ . '/../../../sercon/bootstrap.php';
+require_once __DIR__ . '/../../sercon/bootstrap.php';
 require_once __DIR__ . '/../includes/jdf.php';
 
 header('Content-Type: application/json');

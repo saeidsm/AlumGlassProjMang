@@ -1,7 +1,7 @@
 <?php
 // public_html/pardis/daily_report_view.php
 
-require_once __DIR__ . '/../../sercon/bootstrap.php';
+require_once __DIR__ . '/../sercon/bootstrap.php';
 require_once __DIR__ . '/includes/jdf.php';
 secureSession();
 

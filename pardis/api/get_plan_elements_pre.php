@@ -1,7 +1,7 @@
 <?php
 // /pardis/api/get_plan_elements_pre.php (FINAL, COMPLETE, AND CORRECTED)
 header('Content-Type: application/json');
-require_once __DIR__ . '/../../../sercon/bootstrap.php';
+require_once __DIR__ . '/../../sercon/bootstrap.php';
 secureSession();
 if (!isLoggedIn()) {
     http_response_code(401);

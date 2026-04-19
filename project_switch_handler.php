@@ -1,6 +1,6 @@
 <?php
 // public_html/project_switch_handler.php
-require_once __DIR__ . '/../sercon/bootstrap.php';
+require_once __DIR__ . '/sercon/bootstrap.php';
 
 secureSession(); // Start/resume session and apply security
 

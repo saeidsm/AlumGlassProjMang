@@ -1,6 +1,6 @@
 <?php
 // public_html/pardis/materials_log.php
-require_once __DIR__ . '/../../sercon/bootstrap.php';
+require_once __DIR__ . '/../sercon/bootstrap.php';
 require_once __DIR__ . '/includes/jdf.php';
 secureSession();
 if (!isLoggedIn()) { header('Location: /login.php'); exit(); }

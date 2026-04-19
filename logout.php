@@ -1,6 +1,6 @@
 <?php
 // public_html/logout.php
-require_once __DIR__ . '/../sercon/bootstrap.php'; // Use the new bootstrap
+require_once __DIR__ . '/sercon/bootstrap.php'; // Use the new bootstrap
 
 initializeSession(); // Ensure the session is started and available
 

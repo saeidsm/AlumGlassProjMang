@@ -1,7 +1,7 @@
 <?php
 // public_html/profile.php
 $pageTitle = 'پروفایل کاربر'; // Set the page title first
-require_once __DIR__ . '/../sercon/bootstrap.php'; // Use the new bootstrap FIRST
+require_once __DIR__ . '/sercon/bootstrap.php'; // Use the new bootstrap FIRST
 require_once __DIR__ . '/header_common.php'; // Use the common header
 
 // secureSession() should have been called by header_common.php or bootstrap.php

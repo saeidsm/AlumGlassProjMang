@@ -1,6 +1,6 @@
 <?php
 // /ghom/api/submit_gfrc_permit.php (FINAL CORRECTED VERSION)
-require_once __DIR__ . '/../../../sercon/bootstrap.php';
+require_once __DIR__ . '/../../sercon/bootstrap.php';
 require_once __DIR__ . '/../includes/notification_helper.php';
 
 header('Content-Type: application/json');

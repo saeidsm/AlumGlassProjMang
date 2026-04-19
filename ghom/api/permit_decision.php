@@ -1,7 +1,7 @@
 <?php
 // ghom/api/permit_decision.php
 header('Content-Type: application/json');
-require_once __DIR__ . '/../../../sercon/bootstrap.php';
+require_once __DIR__ . '/../../sercon/bootstrap.php';
 require_once __DIR__ . '/../includes/notification_helper.php';
 
 if (!isLoggedIn()) {

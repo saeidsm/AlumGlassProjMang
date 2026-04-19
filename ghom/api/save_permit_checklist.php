@@ -1,7 +1,7 @@
 <?php
 // ghom/api/save_permit_checklist.php
 header('Content-Type: application/json');
-require_once __DIR__ . '/../../../sercon/bootstrap.php';
+require_once __DIR__ . '/../../sercon/bootstrap.php';
 require_once __DIR__ . '/../includes/jdf.php';
 
 requireRole(['admin', 'superuser', 'cat']);

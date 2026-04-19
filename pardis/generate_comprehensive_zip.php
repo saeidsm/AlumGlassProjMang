@@ -1,6 +1,6 @@
 <?php
 // public_html/pardis/generate_comprehensive_zip.php
-require_once __DIR__ . '/../../sercon/bootstrap.php';
+require_once __DIR__ . '/../sercon/bootstrap.php';
 require_once __DIR__ . '/includes/jdf.php';
 
 // This function generates the complete HTML for the comprehensive report.

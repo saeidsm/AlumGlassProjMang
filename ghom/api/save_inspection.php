@@ -5,8 +5,8 @@
 ob_start();
 header('Content-Type: application/json');
 
-require_once __DIR__ . '/../../../sercon/vendor/autoload.php';
-require_once __DIR__ . '/../../../sercon/bootstrap.php';
+require_once __DIR__ . '/../../sercon/vendor/autoload.php';
+require_once __DIR__ . '/../../sercon/bootstrap.php';
 require_once __DIR__ . '/../includes/jdf.php';
 require_once __DIR__ . '/../includes/notification_helper.php';
 secureSession();

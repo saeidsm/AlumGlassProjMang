@@ -1,7 +1,7 @@
 <?php
 // daily_report_form.php - LOCKS APPROVED FOR NON-SUPERUSER
 ob_start(); // Start output buffering
-require_once __DIR__ . '/../../../sercon/bootstrap.php';
+require_once __DIR__ . '/../sercon/bootstrap.php';
 require_once __DIR__ . '/includes/jdf.php';
 
 $pdo = getProjectDBConnection('ghom');

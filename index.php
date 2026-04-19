@@ -4,7 +4,7 @@
 // It's crucial to include bootstrap here if your session functions rely on it,
 // or if login.php itself doesn't robustly handle session startup.
 // Assuming login.php or bootstrap.php handles session_start() appropriately.
-require_once __DIR__ . '/../sercon/bootstrap.php'; // Path from htdocs to sercon
+require_once __DIR__ . '/sercon/bootstrap.php'; // Path from htdocs to sercon
 
 initializeSession(); // Make sure session is available
 

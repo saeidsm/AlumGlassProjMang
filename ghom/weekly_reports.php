@@ -1,6 +1,6 @@
 <?php
 // ghom/weekly_report.php
-require_once __DIR__ . '/../../sercon/bootstrap.php';
+require_once __DIR__ . '/../sercon/bootstrap.php';
 require_once __DIR__ . '/includes/metrics_calculator.php';
 secureSession();
 if (!isLoggedIn()) { header('Location: /login.php'); exit; }

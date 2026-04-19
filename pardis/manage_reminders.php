@@ -2,7 +2,7 @@
 // public_html/pardis/manage_reminders.php
 // Web interface to manage reminder system
 
-require_once __DIR__ . '/../../sercon/bootstrap.php';
+require_once __DIR__ . '/../sercon/bootstrap.php';
 require_once __DIR__ . '/includes/jdf.php';
 require_once __DIR__ . '/includes/TelegramBot.php';
 

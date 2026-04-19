@@ -1,7 +1,7 @@
 <?php
 // public_html/pardis/download_packing_template.php
 
-require_once __DIR__ . '/../../sercon/bootstrap.php';
+require_once __DIR__ . '/../sercon/bootstrap.php';
 
 // Security: Make sure the user is logged in before allowing the download.
 secureSession();

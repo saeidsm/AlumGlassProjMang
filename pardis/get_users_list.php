@@ -1,7 +1,7 @@
 <?php
 // public_html/pardis/get_users_list.php
 
-require_once __DIR__ . '/../../sercon/bootstrap.php';
+require_once __DIR__ . '/../sercon/bootstrap.php';
 secureSession();
 
 header('Content-Type: application/json; charset=utf-8');

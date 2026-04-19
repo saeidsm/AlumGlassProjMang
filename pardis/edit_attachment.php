@@ -1,6 +1,6 @@
 <?php
 // edit_attachment.php - Edit attachment metadata and content
-require_once __DIR__ . '/../../sercon/bootstrap.php';
+require_once __DIR__ . '/../sercon/bootstrap.php';
 
 secureSession();
 

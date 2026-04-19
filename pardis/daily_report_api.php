@@ -2,7 +2,7 @@
 // public_html/pardis/daily_report_api.php
 error_reporting(0);
 
-require_once __DIR__ . '/../../sercon/bootstrap.php';
+require_once __DIR__ . '/../sercon/bootstrap.php';
 require_once __DIR__ . '/includes/jdf.php';
 secureSession();
 

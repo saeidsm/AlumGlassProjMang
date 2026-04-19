@@ -2,7 +2,7 @@
 // download_sample.php
 
 // 1. Include bootstrap and run security checks
-require_once __DIR__ . '/../../sercon/bootstrap.php';
+require_once __DIR__ . '/../sercon/bootstrap.php';
 secureSession();
 
 if (!isLoggedIn()) {

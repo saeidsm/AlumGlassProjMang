@@ -2,7 +2,7 @@
 // project_schedule.php
 
 // 1. SETUP & AUTHORIZATION
-require_once __DIR__ . '/../../sercon/bootstrap.php';
+require_once __DIR__ . '/../sercon/bootstrap.php';
 require_once __DIR__ . '/includes/jdf.php';
 secureSession();
 

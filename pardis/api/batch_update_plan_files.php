@@ -2,7 +2,7 @@
 // /public_html/pardis/api/batch_update_plan_files.php (NEW FILE)
 
 header('Content-Type: application/json');
-require_once __DIR__ . '/../../../sercon/bootstrap.php';
+require_once __DIR__ . '/../../sercon/bootstrap.php';
 
 secureSession();
 if (!isLoggedIn()) {

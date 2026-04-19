@@ -3,7 +3,7 @@
 
 // --- Bootstrap and Session ---
 if (!defined('APP_ROOT')) {
-    require_once __DIR__ . '/../../sercon/bootstrap.php';
+    require_once __DIR__ . '/../sercon/bootstrap.php';
     secureSession();
 }
 // --- Redirect if not logged in or project context not Fereshteh ---

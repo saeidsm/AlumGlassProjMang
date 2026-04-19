@@ -1,7 +1,7 @@
 <?php
 // public_html/pardis/weather_api.php
 
-require_once __DIR__ . '/../../sercon/bootstrap.php';
+require_once __DIR__ . '/../sercon/bootstrap.php';
 require_once __DIR__ . '/includes/WeatherService.php';
 
 header('Content-Type: application/json; charset=utf-8');

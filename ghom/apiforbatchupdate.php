@@ -1,6 +1,6 @@
 <?php
 // ghom/contractor_batch_update.php (FINAL AND COMPLETE VERSION, BUG FIXED)
-require_once __DIR__ . '/../../sercon/bootstrap.php';
+require_once __DIR__ . '/../sercon/bootstrap.php';
 secureSession();
 
 if (!in_array($_SESSION['role'], ['admin', 'supervisor'])) {

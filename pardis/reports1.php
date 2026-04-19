@@ -1,7 +1,7 @@
 <?php
 // Use the provided jdf.php library for Persian dates
 require_once __DIR__ . '/../includes/jdf.php';
-require_once __DIR__ . '/../../sercon/bootstrap.php';
+require_once __DIR__ . '/../sercon/bootstrap.php';
 
 secureSession();
 $expected_project_key = 'pardis'; // Or your relevant project key

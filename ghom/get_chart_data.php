@@ -2,7 +2,7 @@
 // /public_html/ghom/get_chart_data.php
 
 // Ensure these files are correctly included and configure your database connection.
-require_once __DIR__ . '/../../sercon/bootstrap.php';
+require_once __DIR__ . '/../sercon/bootstrap.php';
 require_once __DIR__ . '/includes/jdf.php';
 
 // Secure the API endpoint

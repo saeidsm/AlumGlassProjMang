@@ -3,7 +3,7 @@
 // Automated reminder system for daily reports
 // Run via cron: 0 19 * * * /usr/bin/php /path/to/send_daily_reminders.php
 
-require_once __DIR__ . '/../../sercon/bootstrap.php';
+require_once __DIR__ . '/../sercon/bootstrap.php';
 require_once __DIR__ . '/includes/jdf.php';
 require_once __DIR__ . '/includes/TelegramBot.php';
 

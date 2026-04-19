@@ -1,6 +1,6 @@
 <?php
 // api/send_message.php
-require_once __DIR__ . '/../../sercon/bootstrap.php'; 
+require_once __DIR__ . '/../sercon/bootstrap.php'; 
 if (file_exists(__DIR__ . '/../includes/jdf.php')) {
     require_once __DIR__ . '/../includes/jdf.php';
 }

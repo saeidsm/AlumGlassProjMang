@@ -1,6 +1,6 @@
 <?php
 // daily_reports_dashboard_ps.php - FIXED VERSION
-require_once __DIR__ . '/../../sercon/bootstrap.php';
+require_once __DIR__ . '/../sercon/bootstrap.php';
 require_once __DIR__ . '/includes/jdf.php';
 require_once __DIR__ . '/../includes/pagination.php';
 secureSession();

@@ -7,7 +7,7 @@ error_reporting(0);
 header('Content-Type: application/json');
 
 // Only include the main config file, assuming it loads all dependencies
-require_once __DIR__ . '/../../sercon/bootstrap.php';
+require_once __DIR__ . '/../sercon/bootstrap.php';
 
 // secureSession() should start the session AND define/load isLoggedIn() via config_fereshteh.php
 secureSession();

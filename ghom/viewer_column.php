@@ -1,7 +1,7 @@
 <?php
 // public_html/ghom/viewer.php (FINAL VERSION with new workflow logic)
 
-require_once __DIR__ . '/../../sercon/bootstrap.php';
+require_once __DIR__ . '/../sercon/bootstrap.php';
 require_once __DIR__ . '/includes/jdf.php';
 secureSession();
 

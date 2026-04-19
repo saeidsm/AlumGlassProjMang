@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ . '/../../sercon/bootstrap.php';
+require_once __DIR__ . '/../sercon/bootstrap.php';
 echo "<pre>";
 
 $csv_file = __DIR__ . '/Book1.csv';

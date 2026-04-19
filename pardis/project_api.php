@@ -3,7 +3,7 @@
 header('Content-Type: application/json; charset=utf-8');
 
 // Basic setup
-require_once __DIR__ . '/../../sercon/bootstrap.php';
+require_once __DIR__ . '/../sercon/bootstrap.php';
 secureSession();
 
 // A simple response helper function

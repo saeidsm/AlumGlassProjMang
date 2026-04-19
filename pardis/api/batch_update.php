@@ -2,7 +2,7 @@
 // /public_html/pardis/api/batch_update_status.php (CORRECTED AND FINAL VERSION)
 
 header('Content-Type: application/json');
-require_once __DIR__ . '/../../../sercon/bootstrap.php';
+require_once __DIR__ . '/../../sercon/bootstrap.php';
 require_once __DIR__ . '/jdf.php';
 
 secureSession();

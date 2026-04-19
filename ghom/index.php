@@ -15,7 +15,7 @@ if (isMobileDevice()) {
     exit();
 }
 // Include the central bootstrap file
-require_once __DIR__ . '/../../sercon/bootstrap.php';
+require_once __DIR__ . '/../sercon/bootstrap.php';
 require_once __DIR__ . '/includes/jdf.php';
 // Secure the session (starts or resumes and applies security checks)
 secureSession();

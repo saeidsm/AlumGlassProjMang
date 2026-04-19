@@ -1,6 +1,6 @@
 <?php
 // /public_html/ghom/workflow_manager.php (FINAL CORRECTED LOGIC)
-require_once __DIR__ . '/../../sercon/bootstrap.php';
+require_once __DIR__ . '/../sercon/bootstrap.php';
 secureSession();
 
 if (!isLoggedIn()) {

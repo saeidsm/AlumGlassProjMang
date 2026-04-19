@@ -1,6 +1,6 @@
 <?php
 // messages.php
-require_once __DIR__ . '/../sercon/bootstrap.php'; // Adjust path
+require_once __DIR__ . '/sercon/bootstrap.php'; // Adjust path
 
 if (file_exists(__DIR__ . '/includes/jdf.php')) {
     require_once __DIR__ . '/includes/jdf.php';

@@ -1,6 +1,6 @@
 <?php
 ob_start();
-require_once __DIR__ . '/../../sercon/bootstrap.php';
+require_once __DIR__ . '/../sercon/bootstrap.php';
 error_reporting(0);
 header('Content-Type: application/json; charset=utf-8');
 

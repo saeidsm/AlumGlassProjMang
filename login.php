@@ -1,6 +1,6 @@
 <?php
 // public_html/login.php
-require_once __DIR__ . '/../sercon/bootstrap.php'; // Use the new bootstrap
+require_once __DIR__ . '/sercon/bootstrap.php'; // Use the new bootstrap
 
 secureSession(); // Initializes session and applies security measures
 

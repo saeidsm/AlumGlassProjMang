@@ -2,7 +2,7 @@
 // /ghom/api/save_template.php (CORRECTED to handle JSON items)
 
 header('Content-Type: application/json');
-require_once __DIR__ . '/../../../sercon/bootstrap.php';
+require_once __DIR__ . '/../../sercon/bootstrap.php';
 secureSession();
 requireRole(['admin', 'superuser']);
 requireCsrf();

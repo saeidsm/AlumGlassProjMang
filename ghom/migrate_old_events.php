@@ -4,7 +4,7 @@
 // Run this file once in your browser, then delete it.
 // ===================================================================
 
-require_once __DIR__ . '/../../sercon/bootstrap.php';
+require_once __DIR__ . '/../sercon/bootstrap.php';
 require_once __DIR__ . '/includes/notification_helper.php';
 
 // --- Security Check ---

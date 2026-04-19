@@ -2,7 +2,7 @@
 // public_html/pardis/telegram_cron.php
 // This script sends automated daily reports via Telegram
 
-require_once __DIR__ . '/../../sercon/bootstrap.php';
+require_once __DIR__ . '/../sercon/bootstrap.php';
 require_once __DIR__ . '/includes/jdf.php';
 require_once __DIR__ . '/includes/TelegramBot.php';
 require_once __DIR__ . '/includes/WeatherService.php';

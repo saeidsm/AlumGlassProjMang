@@ -5,7 +5,7 @@ error_reporting(0);
 ob_start();
 
 try {
-    @require_once __DIR__ . '/../../../../sercon/bootstrap.php';
+    @require_once __DIR__ . '/../../sercon/bootstrap.php';
     require_once __DIR__ . '/../includes/notification_helper.php';
 
     if (ob_get_length()) ob_clean();

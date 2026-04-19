@@ -2,7 +2,7 @@
 // public_html/pardis/telegram_report_manual.php
 // Manual trigger for testing or sending reports on-demand
 
-require_once __DIR__ . '/../../sercon/bootstrap.php';
+require_once __DIR__ . '/../sercon/bootstrap.php';
 secureSession();
 
 // Only admins can manually trigger

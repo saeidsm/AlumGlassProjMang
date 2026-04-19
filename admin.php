@@ -1,6 +1,6 @@
 <?php
 // public_html/admin.php
-require_once __DIR__ . '/../sercon/bootstrap.php'; // Use the new bootstrap
+require_once __DIR__ . '/sercon/bootstrap.php'; // Use the new bootstrap
 
 // If jdf.php and functions.php are still separate and in public_html:
 require_once __DIR__ . '/includes/jdf.php';

@@ -1,6 +1,6 @@
 <?php
 // ghom/create_permit.php
-require_once __DIR__ . '/../../sercon/bootstrap.php';
+require_once __DIR__ . '/../sercon/bootstrap.php';
 requireRole(['admin', 'superuser', 'cat', 'crs']);
 ?>
 <!DOCTYPE html>

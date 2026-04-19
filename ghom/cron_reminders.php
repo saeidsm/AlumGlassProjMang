@@ -1,7 +1,7 @@
 <?php
 // public_html/ghom/cron_reminders.php
 // This script runs as a cron job to send reminders for overdue tasks
-require_once __DIR__ . '/../../sercon/bootstrap.php';
+require_once __DIR__ . '/../sercon/bootstrap.php';
 
 echo "Cron Job Started...\n";
 $pdo = getProjectDBConnection('ghom');

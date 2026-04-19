@@ -12,7 +12,7 @@ if (isMobileDevice()) {
     header('Location: ' . $mobile_page_url);
     exit();
 }
-require_once __DIR__ . '/../../sercon/bootstrap.php';
+require_once __DIR__ . '/../sercon/bootstrap.php';
 secureSession();
 if (!isLoggedIn()) {
     header('Location: /login.php?msg=login_required');

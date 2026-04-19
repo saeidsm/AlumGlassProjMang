@@ -1,6 +1,6 @@
 <?php
 // /ghom/api/submit_opening_request.php (CORRECTED UPLOAD PATH)
-require_once __DIR__ . '/../../../sercon/bootstrap.php';
+require_once __DIR__ . '/../../sercon/bootstrap.php';
 require_once __DIR__ . '/../includes/notification_helper.php';
 
 // A simple logger for this critical file

@@ -1,6 +1,6 @@
 <?php
 // khatam_daily_report_print.php - PIXEL PERFECT REPLICA
-require_once __DIR__ . '/../../sercon/bootstrap.php';
+require_once __DIR__ . '/../sercon/bootstrap.php';
 require_once __DIR__ . '/includes/jdf.php';
 
 $pdo = getProjectDBConnection('ghom');
